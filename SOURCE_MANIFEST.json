@@ -1,0 +1,2846 @@
+{
+  "production_source_commit": "0debe98bb45fb986eca11caa25aad7c4b99d9f34",
+  "file_count": 568,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 259,
+      "sha256": "315e48d4d36bdf85be1ea23c3a5041f9330682af2077b03356590e5579f66608"
+    },
+    {
+      "path": "AI接入说明.md",
+      "bytes": 4343,
+      "sha256": "fa3ce157f6a45913a812823128ad357a7a4d251cab79b4451b6ce762c1400330"
+    },
+    {
+      "path": "MiniMax语音配置.md",
+      "bytes": 4358,
+      "sha256": "670a01a81eb048d5f777d398f24093a16086de6ff875f0bc211ea19a716073b7"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3149,
+      "sha256": "588ca1bc8477843a3e4e2b3ddf77bba47a54a8d3b6e15edb15a57322bb904320"
+    },
+    {
+      "path": "config/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "config/asgi.py",
+      "bytes": 405,
+      "sha256": "1658329613455854c3542dc02a72264db6a17bc35b64ecfcf35266ad0670abb0"
+    },
+    {
+      "path": "config/settings.py",
+      "bytes": 3349,
+      "sha256": "f384e1aabfd86b8941125296e69bed24c58680627c8e8d8a87e1a7a516807c82"
+    },
+    {
+      "path": "config/urls.py",
+      "bytes": 830,
+      "sha256": "b7388f04358d5da72eb80c3b7d75f1fd8b9f536c678595822672a65fc1953f5f"
+    },
+    {
+      "path": "config/wsgi.py",
+      "bytes": 405,
+      "sha256": "a4b32d6f00a10618fd08ff7a48a5be8bd7053e6a698ff494f60d14ec3592e4aa"
+    },
+    {
+      "path": "core/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "core/admin.py",
+      "bytes": 66,
+      "sha256": "a7ac68a753eeb831b6530bf71bf6917e577139f0734d17cc6a8666391564ab25"
+    },
+    {
+      "path": "core/apps.py",
+      "bytes": 146,
+      "sha256": "b857f012719c3bbc268943d333e26ba0d9f48e0b7906cd45da23b379eb3075f4"
+    },
+    {
+      "path": "core/knowledge/support.json",
+      "bytes": 1140,
+      "sha256": "18d852a20aa709354400acc852b817d0e572a0a096609f6d07f7ebbbc0372056"
+    },
+    {
+      "path": "core/migrations/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "core/models.py",
+      "bytes": 60,
+      "sha256": "e0e54c7030f1f5f56004427dd41edd7cc106d8d8b52d148b24e2b322454fb0aa"
+    },
+    {
+      "path": "core/static/core/ai-bridge.js",
+      "bytes": 10565,
+      "sha256": "044d533e3ed24a7a58cdfa963ca86d615bcec0e101b4bb7fd187524e1edc3f17"
+    },
+    {
+      "path": "core/static/core/ai.css",
+      "bytes": 1629,
+      "sha256": "cbc9e6a5f143c7c6d1619100581448fad989a907d04c465ca7c1f73e4495cbed"
+    },
+    {
+      "path": "core/static/core/appearance-worker.js",
+      "bytes": 6574,
+      "sha256": "4200cdad8410403da0959b3902f6a1d645b9b7bc11dc04cb0af9e3255d80be3b"
+    },
+    {
+      "path": "core/static/core/appearance.js",
+      "bytes": 11506,
+      "sha256": "4bb957164188777e1fc02202ad8dcc843dfcf490df55adf700e2b0f08169f2e5"
+    },
+    {
+      "path": "core/static/core/awards/architecture.png",
+      "bytes": 1741456,
+      "sha256": "837deb1107a9fbe87e128d18f5424ec74e6f1e7707665fb6f7e720e73cf5432f"
+    },
+    {
+      "path": "core/static/core/awards/care.png",
+      "bytes": 2340935,
+      "sha256": "811e165a5f72a6e1e45d7da7cc2b448a768fe2c9d841c69f284afba60fcd0dba"
+    },
+    {
+      "path": "core/static/core/awards/detail.png",
+      "bytes": 2332910,
+      "sha256": "f40bc1f9b67c7d7b4c0da44fd2d47ca5b3f3adb2d447efd38b988c5a49c10abb"
+    },
+    {
+      "path": "core/static/core/awards/imagination.png",
+      "bytes": 1616447,
+      "sha256": "a93bbe972b56a3bd23514c91ed265d0616ac99228df22aee976fa4ef49f2ea32"
+    },
+    {
+      "path": "core/static/core/awards/landscape.png",
+      "bytes": 2366148,
+      "sha256": "877e638c65671bf6d03722af734a978c1acf7b06934114bba16c4ae8c85b7126"
+    },
+    {
+      "path": "core/static/core/awards/nature.png",
+      "bytes": 1772604,
+      "sha256": "2f116a90756762f975c05464b5c11ea29b3ffeb2e45b4d11de83ddd3d9dbbb4a"
+    },
+    {
+      "path": "core/static/core/awards/roads.png",
+      "bytes": 2316603,
+      "sha256": "8b819cd6c922ab6854cd7d1dbafa1e5d1be41266e8e73c273e89aee483aea430"
+    },
+    {
+      "path": "core/static/core/awards/story.png",
+      "bytes": 1744873,
+      "sha256": "b3759d03d93d2603d113aca6699ccfd828f0697192ccca8f4ac29873cd6103ff"
+    },
+    {
+      "path": "core/static/core/awards/surprise.png",
+      "bytes": 2372340,
+      "sha256": "5571e1de272dadb29ad0a7ab88166aba8e4668d37cb78aaa6733f4b6e969d991"
+    },
+    {
+      "path": "core/static/core/awards/trying.png",
+      "bytes": 2352165,
+      "sha256": "56740767a8c52ce41b97c1eed762d055efd710ce1685b6c66a1de8ee5ad34a9e"
+    },
+    {
+      "path": "core/static/core/build-theme.css",
+      "bytes": 8622,
+      "sha256": "c428ed649883ca2d1771dfa5f64aa45a97a77cf639b9c32b02081ea34aa0eb29"
+    },
+    {
+      "path": "core/static/core/build.js",
+      "bytes": 24271,
+      "sha256": "a43a77e0607f2d3ff0058d601ed067628d4c28c75fe3947c1afd2087f1b4ec94"
+    },
+    {
+      "path": "core/static/core/camera.js",
+      "bytes": 6954,
+      "sha256": "583b98ddae66b8e946b4106356b40c91264f0861779a997824fbb0c58989755a"
+    },
+    {
+      "path": "core/static/core/card-recognition.js",
+      "bytes": 4894,
+      "sha256": "9887db675b8a3e2828115b965571c69d4c0c869b227b374d5777679a49b93838"
+    },
+    {
+      "path": "core/static/core/cards.css",
+      "bytes": 1600,
+      "sha256": "fd67b6a9e824b50dea150fb2b16b882ea584d9980911703f44d7d5ad28f9cb3a"
+    },
+    {
+      "path": "core/static/core/cards/house.svg",
+      "bytes": 3690,
+      "sha256": "f04d4adbd6f03d3f832f8fe1fe60925cdd20c36c544c74bc7b472e4415916390"
+    },
+    {
+      "path": "core/static/core/cards/person.svg",
+      "bytes": 5049,
+      "sha256": "4a45b5e731d41275fadafc2de4551a97f34ae6a34f4cd58da5b363fb67a1504b"
+    },
+    {
+      "path": "core/static/core/cards/tree.svg",
+      "bytes": 3521,
+      "sha256": "c5fd6da26e2fe2a4620840489cc6ab4b1c50b35606328c4f1d946e9155967fbe"
+    },
+    {
+      "path": "core/static/core/corpus-map.js",
+      "bytes": 1787,
+      "sha256": "8af95ebb57d0f0ccba4550e016956aa4921a85a7d9ece5efe51c0f49178c2903"
+    },
+    {
+      "path": "core/static/core/corpus/sandplay-corpus.json",
+      "bytes": 27159,
+      "sha256": "feac3072c5720c8489d6f3cc552081636d432f3cc1435f6a1830df9f5ac4a6b6"
+    },
+    {
+      "path": "core/static/core/cover-eyes.js",
+      "bytes": 9759,
+      "sha256": "0cf9e723dde79e97852a1f6b3b6b5faefbaf0eb25c600771222efc068ed362e8"
+    },
+    {
+      "path": "core/static/core/cover.css",
+      "bytes": 3870,
+      "sha256": "01c88755c2b3633b5fb1628b3b6f4e03652343c82c3df76ae5f1f4a39de5175a"
+    },
+    {
+      "path": "core/static/core/feedback.css",
+      "bytes": 11100,
+      "sha256": "9c8f3945addbdc285a36cd5dd98d00d49d61f473b8f5f7aa32de1eacd8899e11"
+    },
+    {
+      "path": "core/static/core/feedback.js",
+      "bytes": 12818,
+      "sha256": "c0f5d900a05a7f5d626eae4950b48f0f116c65058de5086df8389bd711da20e8"
+    },
+    {
+      "path": "core/static/core/fonts/OFL.txt",
+      "bytes": 4398,
+      "sha256": "538078469839b4a2e7ad22bef4ebe41681a4e53749bb2a072144024f1d6d703d"
+    },
+    {
+      "path": "core/static/core/fonts/ZCOOLKuaiLe-Regular.ttf",
+      "bytes": 1514968,
+      "sha256": "812a6fc1fe54b6d73a419245c32dfeba8aa33104d5be90d1cf6af082007cb71d"
+    },
+    {
+      "path": "core/static/core/home.js",
+      "bytes": 2276,
+      "sha256": "ab7470e37a31e4005834883ba3ec45b43ff5d66ec81669c385cbf86f8fdf325b"
+    },
+    {
+      "path": "core/static/core/images/COVER_EYE_ASSET.md",
+      "bytes": 1272,
+      "sha256": "855c43245c773d2354bdfefb70d8063db2a897616d467987c74fb726c6271310"
+    },
+    {
+      "path": "core/static/core/images/build-reference.png",
+      "bytes": 1298219,
+      "sha256": "e72486d16726600304099762d75a5bae2b513d55e9e645f7193534654cace0c1"
+    },
+    {
+      "path": "core/static/core/images/cover-eye-clean-plate.png",
+      "bytes": 2192163,
+      "sha256": "99045d7c695f159a40acce0dda54a687ee8d42255db1bd95faf511e91ed731d8"
+    },
+    {
+      "path": "core/static/core/images/cover-house-clean.png",
+      "bytes": 2211054,
+      "sha256": "4b08e42f8afacaab9afc75f0f7512bef1f4a586ceb8a35317c404cb83919bd74"
+    },
+    {
+      "path": "core/static/core/images/cover-mask.svg",
+      "bytes": 335,
+      "sha256": "1400c9022cbd789f0bd93574ce4ad3b703910f2ff18573019ee515eedcb71651"
+    },
+    {
+      "path": "core/static/core/images/cover-wide-mask.svg",
+      "bytes": 334,
+      "sha256": "2776e1bf3cee9048ad8d236a81b9ade1d16d246eb19431c48215637670f01f9a"
+    },
+    {
+      "path": "core/static/core/images/cover-wide.png",
+      "bytes": 2732708,
+      "sha256": "3c0a9a4fa90a1cdd1a27033d64b48566ac31176bca8e5dec7483f2cd83124387"
+    },
+    {
+      "path": "core/static/core/images/cover.png",
+      "bytes": 1948724,
+      "sha256": "72e31bd13c66e2d7a18520d68f492f9fcc9fc487b539c92b8445fe4d9df03413"
+    },
+    {
+      "path": "core/static/core/images/friends-mask.svg",
+      "bytes": 328,
+      "sha256": "4aca5ac685dd09af9fb4f6223145326de0c49631b31eceb669145787bc31d81a"
+    },
+    {
+      "path": "core/static/core/images/pink-mask.svg",
+      "bytes": 177,
+      "sha256": "bf329393a9e3f2de5f8137e3c123c61f658a51d68853c02d226e29874bd98247"
+    },
+    {
+      "path": "core/static/core/images/purple-mask.svg",
+      "bytes": 261,
+      "sha256": "aede9b9f143ec017a93e567b75e951f4f2b7ced88e9549d656a8dd30c3253312"
+    },
+    {
+      "path": "core/static/core/images/statistics-reference.png",
+      "bytes": 455856,
+      "sha256": "97f7453c297b8b66e621e928459af63799174e824057874fc2b2e4804342140a"
+    },
+    {
+      "path": "core/static/core/images/wordmark.svg",
+      "bytes": 114198,
+      "sha256": "603ccf3b493bfb29f81e922fc050e62578661f82a47795d9f632dc27a9bb5965"
+    },
+    {
+      "path": "core/static/core/images/xiaoyu-cloud.svg",
+      "bytes": 1649,
+      "sha256": "ae3696675a2c30e465238ffa2aa823f51f68d08b94bb7d4dc0d97c235b72bfb3"
+    },
+    {
+      "path": "core/static/core/images/xiaoyu-expressions.png",
+      "bytes": 187660,
+      "sha256": "fff1ac9b73d43a4493775443014fdae040c0b40d19a7c734b799cc9508aba227"
+    },
+    {
+      "path": "core/static/core/images/yellow-body-mask.svg",
+      "bytes": 134,
+      "sha256": "0d0089dd2eb7572ed70613518c2d7c9c0d6c9ac4bab667a3da626be538af4835"
+    },
+    {
+      "path": "core/static/core/images/yellow-detail-mask.svg",
+      "bytes": 269,
+      "sha256": "f5e387d37762ce6a249a014351f3426357ff369b2f92398595fd99b455b4102f"
+    },
+    {
+      "path": "core/static/core/images/yellow-mask.svg",
+      "bytes": 140,
+      "sha256": "20ea6b0220baf7a5a25dbd1b1bae52196870b605b79ec4a6e41b039ef75a76f8"
+    },
+    {
+      "path": "core/static/core/mascot-motion.css",
+      "bytes": 751,
+      "sha256": "8f5af284339abfcb72334b8cf8e5322abf658945c2886acc205a2d639a71bfff"
+    },
+    {
+      "path": "core/static/core/mascot-motion.js",
+      "bytes": 4569,
+      "sha256": "3daa83965e3b001cbb3ae1a5c4a2e72bd6b064edf5af0c5122ffa5f92f754366"
+    },
+    {
+      "path": "core/static/core/report.css",
+      "bytes": 3839,
+      "sha256": "bc6b93d8e7b42dcc7b539416350d2addd0d3b77b6a08585ea8b4d497049f93a8"
+    },
+    {
+      "path": "core/static/core/report.js",
+      "bytes": 6907,
+      "sha256": "5d41f268953942dce7841a8181ca29b7e6db91d70453863d81e775bca17a2dda"
+    },
+    {
+      "path": "core/static/core/sandbox.css",
+      "bytes": 9851,
+      "sha256": "ba8d57089d26cce8773426d0c490e7af40fac15e4c0d9ed7423e93ce6436bbc0"
+    },
+    {
+      "path": "core/static/core/sandbox.js",
+      "bytes": 2773,
+      "sha256": "088023e711dd60babc7bbc8022b473abf98cdd29776c00505019474b282cf986"
+    },
+    {
+      "path": "core/static/core/sandplay-ai.js",
+      "bytes": 10933,
+      "sha256": "fdb505d73e940040b6c4f98531cbe399edcb83f03dba26153c882b7dbf263592"
+    },
+    {
+      "path": "core/static/core/scene-life.js",
+      "bytes": 7225,
+      "sha256": "33b8774e974f66267c1de5eb7dafb5f12a4fdf8a625a39632d645b04f520749c"
+    },
+    {
+      "path": "core/static/core/scene-world.js",
+      "bytes": 3888,
+      "sha256": "a64e7f5e74c17df56a20deeefaaf6c0e64d34a6dda1788b59c18a274b52cf66f"
+    },
+    {
+      "path": "core/static/core/scenes/PROMPTS.md",
+      "bytes": 4543,
+      "sha256": "53b18e2abc8b997323ed799e71bae9e380aa78d9efdbbb1002931ed42c9d6382"
+    },
+    {
+      "path": "core/static/core/scenes/animal-motion-clean.png",
+      "bytes": 1793554,
+      "sha256": "622c832f3f17dd22e4419b80a886c0796c007d33ca8ac356b410a11681ed6fa7"
+    },
+    {
+      "path": "core/static/core/scenes/animal-user.png",
+      "bytes": 1686348,
+      "sha256": "43c05c85e6cd5960d9577c079f9358d73d3e2a09833756b63b7856ea4f689ce3"
+    },
+    {
+      "path": "core/static/core/scenes/animal.webp",
+      "bytes": 247636,
+      "sha256": "62c095d51f61f8ec6922d021034c0733fba1225f5faef61210a68f3f5870461f"
+    },
+    {
+      "path": "core/static/core/scenes/city.webp",
+      "bytes": 228902,
+      "sha256": "2a1ef6fee694d6938063355c4fadd4e655cc8876d18964b199985a2c7fac9b5d"
+    },
+    {
+      "path": "core/static/core/scenes/free.webp",
+      "bytes": 246878,
+      "sha256": "f18abc1f8c77e71d7ca473d3018343c2439123034f0d6166e660d8432c3bb9a7"
+    },
+    {
+      "path": "core/static/core/scenes/nature-user.png",
+      "bytes": 1709576,
+      "sha256": "9ade55bba7c7661e3ad490c6be78cb269b75973f3e9a9411d1179fed397878a9"
+    },
+    {
+      "path": "core/static/core/scenes/nature.webp",
+      "bytes": 263148,
+      "sha256": "7be6e376a13f206883707757f800bf278a42e2a48d5a09e1189bb019bb9ff131"
+    },
+    {
+      "path": "core/static/core/scenes/ocean.webp",
+      "bytes": 218836,
+      "sha256": "6f36556cb97b7b9fd85a98093c2285541b2b13196ba8bf922f3dfb122a492dd7"
+    },
+    {
+      "path": "core/static/core/scenes/space.webp",
+      "bytes": 273924,
+      "sha256": "519df48cbe5caa49b228719d0c72da88bd5de0a0657592ecb9042414a038843d"
+    },
+    {
+      "path": "core/static/core/split-view.css",
+      "bytes": 21427,
+      "sha256": "9fea063e849abaf1049df69e46289daa1bb12df5dba5bd7309a1a9a518f19c64"
+    },
+    {
+      "path": "core/static/core/style.css",
+      "bytes": 12847,
+      "sha256": "0444cc9d97d128cf975636fc3d95ee0f0984e82d8a70d8a385377e5f9bd16ac0"
+    },
+    {
+      "path": "core/static/core/toy-catalog.js",
+      "bytes": 12029,
+      "sha256": "ea3b520c6906b38380414226ddb53d67a9d6a5b53c80be2b8b9dc2b134722734"
+    },
+    {
+      "path": "core/static/core/toys/adult-reference.jpg",
+      "bytes": 5331,
+      "sha256": "0292ad9efd7916a27422404ac9eb3c769d945d77c9a495f0a20bc53f84797124"
+    },
+    {
+      "path": "core/static/core/toys/adult.png",
+      "bytes": 17244,
+      "sha256": "c49916ba2f2a73352709e9e98d7ff35d9251c7b8c6100518dfa1c6126477484f"
+    },
+    {
+      "path": "core/static/core/toys/alarm-reference.jpg",
+      "bytes": 5821,
+      "sha256": "b39cde5e711d3518f33dbf3677d433f5b9c82eab71154be097186e055ff5116d"
+    },
+    {
+      "path": "core/static/core/toys/alarm.png",
+      "bytes": 18479,
+      "sha256": "746aa5076b9c6a6f65e718b6b0e3722f7a5a4887a43576cec10b314845a4928b"
+    },
+    {
+      "path": "core/static/core/toys/arch-reference.jpg",
+      "bytes": 6378,
+      "sha256": "22164b01a1ddb25086e5429190843e95b2738f6f2fb2831c5f411f3076ef30ff"
+    },
+    {
+      "path": "core/static/core/toys/arch.png",
+      "bytes": 22782,
+      "sha256": "36f940d87018d4e8680cad0b0f8b0bc6ce76efc346062917651562e7874f4244"
+    },
+    {
+      "path": "core/static/core/toys/bag-reference.jpg",
+      "bytes": 6705,
+      "sha256": "ac933be526eee376f88907f78c1669741f5579d5fe528bb19b008b4b4fa3a8f4"
+    },
+    {
+      "path": "core/static/core/toys/bag.png",
+      "bytes": 20980,
+      "sha256": "ed658e70e81da9ee14e4b96318795b92b65bdbd6bd66e60ce77de3d48c379c1d"
+    },
+    {
+      "path": "core/static/core/toys/balance-reference.jpg",
+      "bytes": 4153,
+      "sha256": "b02dfdfc773728ef50d6a369fed7c5280627909749fad6bbeef5570c88f35eaa"
+    },
+    {
+      "path": "core/static/core/toys/balance.png",
+      "bytes": 13653,
+      "sha256": "8f0b840c7e08157df422852b161430881cbb8b4d9952af61a09809089c37e4e6"
+    },
+    {
+      "path": "core/static/core/toys/bed-reference.jpg",
+      "bytes": 6026,
+      "sha256": "f55281a906103fc36167ff18f23975de60815b40887b9af0182e1e08bd313f51"
+    },
+    {
+      "path": "core/static/core/toys/bed.png",
+      "bytes": 18796,
+      "sha256": "26278fe6a32c6188b36f12191da720faac4c3d2b1dd43411ecafee55c987e8b8"
+    },
+    {
+      "path": "core/static/core/toys/bike-reference.jpg",
+      "bytes": 6811,
+      "sha256": "a1b0be3e6e5475286d7beb0b718ccd903422c5cbfbf1b11c79110f223d81cc86"
+    },
+    {
+      "path": "core/static/core/toys/bike.png",
+      "bytes": 19901,
+      "sha256": "b4061ef6037363ad030d8773b4011f7dd1703a7dbc0c8a5f9c4eb472e6eec752"
+    },
+    {
+      "path": "core/static/core/toys/bird-reference.jpg",
+      "bytes": 6398,
+      "sha256": "bd41a54353a11d7417f5ede7cbe6b9a249bd560313566dc3325ad22772fc405c"
+    },
+    {
+      "path": "core/static/core/toys/bird.png",
+      "bytes": 22423,
+      "sha256": "42daf1397143cd4f2417f8be12e1705c328a98220c6b193616b62d30628c333c"
+    },
+    {
+      "path": "core/static/core/toys/boat-reference.jpg",
+      "bytes": 6007,
+      "sha256": "bcfa8cd91e9184046680fabc6e4139cdc50067cda413c91907fc09d1ab544bd3"
+    },
+    {
+      "path": "core/static/core/toys/boat.png",
+      "bytes": 18156,
+      "sha256": "2352549911c504020170053cdaaf76470c86c3d1db3c6ad7343aba6188e66f71"
+    },
+    {
+      "path": "core/static/core/toys/books-reference.jpg",
+      "bytes": 6809,
+      "sha256": "d2ccbbbf78521a31e3124c8adbfcba761e16826e98321dd8d9f7beecb13b3cde"
+    },
+    {
+      "path": "core/static/core/toys/books.png",
+      "bytes": 20783,
+      "sha256": "b4b108d2122bc09af0c3f9d8baee8123e6bc3867c16a8aee0d2b17617d92a5ba"
+    },
+    {
+      "path": "core/static/core/toys/bridge-reference.jpg",
+      "bytes": 7238,
+      "sha256": "d269d3912736d9e657ad6cb289e8c9f234b5ab8650810102f94d90f960109c7d"
+    },
+    {
+      "path": "core/static/core/toys/bridge.png",
+      "bytes": 23100,
+      "sha256": "3e246ff5c2e42c4dd9f4cc24f406c992acfc6f4d967331cf2514738962423ac8"
+    },
+    {
+      "path": "core/static/core/toys/brokenwall-reference.jpg",
+      "bytes": 7417,
+      "sha256": "1238ed80344f64817d20a92b3af360dc66b379dbe0e6c2262b76fa37f223ab9c"
+    },
+    {
+      "path": "core/static/core/toys/brokenwall.png",
+      "bytes": 25581,
+      "sha256": "6605e2ffa29206b272f3fef0a4eebc78508be819673c2dd8fb1c2b246c869cd0"
+    },
+    {
+      "path": "core/static/core/toys/bus-reference.jpg",
+      "bytes": 7246,
+      "sha256": "c5c2c862c998160833b8024fdfa66f81b227b4ec53b94208b7b0e38e8cecc5f5"
+    },
+    {
+      "path": "core/static/core/toys/bus.png",
+      "bytes": 20634,
+      "sha256": "eb47976762d61963d5a687aa340232b311963eb92e9078e6391221f517ac6bf7"
+    },
+    {
+      "path": "core/static/core/toys/cactus-reference.jpg",
+      "bytes": 6098,
+      "sha256": "177f47c85af75446ca59f994393e48b57cd6c69e7e51a54bef4ffe77f6f32d42"
+    },
+    {
+      "path": "core/static/core/toys/cactus.png",
+      "bytes": 18917,
+      "sha256": "f394f8874a8459d05fc7425f6a9d5fb3cf65c060a276de3b1f07cff899254bc7"
+    },
+    {
+      "path": "core/static/core/toys/car-reference.jpg",
+      "bytes": 7187,
+      "sha256": "98bc0cd9ee431c3000c688c6a25b3c67956126fe5778b452996d9f701381cd2c"
+    },
+    {
+      "path": "core/static/core/toys/car.png",
+      "bytes": 21799,
+      "sha256": "014b5569f8de4012ff37bf377597d16358ef3f2cbaf2266058f370e7c06f36b9"
+    },
+    {
+      "path": "core/static/core/toys/cat-reference.jpg",
+      "bytes": 6373,
+      "sha256": "b602923d0858651856b53b352c3e52db660a5d9123221364efc4bff6ed82bcab"
+    },
+    {
+      "path": "core/static/core/toys/cat.png",
+      "bytes": 20999,
+      "sha256": "97ab9b85aadf48b95ca5853ea9973423b281a27efdd82e767cd52c832715faeb"
+    },
+    {
+      "path": "core/static/core/toys/catalog.json",
+      "bytes": 16605,
+      "sha256": "86f8a79f28459e5a40f5b2eb8c748dded45947d3f2c7671d7bd834e3fe54d96c"
+    },
+    {
+      "path": "core/static/core/toys/cave-reference.jpg",
+      "bytes": 5233,
+      "sha256": "c48ab1fc92e769a7f9f960abc0d9afc8fd54d7db8ea3ee694eac5b039d960717"
+    },
+    {
+      "path": "core/static/core/toys/cave.png",
+      "bytes": 20418,
+      "sha256": "41e514fd778d6257fab3b286bbc44cb706d7a1386694ea34899263dd0776a449"
+    },
+    {
+      "path": "core/static/core/toys/child-reference.jpg",
+      "bytes": 4063,
+      "sha256": "9fa9019f1da299bb52bc4fef2f0b51caa33b513435660179788a72d4b3b30652"
+    },
+    {
+      "path": "core/static/core/toys/child.png",
+      "bytes": 13359,
+      "sha256": "41b3efe70adbf23c303f24259af4b3e9f5ebfd70da424d570a1a7523f4ed4fda"
+    },
+    {
+      "path": "core/static/core/toys/companions-reference.jpg",
+      "bytes": 9671,
+      "sha256": "d9c070f22f85c746d57b063545c8eb009ecde28eea90b815f4230a52a071028c"
+    },
+    {
+      "path": "core/static/core/toys/companions.png",
+      "bytes": 34022,
+      "sha256": "36534a4b9d0b4f266297ee59957a15ddf360014f2356ea96994a7dff2da1c4ca"
+    },
+    {
+      "path": "core/static/core/toys/curled-reference.jpg",
+      "bytes": 6579,
+      "sha256": "3cd232f69e554a8d45270f2977125087bbddc4441aa2c64847fe45f344de5ac0"
+    },
+    {
+      "path": "core/static/core/toys/curled.png",
+      "bytes": 24138,
+      "sha256": "86202048c210c5aa50d995c479ee8cdb144e59b2fcbaffd5d6bf1f97ed730bef"
+    },
+    {
+      "path": "core/static/core/toys/desk-reference.jpg",
+      "bytes": 6874,
+      "sha256": "f0a658d1d3b4a26fdc470ddc843d9e56e0d3d8544ce8875e03632c422fb32e89"
+    },
+    {
+      "path": "core/static/core/toys/desk.png",
+      "bytes": 22455,
+      "sha256": "c5c76e371dd228260d19b1706ad9abeb0d08b22e3a869da1ab2759f74d9288fb"
+    },
+    {
+      "path": "core/static/core/toys/dog-reference.jpg",
+      "bytes": 7744,
+      "sha256": "40ea8ca221f43169a1620243ba99c4dc3c0ef38ca2c347c7527a1d52d1facf13"
+    },
+    {
+      "path": "core/static/core/toys/dog.png",
+      "bytes": 27269,
+      "sha256": "128676688d75f17378607c3af0caad6c351abba475d663bd0fe99a2bfe4c11d1"
+    },
+    {
+      "path": "core/static/core/toys/dragon-reference.jpg",
+      "bytes": 8518,
+      "sha256": "3f3026fca57a5c7c8966697c04bc13049a312d09b346157ab70ac720a56c9888"
+    },
+    {
+      "path": "core/static/core/toys/dragon.png",
+      "bytes": 25084,
+      "sha256": "c94d633ca21f0ba89d0e674f796f4819f5b79f0c46b9b337012483e3376c138e"
+    },
+    {
+      "path": "core/static/core/toys/elder-reference.jpg",
+      "bytes": 5480,
+      "sha256": "fb0770121ad4b003ca3486120e61f6766f241f4221bce4a1832a6b89a0805fc3"
+    },
+    {
+      "path": "core/static/core/toys/elder.png",
+      "bytes": 16874,
+      "sha256": "68856c434a512c4c122d57957fde5fa3ee2ef8874c44a8b5dbc20f1e1f439e06"
+    },
+    {
+      "path": "core/static/core/toys/entrance-reference.jpg",
+      "bytes": 5127,
+      "sha256": "88cf1e96b2d4380a26c7adbd88e4ce11ea414efbe22813da4bd37139c180013c"
+    },
+    {
+      "path": "core/static/core/toys/entrance.png",
+      "bytes": 15308,
+      "sha256": "fc6c3d3c0d5afcbc17cb07b51ad388fc4420e8a45e3698bc9cd3964e7b9022f8"
+    },
+    {
+      "path": "core/static/core/toys/fence-reference.jpg",
+      "bytes": 4887,
+      "sha256": "9bb800c87fe5996a7b59d904fea5d9eae9292164b59860ac25fd921dee7a76f8"
+    },
+    {
+      "path": "core/static/core/toys/fence.png",
+      "bytes": 15039,
+      "sha256": "0cd9e61886fb09aed0cc6d1fb4717fc1a0dfd17738b50f66130178d422c817ab"
+    },
+    {
+      "path": "core/static/core/toys/fish-reference.jpg",
+      "bytes": 7402,
+      "sha256": "a57f661839eb7f05b4a29166767db4649bc4870d1a0bb8ca1dbb864c52b24794"
+    },
+    {
+      "path": "core/static/core/toys/fish.png",
+      "bytes": 24667,
+      "sha256": "e57047fa099546b628fb8f60d11dd8c36cfa7b0f466459b61f1be77aff1b8f1e"
+    },
+    {
+      "path": "core/static/core/toys/flower-reference.jpg",
+      "bytes": 5995,
+      "sha256": "cb7ffd3d23d24ddadcd357fc01be7436ff7a7cbe67a7e88156a0984a700eaf32"
+    },
+    {
+      "path": "core/static/core/toys/flower.png",
+      "bytes": 18705,
+      "sha256": "59c436e51295c6dbf79520abdc98ca3e417f4c7337e96ca263b6e65561e03b7b"
+    },
+    {
+      "path": "core/static/core/toys/food-reference.jpg",
+      "bytes": 6467,
+      "sha256": "f7024ee0f76b224650bb5c882afab5b37a021a240412079ddd04534d835b690d"
+    },
+    {
+      "path": "core/static/core/toys/food.png",
+      "bytes": 22478,
+      "sha256": "20369b83ec4f0405e57d4d046eed7ceba7d5fff2a7480c2a47b5834e93aaf49e"
+    },
+    {
+      "path": "core/static/core/toys/gate-reference.jpg",
+      "bytes": 5889,
+      "sha256": "83fb1801d529ad3e32794c965ad8c43423ba1cba42325439330297ee940a81cd"
+    },
+    {
+      "path": "core/static/core/toys/gate.png",
+      "bytes": 18023,
+      "sha256": "cb907c73f8516cdd8c92706cef24f948f4ee073bec9e3700b2e31df07e80a4b7"
+    },
+    {
+      "path": "core/static/core/toys/guardian-reference.jpg",
+      "bytes": 7199,
+      "sha256": "1f28c6afdc219f7adfafb423b08472e70424ea6a41b31c5ea47b02b39c4455fe"
+    },
+    {
+      "path": "core/static/core/toys/guardian.png",
+      "bytes": 22634,
+      "sha256": "e5e8a546b6e58f4f4d9621d2635a0bbc53c0c7057d83006a56bfcfda36e514d2"
+    },
+    {
+      "path": "core/static/core/toys/heart-reference.jpg",
+      "bytes": 6344,
+      "sha256": "b5fcd34dee85a294cb0381d44b55408638e7de9f9930862cfb12420599501f9d"
+    },
+    {
+      "path": "core/static/core/toys/heart.png",
+      "bytes": 19824,
+      "sha256": "e731ead05dbd4fc0c7b5aa5c7fe36f257faab3c0b1b6a7a46544441010c59789"
+    },
+    {
+      "path": "core/static/core/toys/hero-reference.jpg",
+      "bytes": 8276,
+      "sha256": "9f90f44a0fa0684e439ae646f39563807baa9717f2fade795edba3ef39cd719a"
+    },
+    {
+      "path": "core/static/core/toys/hero.png",
+      "bytes": 24380,
+      "sha256": "959ec74791eee554ca41c3e18b2a0a65e6e3dedd17c3e975ea3ec09417976448"
+    },
+    {
+      "path": "core/static/core/toys/hospital-reference.jpg",
+      "bytes": 6310,
+      "sha256": "1a7db8bbba78ad3f7b39207d0c099f2a2f65a744c62753a1fe1ab0ed37b9e76e"
+    },
+    {
+      "path": "core/static/core/toys/hospital.png",
+      "bytes": 18449,
+      "sha256": "501c4ad500a336cf26e916d2b9838040fe407eeb9c11dbbe3e838935d5a3fc79"
+    },
+    {
+      "path": "core/static/core/toys/house-reference.jpg",
+      "bytes": 6019,
+      "sha256": "605eb34dcf6d5389ab294ef05df56fe12c40c9d3b97e763e053391936c2aa5ff"
+    },
+    {
+      "path": "core/static/core/toys/house.png",
+      "bytes": 19806,
+      "sha256": "7dc11bf93e679b9d229051fa6429cf1612cf6cc59e4711f6dcee80a8b0f67e7c"
+    },
+    {
+      "path": "core/static/core/toys/king-reference.jpg",
+      "bytes": 5910,
+      "sha256": "92c4336cad979f652798fbb07547a4a482029c24cebfa88dcd34a729e9f89ae0"
+    },
+    {
+      "path": "core/static/core/toys/king.png",
+      "bytes": 17812,
+      "sha256": "41041601b37390e60f9e4679786d07fbe7f65d2f8d23e6a3ce170f1485c37b5d"
+    },
+    {
+      "path": "core/static/core/toys/knot-reference.jpg",
+      "bytes": 5696,
+      "sha256": "968a6c028b8a248d6db12cf7f57ec64e25121907119ebbf367d112bee45cbcd0"
+    },
+    {
+      "path": "core/static/core/toys/knot.png",
+      "bytes": 19626,
+      "sha256": "7549a671cbf1b7fd8f50649543ffd75a33109f59cc22e3b4f5c310b8157079b0"
+    },
+    {
+      "path": "core/static/core/toys/lightning-reference.jpg",
+      "bytes": 4806,
+      "sha256": "b2e250051b6f2853245015eb09797f85a057bf8b7f885bff1fcd0948129c6f8f"
+    },
+    {
+      "path": "core/static/core/toys/lightning.png",
+      "bytes": 16707,
+      "sha256": "f8bbf9ec7e72fe50b08d049e451f6e3f38740e9e6b505d78887dd6c3120bf300"
+    },
+    {
+      "path": "core/static/core/toys/lock-reference.jpg",
+      "bytes": 5661,
+      "sha256": "96e7fa612a70872241d678d93b69e5605b3a20d8b79b94ff1fbff0ce9ed4ecbb"
+    },
+    {
+      "path": "core/static/core/toys/lock.png",
+      "bytes": 16842,
+      "sha256": "56f9dd1e58ba755d283b9480b1895a6443453c919b81efdcc6317dfe5e92d13d"
+    },
+    {
+      "path": "core/static/core/toys/magicdoor-reference.jpg",
+      "bytes": 6768,
+      "sha256": "32707d4e1e47e6143240459299e0d3e36d4ee68197302aab5df8af70183115a4"
+    },
+    {
+      "path": "core/static/core/toys/magicdoor.png",
+      "bytes": 20978,
+      "sha256": "787c1420e5198775650ad1849fa5c1b886476aa81a7fdb46af2507bb2b281ea6"
+    },
+    {
+      "path": "core/static/core/toys/mask-reference.jpg",
+      "bytes": 7103,
+      "sha256": "a0992b38d601368086ea3302c56c6e5252de7b31fd90c8d139c4beae42fcd6e7"
+    },
+    {
+      "path": "core/static/core/toys/mask.png",
+      "bytes": 21207,
+      "sha256": "90bd0f88b1f12ee1fa7386aa6664d012a7f50134c122495d034855ec2936e50f"
+    },
+    {
+      "path": "core/static/core/toys/monster-reference.jpg",
+      "bytes": 7684,
+      "sha256": "dac53686d794ae656f4c143199a335b6a6116132f131a72052881d6e373f0425"
+    },
+    {
+      "path": "core/static/core/toys/monster.png",
+      "bytes": 23973,
+      "sha256": "0d5b1e8e63bfd9336ca1c375ab796a58a735c309120f27ecf55bc1c1a8cbbc7a"
+    },
+    {
+      "path": "core/static/core/toys/phone-reference.jpg",
+      "bytes": 5399,
+      "sha256": "7344d5f98175de6dd8f59736a7e2c24ee51cff2edc3b2c93cb6f614a6bcc7711"
+    },
+    {
+      "path": "core/static/core/toys/phone.png",
+      "bytes": 16846,
+      "sha256": "da65d318836712968403c5ee81ee4c94fbc538cd6f5f913cbc7c30a936e2c7b7"
+    },
+    {
+      "path": "core/static/core/toys/plane-reference.jpg",
+      "bytes": 7880,
+      "sha256": "af89bd5b6cba4d8ae3c9f42d732e0d6349206de1165d0a9eab22fbe756558769"
+    },
+    {
+      "path": "core/static/core/toys/plane.png",
+      "bytes": 23898,
+      "sha256": "4ca97bcdc0d9beba054d3925875e5793ef5adae31dbb8e2ab170e44944411040"
+    },
+    {
+      "path": "core/static/core/toys/rabbit-reference.jpg",
+      "bytes": 4997,
+      "sha256": "ce83e320dd90979e469bcd42d307020958d4bc11172841047ba508428500351c"
+    },
+    {
+      "path": "core/static/core/toys/rabbit.png",
+      "bytes": 16996,
+      "sha256": "f39a5ecddb4b50b96c28326325f518c87beb44ff377c1072449b0639908f2caa"
+    },
+    {
+      "path": "core/static/core/toys/reference-sheet.jpg",
+      "bytes": 449980,
+      "sha256": "e866f30348154f5353d98c0e7a05ccd692785ef895af08c35d056d8a03edcbbd"
+    },
+    {
+      "path": "core/static/core/toys/road-reference.jpg",
+      "bytes": 5303,
+      "sha256": "7a7769079160fcbf61f0272d385f24b5c6a00f35ebceb4e4c6c5767153281e41"
+    },
+    {
+      "path": "core/static/core/toys/road.png",
+      "bytes": 18217,
+      "sha256": "2919e6c14724c1b3fc1729fcd15a9770ddb4a0c3a9874ced3a0b1093d668659a"
+    },
+    {
+      "path": "core/static/core/toys/rocks-reference.jpg",
+      "bytes": 5393,
+      "sha256": "f06fd949ee6279a4ac26878b8aad8b91527b1263c3f5ef28825e9529be30a5c3"
+    },
+    {
+      "path": "core/static/core/toys/rocks.png",
+      "bytes": 22373,
+      "sha256": "1cd7086dd4b7c7ff8619b6824e395df0ccfdd454e366cf16b3c28314a840f333"
+    },
+    {
+      "path": "core/static/core/toys/school-reference.jpg",
+      "bytes": 8216,
+      "sha256": "45405ca045010f546ef45291076481e9628e64580fd85d26176b7a53986a66d4"
+    },
+    {
+      "path": "core/static/core/toys/school.png",
+      "bytes": 24071,
+      "sha256": "034f0d0a0e5f8e6486522ead3ffd4247be33b0ba7e4654383e5dfa98f68abb55"
+    },
+    {
+      "path": "core/static/core/toys/seated-reference.jpg",
+      "bytes": 6366,
+      "sha256": "b8c88cfdf07751e39638abfa807a5fc484a9f8d6ffddab3485ff84576c34626e"
+    },
+    {
+      "path": "core/static/core/toys/seated.png",
+      "bytes": 20944,
+      "sha256": "85680a6feee0d2bc917fd3c5f70bd95f7ea373c4a3e32fff1454de866d5c9fd3"
+    },
+    {
+      "path": "core/static/core/toys/shelter-reference.jpg",
+      "bytes": 6270,
+      "sha256": "27c52abafdc27c3298ea7d6444886243952a45f57d840200d96c5fd236ce1dd4"
+    },
+    {
+      "path": "core/static/core/toys/shelter.png",
+      "bytes": 23145,
+      "sha256": "4ef8672645e79d6c816a2554cd3b10f6c1c3ba03cd29d364d54a46e3a6383610"
+    },
+    {
+      "path": "core/static/core/toys/shield-reference.jpg",
+      "bytes": 6326,
+      "sha256": "d8bf835be1e4d0c555d8bc95bf9950ffbb1e39bcfce6bd7e1a55b61462cceb86"
+    },
+    {
+      "path": "core/static/core/toys/shield.png",
+      "bytes": 19058,
+      "sha256": "10a61800a513df894a8446a43799a5f02467aab7baf7b020f60060ddf2d53324"
+    },
+    {
+      "path": "core/static/core/toys/shop-reference.jpg",
+      "bytes": 7202,
+      "sha256": "ea68485e90387b59082bdf5282b77fe5415c10d3ec8f90b4e1e1846abce1a4a6"
+    },
+    {
+      "path": "core/static/core/toys/shop.png",
+      "bytes": 21334,
+      "sha256": "098e79bff4238669508df6d3903853da2172b62a78120458e628862d25b81263"
+    },
+    {
+      "path": "core/static/core/toys/splitball-reference.jpg",
+      "bytes": 4230,
+      "sha256": "8b3b3e239e50517508df5772a71f7e5c0a0a329f05bc5c7438d516a1afe1262d"
+    },
+    {
+      "path": "core/static/core/toys/splitball.png",
+      "bytes": 14115,
+      "sha256": "da43c88a107d2595ef32bcdd323f17a5e7209546ebfef1ee82e558972a81c7ae"
+    },
+    {
+      "path": "core/static/core/toys/stairs-reference.jpg",
+      "bytes": 4361,
+      "sha256": "1a390f42617c852d1fa7fa781e0a08295bbd5c6f27d61417bb5932e9b2e9c375"
+    },
+    {
+      "path": "core/static/core/toys/stairs.png",
+      "bytes": 13016,
+      "sha256": "876a6a1e843dbb0ede754c0571d620aa934c2d4ecabe98512812fa87ee83a3c2"
+    },
+    {
+      "path": "core/static/core/toys/swirl-reference.jpg",
+      "bytes": 6017,
+      "sha256": "1c44fb0fef336eec41a051127cbe2e24bf922978ee5e0ee70900749bd92806cb"
+    },
+    {
+      "path": "core/static/core/toys/swirl.png",
+      "bytes": 20019,
+      "sha256": "3bb556af307f9b89f403a6a69b74ede94e8172e5a9f24ac572a54c957c762cd8"
+    },
+    {
+      "path": "core/static/core/toys/teen-reference.jpg",
+      "bytes": 5666,
+      "sha256": "0d5ec3e273546daa19b9fd03d5a611786457ae993d3323457ca1c3e2c1186540"
+    },
+    {
+      "path": "core/static/core/toys/teen.png",
+      "bytes": 16145,
+      "sha256": "60b0be77951247b878676dc8a395aa74b6d7414f5e0732afae96ebe9ea21ba39"
+    },
+    {
+      "path": "core/static/core/toys/tower-reference.jpg",
+      "bytes": 5217,
+      "sha256": "5a4fbb884ca6067536cbd4644cb9558ac7e5735358f263426dcf674ead031173"
+    },
+    {
+      "path": "core/static/core/toys/tower.png",
+      "bytes": 15428,
+      "sha256": "61df76067ebd9dba6a7da0e69ee1008427ddc464999d3683a35d5b2ed5ff2bda"
+    },
+    {
+      "path": "core/static/core/toys/train-reference.jpg",
+      "bytes": 7378,
+      "sha256": "579ef056a0a06e9651d8d09ff5e79984870364ee5333617804445cbce0045147"
+    },
+    {
+      "path": "core/static/core/toys/train.png",
+      "bytes": 23202,
+      "sha256": "88e372bf2b221993c5900a0b79109a7ffba6a2f397d7c78e2eafef1675ad1db6"
+    },
+    {
+      "path": "core/static/core/toys/tree-reference.jpg",
+      "bytes": 8264,
+      "sha256": "456fd37340d6276f05434e342d8aa4f5196569ebfdb94c468bdf33b72f0b2f9a"
+    },
+    {
+      "path": "core/static/core/toys/tree.png",
+      "bytes": 28035,
+      "sha256": "d817da5d5889a2516a5b29860165dbcf9ddcaf1da8bd04a8ca71c607422ec10e"
+    },
+    {
+      "path": "core/static/core/toys/turtle-reference.jpg",
+      "bytes": 7415,
+      "sha256": "bd55e14ae4322d429d390738d20fc04281204e5c20011ea2bfff3db943c02d18"
+    },
+    {
+      "path": "core/static/core/toys/turtle.png",
+      "bytes": 29810,
+      "sha256": "f75fecc9a5b60329309e5e32df6ca58e5e790437ed4131b919d521121f226735"
+    },
+    {
+      "path": "core/static/core/toys/volcano-reference.jpg",
+      "bytes": 7847,
+      "sha256": "ba111abd138909981c1b976b8fc390e1b3114e81fa5ec692f6ab91198e4ce6e6"
+    },
+    {
+      "path": "core/static/core/toys/volcano.png",
+      "bytes": 25737,
+      "sha256": "a4f13953b873568c9b6c2f4104e8b03a0927bc4e0cb9b88aa21e2489940e767d"
+    },
+    {
+      "path": "core/static/core/toys/wall-reference.jpg",
+      "bytes": 3623,
+      "sha256": "76396fb86df6d134fda82351dfa8b7cced97ed3cca55b6a46c4fa3a1823f67ce"
+    },
+    {
+      "path": "core/static/core/toys/wall.png",
+      "bytes": 11525,
+      "sha256": "e3d8844a10fe451ed50a91d1987ba501dd06234c3e5b2aaa1faf717175133374"
+    },
+    {
+      "path": "core/static/core/toys/water-reference.jpg",
+      "bytes": 8031,
+      "sha256": "7a05302c873816106c1e8fcb79da945b90026d799fb13c0d011844e9c5dbb221"
+    },
+    {
+      "path": "core/static/core/toys/water.png",
+      "bytes": 28127,
+      "sha256": "e1dd02d94bebcf344e6d8dbdb2e98f99014a2f4456548827ff7fbdddd08a7d52"
+    },
+    {
+      "path": "core/static/core/vendor/jsQR-1.4.0.js",
+      "bytes": 256885,
+      "sha256": "bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859"
+    },
+    {
+      "path": "core/static/core/vendor/jsQR-LICENSE.txt",
+      "bytes": 11358,
+      "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+    },
+    {
+      "path": "core/static/core/vendor/opencv-4.10.0.js",
+      "bytes": 10378215,
+      "sha256": "19b46167b59efbef9cc3836264b0b657110833e4b1df84282004b8b3141c048d"
+    },
+    {
+      "path": "core/static/core/vendor/opencv-LICENSE.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "core/static/core/voice-input.js",
+      "bytes": 6688,
+      "sha256": "334a7a1eab1715f22bf582ff2299b661cbb8985e66ff4f807b887b3b5ebbb8b5"
+    },
+    {
+      "path": "core/static/core/xiaoyu-speech.js",
+      "bytes": 3988,
+      "sha256": "405d0420c7dce173997896e7dd80aa80d3ff4c0a3b8cf9bcbd070aef85654f71"
+    },
+    {
+      "path": "core/templates/core/build.html",
+      "bytes": 14030,
+      "sha256": "262411836f4abb035e9314fa4cb3d5c1e944e24cc46e38af16b623541a497f29"
+    },
+    {
+      "path": "core/templates/core/cards.html",
+      "bytes": 2527,
+      "sha256": "a07ef726355a016174d99ed42224eedc64985ebb5b804ab5924bda1f07659154"
+    },
+    {
+      "path": "core/templates/core/feedback.html",
+      "bytes": 4668,
+      "sha256": "6eeee9ae0ea2ec2ee149f7a78f207e26748a8b2c7490319e434c6536cf9a9c00"
+    },
+    {
+      "path": "core/templates/core/home.html",
+      "bytes": 1580,
+      "sha256": "156b1f94e331e8f55512bbf295674e0a319418252f4dce9c22d19cb09ca180eb"
+    },
+    {
+      "path": "core/templates/core/report.html",
+      "bytes": 4250,
+      "sha256": "086d246054ebc2e81484477ce1eaeef346227368f5c0fa3b76caabf812986af5"
+    },
+    {
+      "path": "core/tests.py",
+      "bytes": 63,
+      "sha256": "dae0da7efdcdb3a7fb572d5e914b60631099122d4a4727ac6434c016161c5fe1"
+    },
+    {
+      "path": "core/urls.py",
+      "bytes": 394,
+      "sha256": "6aa23bfbe9805d93ee9257a94970ee2e5e7f930674aaa67b60480213486473cc"
+    },
+    {
+      "path": "core/views.py",
+      "bytes": 500,
+      "sha256": "cc0b6ab124355ff41b9a302ca4c628645a79b863fb901cd3b6fb505b1a25b61b"
+    },
+    {
+      "path": "manage.py",
+      "bytes": 684,
+      "sha256": "b30eeb4890cb6f315cc238313808f636db29e9906b61cc6f6051567156a0097b"
+    },
+    {
+      "path": "public-site/.dev.vars.example",
+      "bytes": 261,
+      "sha256": "a77e48b000069dbedd10e731cad3d22d08ff87c38b454d47e0f32abf4677d665"
+    },
+    {
+      "path": "public-site/.gitignore",
+      "bytes": 753,
+      "sha256": "311e8a63b21ed4fc8282d4f31b36c319a0c2419566de834c73236651f6749cd7"
+    },
+    {
+      "path": "public-site/.npmrc",
+      "bytes": 45,
+      "sha256": "a3909ac0447c469fda12c57374993be70f47ce73e49fd3124678c7c047f2214d"
+    },
+    {
+      "path": "public-site/.openai/hosting.json",
+      "bytes": 66,
+      "sha256": "df7e8fe096739aa0ec441cd5716994d2f0b0addbc8148aa4828963c4ac2fdb61"
+    },
+    {
+      "path": "public-site/README.md",
+      "bytes": 4981,
+      "sha256": "4a851a16ed44d499537bd020521a4a94e6296e1eebb93577d8fb15f4ab9bfb59"
+    },
+    {
+      "path": "public-site/app/[[...path]]/route.ts",
+      "bytes": 392,
+      "sha256": "e2be3ddd29ce25b9e7a90be22d8d642b6d3d185f00c7fa6e3c25870cf9d263c8"
+    },
+    {
+      "path": "public-site/app/layout.tsx",
+      "bytes": 127,
+      "sha256": "cf44aa21d5df0a87981c264fc1b32c83ca24b88d640c0f66badbee3fd8a21f30"
+    },
+    {
+      "path": "public-site/cloudflare-env.d.ts",
+      "bytes": 99,
+      "sha256": "8b0eca84aa3364cc7ccc43cc3af6beb88dd34ebd410de08690bf094ce39fbcb0"
+    },
+    {
+      "path": "public-site/components.json",
+      "bytes": 420,
+      "sha256": "31f4ca67a4a62572571003d3d5aac85ee6fbfca67a192924bac6b168d95e98fd"
+    },
+    {
+      "path": "public-site/components/connector-error.tsx",
+      "bytes": 1082,
+      "sha256": "2d0d04559952ce9c9a327cca499f4b99f35d885cccfce375230e116695d3f155"
+    },
+    {
+      "path": "public-site/components/ui/accordion.tsx",
+      "bytes": 2048,
+      "sha256": "a4f153089ba886dfcf73fac26b5c01ca933fa12fbe88df6fb723912bfffdfbb0"
+    },
+    {
+      "path": "public-site/components/ui/alert-dialog.tsx",
+      "bytes": 5439,
+      "sha256": "9a8d950f2b9b4352d5ebb762fb44d5c28c2d353aa29712071973656a8736e311"
+    },
+    {
+      "path": "public-site/components/ui/alert.tsx",
+      "bytes": 1614,
+      "sha256": "2cc59b5f7bda91c1670884b1bf46bfc8a2a6f226cef184f5762acc037188885b"
+    },
+    {
+      "path": "public-site/components/ui/aspect-ratio.tsx",
+      "bytes": 274,
+      "sha256": "b1c157886236782cb92d8fbcd4749532aaf6d8aabefd6e157ca40358f902f407"
+    },
+    {
+      "path": "public-site/components/ui/attachment.tsx",
+      "bytes": 6002,
+      "sha256": "ae8a25dd1a896d3964e3ef54d97e51221b418cde287dfd794428b89951c5c790"
+    },
+    {
+      "path": "public-site/components/ui/avatar.tsx",
+      "bytes": 2916,
+      "sha256": "58a846bf1617b94b9681921db9b8461d0145f311424663d11678a06b6153cb34"
+    },
+    {
+      "path": "public-site/components/ui/badge.tsx",
+      "bytes": 1776,
+      "sha256": "46a0de5224f6a5d5d63d45246534288518dce888f031064bff925bbc7fe6ad97"
+    },
+    {
+      "path": "public-site/components/ui/breadcrumb.tsx",
+      "bytes": 2350,
+      "sha256": "d4c0831bba2212e778248f54a6ace6ef378df8bba4616d1abf27787a31eabae5"
+    },
+    {
+      "path": "public-site/components/ui/bubble.tsx",
+      "bytes": 4699,
+      "sha256": "870cc0c5cfc8a515053f7e41e706a6bd017a909b45f1305fd3b164a52cc4483b"
+    },
+    {
+      "path": "public-site/components/ui/button-group.tsx",
+      "bytes": 2202,
+      "sha256": "784c89d8ee683e1bc972ae69e6ea8225a7f63abe22aa1b5fc3423ae8a2a399c0"
+    },
+    {
+      "path": "public-site/components/ui/button.tsx",
+      "bytes": 2392,
+      "sha256": "cc36af0f8b5019c33cc039fbf03bb952a513072b15b55b53c592b78af3e5f4c4"
+    },
+    {
+      "path": "public-site/components/ui/calendar.tsx",
+      "bytes": 7832,
+      "sha256": "3855fbe0d3f8ad3a4b93071f98b76a9f6782d46ec8b05f5d2ddbee1e4e39bc84"
+    },
+    {
+      "path": "public-site/components/ui/card.tsx",
+      "bytes": 1987,
+      "sha256": "c48dd3b96be90a7066f1aebf294f0af9d00ebcdc367d5d4aca55429ade570c1c"
+    },
+    {
+      "path": "public-site/components/ui/carousel.tsx",
+      "bytes": 5556,
+      "sha256": "b7ea0dda3903d972c186f739e23da61f547bc83b5a0bf13b16856577846d5fc3"
+    },
+    {
+      "path": "public-site/components/ui/chart.tsx",
+      "bytes": 10614,
+      "sha256": "45aa5ea4a386f4fb5b8869ff4bab3a08cf89255190ee322043baf84c3e950b6a"
+    },
+    {
+      "path": "public-site/components/ui/checkbox.tsx",
+      "bytes": 1214,
+      "sha256": "b23ab9d4deeedf2ac8f512c368361ede681aa383437ef48563a6f9b7dbe95f27"
+    },
+    {
+      "path": "public-site/components/ui/collapsible.tsx",
+      "bytes": 795,
+      "sha256": "c6598e5584f4258b5d9fefadbc5ad6a66888ad58729f4b634a0bb2d9c513188b"
+    },
+    {
+      "path": "public-site/components/ui/combobox.tsx",
+      "bytes": 9158,
+      "sha256": "2d68e78b2dc7e38a085f222dede60a80b4f8229a6e91732c484605e204d46735"
+    },
+    {
+      "path": "public-site/components/ui/command.tsx",
+      "bytes": 4818,
+      "sha256": "361193df1e3d64a9e9b5048f045264782fcb387aab3f00f2b805fdcbf538b16a"
+    },
+    {
+      "path": "public-site/components/ui/context-menu.tsx",
+      "bytes": 8268,
+      "sha256": "2cf1fcf59df0649a3e2a126d1df2f639145f6b6bf5689ee54af1f40ab1245017"
+    },
+    {
+      "path": "public-site/components/ui/dialog.tsx",
+      "bytes": 4303,
+      "sha256": "dce39c6adc47d997bd2567f8b7a72f466b0134715105cd42f9194007b8ecdb14"
+    },
+    {
+      "path": "public-site/components/ui/direction.tsx",
+      "bytes": 506,
+      "sha256": "84ae2ad658207f0e0f367978e5508cd8027cd00c29c41d3d13db21a708c3d1e6"
+    },
+    {
+      "path": "public-site/components/ui/drawer.tsx",
+      "bytes": 4255,
+      "sha256": "cb6eaf58eb0757ca91af284e5d925b89a42ad7eb19cb3f44c575a3487aa9350f"
+    },
+    {
+      "path": "public-site/components/ui/dropdown-menu.tsx",
+      "bytes": 8418,
+      "sha256": "98f0dcdae38225b73734aceeb9213dd751fea2c72ea520df31003cd133deac8a"
+    },
+    {
+      "path": "public-site/components/ui/empty.tsx",
+      "bytes": 2396,
+      "sha256": "ae95bdcf367a076ae02e7925f14522a148798f72d9651749c6d55497dba584c0"
+    },
+    {
+      "path": "public-site/components/ui/field.tsx",
+      "bytes": 6159,
+      "sha256": "ba67d76f017ac059fc86cf8c344e0b2991c4322d3619e125498c19b87f6eefbd"
+    },
+    {
+      "path": "public-site/components/ui/form.tsx",
+      "bytes": 3757,
+      "sha256": "315b46bb75ab7d1c6061b5d750aa4bedf6e7a455e15e2d7f9182f053d5972b1e"
+    },
+    {
+      "path": "public-site/components/ui/hover-card.tsx",
+      "bytes": 1526,
+      "sha256": "f5d8df42c59370ec14d61bcc54f7d68e9bb7dfa0d6a872b2f7cffc2aafbf23b8"
+    },
+    {
+      "path": "public-site/components/ui/input-group.tsx",
+      "bytes": 5065,
+      "sha256": "6afbd58fea4c438e6252dc4568bddc122e84ababead4ad5cee50ace01100c9a0"
+    },
+    {
+      "path": "public-site/components/ui/input-otp.tsx",
+      "bytes": 2254,
+      "sha256": "161946daa89f0eda2575b9271c0494e35807c4ffb55598a49f67160c17fec299"
+    },
+    {
+      "path": "public-site/components/ui/input.tsx",
+      "bytes": 962,
+      "sha256": "8c4612a7c41319ac5049daa3b34b080f9784b6245c17780eb87c127e58e473db"
+    },
+    {
+      "path": "public-site/components/ui/item.tsx",
+      "bytes": 4486,
+      "sha256": "6e2144d6d87142dbbe56d568810bf546318c8aa661447ebb0d76ebbf382cb45f"
+    },
+    {
+      "path": "public-site/components/ui/kbd.tsx",
+      "bytes": 862,
+      "sha256": "6088c3a5432338b1719c17e9b5d0e1fa74fd1f66060f248fc88909d33a82cd13"
+    },
+    {
+      "path": "public-site/components/ui/label.tsx",
+      "bytes": 606,
+      "sha256": "a476e41f08b9de5bd447de66a33d8bc2ad18f2fa6b96c064778bab4b6f439f4c"
+    },
+    {
+      "path": "public-site/components/ui/marker.tsx",
+      "bytes": 1864,
+      "sha256": "3d798763f094b2bb5e7ade2d5cd1b9bab498bc8ca7fd4cfaf4e5835bdedc34a0"
+    },
+    {
+      "path": "public-site/components/ui/menubar.tsx",
+      "bytes": 8389,
+      "sha256": "9243af8afcea03703398ccd1c2a8c0a87ad6cbaf2bd272fb609f5b79fe46aebb"
+    },
+    {
+      "path": "public-site/components/ui/message-scroller.tsx",
+      "bytes": 3992,
+      "sha256": "bb7660a248e4e9589c3816c7c1c199ea1381a70d2c8476ae895b567a7a4d86cf"
+    },
+    {
+      "path": "public-site/components/ui/message.tsx",
+      "bytes": 2232,
+      "sha256": "9d2952bf3b641081f09aa2739535e6bbd1be0a4946789752a2c20d8aaef43185"
+    },
+    {
+      "path": "public-site/components/ui/native-select.tsx",
+      "bytes": 1995,
+      "sha256": "007516b111fca8c98a6c40c94ab91bb68cc5b52afce1ed1f5e510c3d86e7347c"
+    },
+    {
+      "path": "public-site/components/ui/navigation-menu.tsx",
+      "bytes": 6658,
+      "sha256": "889d358a77de88e9cb6f39ea4895ea4c76eaf01d731b74e44f1c41e97a78a044"
+    },
+    {
+      "path": "public-site/components/ui/pagination.tsx",
+      "bytes": 2717,
+      "sha256": "374ad135c3d4ff3ec080a0009cd9745cdd0e12faa89d2b0e86074f11e5127fd1"
+    },
+    {
+      "path": "public-site/components/ui/popover.tsx",
+      "bytes": 2357,
+      "sha256": "31c350309ff5d3034e6ecf1b0eda75ba8855bdbf987fc7ad6d71f0ef07c5a447"
+    },
+    {
+      "path": "public-site/components/ui/progress.tsx",
+      "bytes": 755,
+      "sha256": "c8c26e8f5f041c3cdf4915347dc1d9c022f9448f149990fadcaf303e952fa57d"
+    },
+    {
+      "path": "public-site/components/ui/radio-group.tsx",
+      "bytes": 1460,
+      "sha256": "fe5ce39636d0818c2bf9c4eebddff893d1225fa2c81b5fa4bb8cbb39a8c913ce"
+    },
+    {
+      "path": "public-site/components/ui/resizable.tsx",
+      "bytes": 1815,
+      "sha256": "bc63958467aa00557c551bb0d96a5ae4c965c1e1ba2380e595949d933b132f7c"
+    },
+    {
+      "path": "public-site/components/ui/scroll-area.tsx",
+      "bytes": 1639,
+      "sha256": "8bd9d986b2844c9a87de825c6de4787b6739b36c3dc9a05ccf3eb107160e4043"
+    },
+    {
+      "path": "public-site/components/ui/select.tsx",
+      "bytes": 6353,
+      "sha256": "0b796a108a4eb5ba52d9ad938b7aea36dc56ae66c703a6d0a23dbc24f96daff3"
+    },
+    {
+      "path": "public-site/components/ui/separator.tsx",
+      "bytes": 694,
+      "sha256": "6da346505c8629a4668420d2a5ca48891383bbe0b0ceb14163537c671879427e"
+    },
+    {
+      "path": "public-site/components/ui/sheet.tsx",
+      "bytes": 4188,
+      "sha256": "63863cf2df8f8973e52b3459ac9bdbf81be1262dbc70eb53d5271ffb03488e16"
+    },
+    {
+      "path": "public-site/components/ui/sidebar.tsx",
+      "bytes": 21526,
+      "sha256": "4a8d73e7730a2b1fcecfca31299ed26db65c2307b84197a59c6ec7c01c7ad28e"
+    },
+    {
+      "path": "public-site/components/ui/skeleton.tsx",
+      "bytes": 276,
+      "sha256": "ba48dd5be5a6a1378bd4e011028654b5bf419f1e7d20ee4b9f8330c1264e7239"
+    },
+    {
+      "path": "public-site/components/ui/slider.tsx",
+      "bytes": 1991,
+      "sha256": "0e37484f4b416e79ac18c655cac961aefacf6e67085cfc2b320ea8af545635a3"
+    },
+    {
+      "path": "public-site/components/ui/sonner.tsx",
+      "bytes": 1034,
+      "sha256": "13ccc9b0fe4248e622f83a1d3b2f0566b72b5e04162d7d0c8db8945ecc71b55f"
+    },
+    {
+      "path": "public-site/components/ui/spinner.tsx",
+      "bytes": 331,
+      "sha256": "3e6e6e8d37fb4069f8e43e55318f8db06fbc36e6c8be0096da3c9337c1c798b9"
+    },
+    {
+      "path": "public-site/components/ui/switch.tsx",
+      "bytes": 1408,
+      "sha256": "386d4d4deb39f34126f9700fe9bf5393d238485dd94018bba9d154dda84c62ae"
+    },
+    {
+      "path": "public-site/components/ui/table.tsx",
+      "bytes": 2478,
+      "sha256": "20e5a7f224959c6b75802995706a97e9da171f693d4b6b1b436388fcd9df96f3"
+    },
+    {
+      "path": "public-site/components/ui/tabs.tsx",
+      "bytes": 3782,
+      "sha256": "865d0194331b9b2be36723fa79d3575dc83078b4cb941cafee87cb72fc2cff46"
+    },
+    {
+      "path": "public-site/components/ui/textarea.tsx",
+      "bytes": 759,
+      "sha256": "253cdeb487c73beaaccdf47fc163e36e7d5b7ae6ddf09a4f64998a109a112979"
+    },
+    {
+      "path": "public-site/components/ui/toggle-group.tsx",
+      "bytes": 2308,
+      "sha256": "69f643e889e933f05c1439084480d8646f66a161c7d1cf0730ee926382ade35e"
+    },
+    {
+      "path": "public-site/components/ui/toggle.tsx",
+      "bytes": 1565,
+      "sha256": "ba4d0b0a2b2fee75dc36dfc19e32082e721024b919050c97fd5dc70faa924e16"
+    },
+    {
+      "path": "public-site/components/ui/tooltip.tsx",
+      "bytes": 1830,
+      "sha256": "a0784eb77831a799fad7991df4f1b666f876201565a80175e1aa68733574a2e4"
+    },
+    {
+      "path": "public-site/db/index.ts",
+      "bytes": 423,
+      "sha256": "dc7610b00b918e0ffff1360a63626f16655ced3064b2eaf96095a4101fb14bcd"
+    },
+    {
+      "path": "public-site/db/schema.ts",
+      "bytes": 169,
+      "sha256": "13ddacbf0be50e054d450a6c642b7fdc1aa943fd6b99084711e07e58b600390d"
+    },
+    {
+      "path": "public-site/drizzle.config.ts",
+      "bytes": 148,
+      "sha256": "af081f7384aaeb0082cf422e29f139d137ca2f6a57c69b2c37b9fb1f8479867b"
+    },
+    {
+      "path": "public-site/drizzle/meta/_journal.json",
+      "bytes": 61,
+      "sha256": "90cb374e093894d0efce6f1830d873a42aadd8ba49d2f024495e5cb2e1c8c303"
+    },
+    {
+      "path": "public-site/eslint.config.mjs",
+      "bytes": 791,
+      "sha256": "eeda7faabe9560fa9fdb26675b0011fa78461ca7061989732f5da9245b87e315"
+    },
+    {
+      "path": "public-site/examples/d1/app/api/notes/route.ts",
+      "bytes": 1700,
+      "sha256": "a3d4a74fd53b7bf53e2df41f169d9d9d44a8b22aeb6d92f4e754956079af8909"
+    },
+    {
+      "path": "public-site/examples/d1/db/schema.ts",
+      "bytes": 370,
+      "sha256": "d89eabd95716ce404f5f7ca2a254220435be8ddce7c899d7ef461ff22ec80454"
+    },
+    {
+      "path": "public-site/hooks/use-mobile.ts",
+      "bytes": 565,
+      "sha256": "ad0936f84f1df79d3697bfbff9c18f8ad58431c1cbaf2359c6a853b0fcc9f28b"
+    },
+    {
+      "path": "public-site/lib/ai.ts",
+      "bytes": 12482,
+      "sha256": "b0bf95af7eff5bb36cfc09e8f07e77ce61b35f03b6acbd31789917c3baa8a603"
+    },
+    {
+      "path": "public-site/lib/awards.json",
+      "bytes": 1700,
+      "sha256": "b55dd5f7fc0ade8c6a7374c0bd6b87a444cbfc87e756bfde254d3aaeeb119537"
+    },
+    {
+      "path": "public-site/lib/catalog.json",
+      "bytes": 12003,
+      "sha256": "efcd26617c55adef467cfc6394f88f4f81e24b22f7670dd4a9075661f951e11e"
+    },
+    {
+      "path": "public-site/lib/connector-context.ts",
+      "bytes": 612,
+      "sha256": "bbddff68689cb0f6926fecd4b8b96f12f2054277c296e97b0df07d4ad5ece24e"
+    },
+    {
+      "path": "public-site/lib/connector-contract.mts",
+      "bytes": 5362,
+      "sha256": "e1a7b24a8793af34b595690d9b1300c897c7321c14f215cedf58ad95799d7c3e"
+    },
+    {
+      "path": "public-site/lib/connector-errors.mts",
+      "bytes": 2717,
+      "sha256": "a22edf13d6873ae832c4a2a0d579fc666c73ec996ef0722d39172649d38f0871"
+    },
+    {
+      "path": "public-site/lib/connector-preview.d.ts",
+      "bytes": 433,
+      "sha256": "abd69a94f7f61f1359063bb557574faae35e8ff5a028cc4c04b9ee248ef52642"
+    },
+    {
+      "path": "public-site/lib/connectors.ts",
+      "bytes": 416,
+      "sha256": "1c93d747e384c8e17e3e3dd5361b24412babf5eba2a11d2ae7a75f4e0924112c"
+    },
+    {
+      "path": "public-site/lib/corpus-map.json",
+      "bytes": 1755,
+      "sha256": "1191e2b5bc2a315a18097ab55a0b69c866ba0848dbefeceac75fd7656eb9ca0b"
+    },
+    {
+      "path": "public-site/lib/corpus.json",
+      "bytes": 27159,
+      "sha256": "feac3072c5720c8489d6f3cc552081636d432f3cc1435f6a1830df9f5ac4a6b6"
+    },
+    {
+      "path": "public-site/lib/pages.json",
+      "bytes": 39980,
+      "sha256": "682bb6b87294751b9dcdf422535ff7e4b1270fb202def50ea22aba120246cd48"
+    },
+    {
+      "path": "public-site/lib/speech.ts",
+      "bytes": 4654,
+      "sha256": "2d8ae7f9794c596e711ff24a5ffc4a7f97f541459b6077d12ac809469e5da708"
+    },
+    {
+      "path": "public-site/lib/support.json",
+      "bytes": 1149,
+      "sha256": "b98bbdeac05c9ecdc243060b69970e64ee89175ec61c3723ebabe85cf60f12ba"
+    },
+    {
+      "path": "public-site/lib/transcribe.ts",
+      "bytes": 4269,
+      "sha256": "1148df94cedcb900b6f13a10a670e915181a57366a23c8c3628c5d2b80e89bb7"
+    },
+    {
+      "path": "public-site/lib/utils.ts",
+      "bytes": 177,
+      "sha256": "53f3d3d070f0a9082934da25b875f9499855c2b0693868dd28be8c23d8730f68"
+    },
+    {
+      "path": "public-site/next.config.ts",
+      "bytes": 133,
+      "sha256": "614bce25b089c3f19b1e17a6346c74b858034040154c6621e7d35303004767cc"
+    },
+    {
+      "path": "public-site/package.json",
+      "bytes": 1422,
+      "sha256": "612942861e9bcda9c2fb602f6f91de3aaa0ea3e9ca4166ebc0913eabdf21d3ed"
+    },
+    {
+      "path": "public-site/pnpm-lock.yaml",
+      "bytes": 107242,
+      "sha256": "84e7a680d7a467644bc021acfdc3e73bfd82e3a7f5587cf11c8f51a1bb640462"
+    },
+    {
+      "path": "public-site/pnpm-workspace.yaml",
+      "bytes": 60,
+      "sha256": "572249dc99f1eace6dd63b241ae8855edfc7955c3de6ee3087e7caaa6309548a"
+    },
+    {
+      "path": "public-site/postcss.config.mjs",
+      "bytes": 30,
+      "sha256": "febab8119449852cd7ed7e0ca623488045d7419b469320be03ec464f094f2d1c"
+    },
+    {
+      "path": "public-site/public/favicon.svg",
+      "bytes": 712,
+      "sha256": "e6d2e59b7b5bbb0342e0fb496dfc262decbfe4426bbb7b047aec8d467d1dc6f7"
+    },
+    {
+      "path": "public-site/public/static/core/ai-bridge.js",
+      "bytes": 10565,
+      "sha256": "044d533e3ed24a7a58cdfa963ca86d615bcec0e101b4bb7fd187524e1edc3f17"
+    },
+    {
+      "path": "public-site/public/static/core/ai.css",
+      "bytes": 1629,
+      "sha256": "cbc9e6a5f143c7c6d1619100581448fad989a907d04c465ca7c1f73e4495cbed"
+    },
+    {
+      "path": "public-site/public/static/core/appearance-worker.js",
+      "bytes": 6574,
+      "sha256": "4200cdad8410403da0959b3902f6a1d645b9b7bc11dc04cb0af9e3255d80be3b"
+    },
+    {
+      "path": "public-site/public/static/core/appearance.js",
+      "bytes": 11506,
+      "sha256": "4bb957164188777e1fc02202ad8dcc843dfcf490df55adf700e2b0f08169f2e5"
+    },
+    {
+      "path": "public-site/public/static/core/awards/architecture.png",
+      "bytes": 1741456,
+      "sha256": "837deb1107a9fbe87e128d18f5424ec74e6f1e7707665fb6f7e720e73cf5432f"
+    },
+    {
+      "path": "public-site/public/static/core/awards/care.png",
+      "bytes": 2340935,
+      "sha256": "811e165a5f72a6e1e45d7da7cc2b448a768fe2c9d841c69f284afba60fcd0dba"
+    },
+    {
+      "path": "public-site/public/static/core/awards/detail.png",
+      "bytes": 2332910,
+      "sha256": "f40bc1f9b67c7d7b4c0da44fd2d47ca5b3f3adb2d447efd38b988c5a49c10abb"
+    },
+    {
+      "path": "public-site/public/static/core/awards/imagination.png",
+      "bytes": 1616447,
+      "sha256": "a93bbe972b56a3bd23514c91ed265d0616ac99228df22aee976fa4ef49f2ea32"
+    },
+    {
+      "path": "public-site/public/static/core/awards/landscape.png",
+      "bytes": 2366148,
+      "sha256": "877e638c65671bf6d03722af734a978c1acf7b06934114bba16c4ae8c85b7126"
+    },
+    {
+      "path": "public-site/public/static/core/awards/nature.png",
+      "bytes": 1772604,
+      "sha256": "2f116a90756762f975c05464b5c11ea29b3ffeb2e45b4d11de83ddd3d9dbbb4a"
+    },
+    {
+      "path": "public-site/public/static/core/awards/roads.png",
+      "bytes": 2316603,
+      "sha256": "8b819cd6c922ab6854cd7d1dbafa1e5d1be41266e8e73c273e89aee483aea430"
+    },
+    {
+      "path": "public-site/public/static/core/awards/story.png",
+      "bytes": 1744873,
+      "sha256": "b3759d03d93d2603d113aca6699ccfd828f0697192ccca8f4ac29873cd6103ff"
+    },
+    {
+      "path": "public-site/public/static/core/awards/surprise.png",
+      "bytes": 2372340,
+      "sha256": "5571e1de272dadb29ad0a7ab88166aba8e4668d37cb78aaa6733f4b6e969d991"
+    },
+    {
+      "path": "public-site/public/static/core/awards/trying.png",
+      "bytes": 2352165,
+      "sha256": "56740767a8c52ce41b97c1eed762d055efd710ce1685b6c66a1de8ee5ad34a9e"
+    },
+    {
+      "path": "public-site/public/static/core/build-theme.css",
+      "bytes": 8622,
+      "sha256": "c428ed649883ca2d1771dfa5f64aa45a97a77cf639b9c32b02081ea34aa0eb29"
+    },
+    {
+      "path": "public-site/public/static/core/build.js",
+      "bytes": 24271,
+      "sha256": "a43a77e0607f2d3ff0058d601ed067628d4c28c75fe3947c1afd2087f1b4ec94"
+    },
+    {
+      "path": "public-site/public/static/core/camera.js",
+      "bytes": 6954,
+      "sha256": "583b98ddae66b8e946b4106356b40c91264f0861779a997824fbb0c58989755a"
+    },
+    {
+      "path": "public-site/public/static/core/card-recognition.js",
+      "bytes": 4894,
+      "sha256": "9887db675b8a3e2828115b965571c69d4c0c869b227b374d5777679a49b93838"
+    },
+    {
+      "path": "public-site/public/static/core/cards.css",
+      "bytes": 1600,
+      "sha256": "fd67b6a9e824b50dea150fb2b16b882ea584d9980911703f44d7d5ad28f9cb3a"
+    },
+    {
+      "path": "public-site/public/static/core/cards/house.svg",
+      "bytes": 3690,
+      "sha256": "f04d4adbd6f03d3f832f8fe1fe60925cdd20c36c544c74bc7b472e4415916390"
+    },
+    {
+      "path": "public-site/public/static/core/cards/person.svg",
+      "bytes": 5049,
+      "sha256": "4a45b5e731d41275fadafc2de4551a97f34ae6a34f4cd58da5b363fb67a1504b"
+    },
+    {
+      "path": "public-site/public/static/core/cards/tree.svg",
+      "bytes": 3521,
+      "sha256": "c5fd6da26e2fe2a4620840489cc6ab4b1c50b35606328c4f1d946e9155967fbe"
+    },
+    {
+      "path": "public-site/public/static/core/corpus-map.js",
+      "bytes": 1787,
+      "sha256": "8af95ebb57d0f0ccba4550e016956aa4921a85a7d9ece5efe51c0f49178c2903"
+    },
+    {
+      "path": "public-site/public/static/core/corpus/sandplay-corpus.json",
+      "bytes": 27159,
+      "sha256": "feac3072c5720c8489d6f3cc552081636d432f3cc1435f6a1830df9f5ac4a6b6"
+    },
+    {
+      "path": "public-site/public/static/core/cover-eyes.js",
+      "bytes": 9759,
+      "sha256": "0cf9e723dde79e97852a1f6b3b6b5faefbaf0eb25c600771222efc068ed362e8"
+    },
+    {
+      "path": "public-site/public/static/core/cover.css",
+      "bytes": 3870,
+      "sha256": "01c88755c2b3633b5fb1628b3b6f4e03652343c82c3df76ae5f1f4a39de5175a"
+    },
+    {
+      "path": "public-site/public/static/core/feedback.css",
+      "bytes": 11100,
+      "sha256": "9c8f3945addbdc285a36cd5dd98d00d49d61f473b8f5f7aa32de1eacd8899e11"
+    },
+    {
+      "path": "public-site/public/static/core/feedback.js",
+      "bytes": 12818,
+      "sha256": "c0f5d900a05a7f5d626eae4950b48f0f116c65058de5086df8389bd711da20e8"
+    },
+    {
+      "path": "public-site/public/static/core/fonts/OFL.txt",
+      "bytes": 4398,
+      "sha256": "538078469839b4a2e7ad22bef4ebe41681a4e53749bb2a072144024f1d6d703d"
+    },
+    {
+      "path": "public-site/public/static/core/fonts/ZCOOLKuaiLe-Regular.ttf",
+      "bytes": 1514968,
+      "sha256": "812a6fc1fe54b6d73a419245c32dfeba8aa33104d5be90d1cf6af082007cb71d"
+    },
+    {
+      "path": "public-site/public/static/core/home.js",
+      "bytes": 2276,
+      "sha256": "ab7470e37a31e4005834883ba3ec45b43ff5d66ec81669c385cbf86f8fdf325b"
+    },
+    {
+      "path": "public-site/public/static/core/images/COVER_EYE_ASSET.md",
+      "bytes": 1272,
+      "sha256": "855c43245c773d2354bdfefb70d8063db2a897616d467987c74fb726c6271310"
+    },
+    {
+      "path": "public-site/public/static/core/images/build-reference.png",
+      "bytes": 1298219,
+      "sha256": "e72486d16726600304099762d75a5bae2b513d55e9e645f7193534654cace0c1"
+    },
+    {
+      "path": "public-site/public/static/core/images/cover-eye-clean-plate.png",
+      "bytes": 2192163,
+      "sha256": "99045d7c695f159a40acce0dda54a687ee8d42255db1bd95faf511e91ed731d8"
+    },
+    {
+      "path": "public-site/public/static/core/images/cover-house-clean.png",
+      "bytes": 2211054,
+      "sha256": "4b08e42f8afacaab9afc75f0f7512bef1f4a586ceb8a35317c404cb83919bd74"
+    },
+    {
+      "path": "public-site/public/static/core/images/cover-mask.svg",
+      "bytes": 335,
+      "sha256": "1400c9022cbd789f0bd93574ce4ad3b703910f2ff18573019ee515eedcb71651"
+    },
+    {
+      "path": "public-site/public/static/core/images/cover-wide-mask.svg",
+      "bytes": 334,
+      "sha256": "2776e1bf3cee9048ad8d236a81b9ade1d16d246eb19431c48215637670f01f9a"
+    },
+    {
+      "path": "public-site/public/static/core/images/cover-wide.png",
+      "bytes": 2732708,
+      "sha256": "3c0a9a4fa90a1cdd1a27033d64b48566ac31176bca8e5dec7483f2cd83124387"
+    },
+    {
+      "path": "public-site/public/static/core/images/cover.png",
+      "bytes": 1948724,
+      "sha256": "72e31bd13c66e2d7a18520d68f492f9fcc9fc487b539c92b8445fe4d9df03413"
+    },
+    {
+      "path": "public-site/public/static/core/images/friends-mask.svg",
+      "bytes": 328,
+      "sha256": "4aca5ac685dd09af9fb4f6223145326de0c49631b31eceb669145787bc31d81a"
+    },
+    {
+      "path": "public-site/public/static/core/images/pink-mask.svg",
+      "bytes": 177,
+      "sha256": "bf329393a9e3f2de5f8137e3c123c61f658a51d68853c02d226e29874bd98247"
+    },
+    {
+      "path": "public-site/public/static/core/images/purple-mask.svg",
+      "bytes": 261,
+      "sha256": "aede9b9f143ec017a93e567b75e951f4f2b7ced88e9549d656a8dd30c3253312"
+    },
+    {
+      "path": "public-site/public/static/core/images/statistics-reference.png",
+      "bytes": 455856,
+      "sha256": "97f7453c297b8b66e621e928459af63799174e824057874fc2b2e4804342140a"
+    },
+    {
+      "path": "public-site/public/static/core/images/wordmark.svg",
+      "bytes": 114198,
+      "sha256": "603ccf3b493bfb29f81e922fc050e62578661f82a47795d9f632dc27a9bb5965"
+    },
+    {
+      "path": "public-site/public/static/core/images/xiaoyu-cloud.svg",
+      "bytes": 1649,
+      "sha256": "ae3696675a2c30e465238ffa2aa823f51f68d08b94bb7d4dc0d97c235b72bfb3"
+    },
+    {
+      "path": "public-site/public/static/core/images/xiaoyu-expressions.png",
+      "bytes": 187660,
+      "sha256": "fff1ac9b73d43a4493775443014fdae040c0b40d19a7c734b799cc9508aba227"
+    },
+    {
+      "path": "public-site/public/static/core/images/yellow-body-mask.svg",
+      "bytes": 134,
+      "sha256": "0d0089dd2eb7572ed70613518c2d7c9c0d6c9ac4bab667a3da626be538af4835"
+    },
+    {
+      "path": "public-site/public/static/core/images/yellow-detail-mask.svg",
+      "bytes": 269,
+      "sha256": "f5e387d37762ce6a249a014351f3426357ff369b2f92398595fd99b455b4102f"
+    },
+    {
+      "path": "public-site/public/static/core/images/yellow-mask.svg",
+      "bytes": 140,
+      "sha256": "20ea6b0220baf7a5a25dbd1b1bae52196870b605b79ec4a6e41b039ef75a76f8"
+    },
+    {
+      "path": "public-site/public/static/core/mascot-motion.css",
+      "bytes": 751,
+      "sha256": "8f5af284339abfcb72334b8cf8e5322abf658945c2886acc205a2d639a71bfff"
+    },
+    {
+      "path": "public-site/public/static/core/mascot-motion.js",
+      "bytes": 4569,
+      "sha256": "3daa83965e3b001cbb3ae1a5c4a2e72bd6b064edf5af0c5122ffa5f92f754366"
+    },
+    {
+      "path": "public-site/public/static/core/report.css",
+      "bytes": 3839,
+      "sha256": "bc6b93d8e7b42dcc7b539416350d2addd0d3b77b6a08585ea8b4d497049f93a8"
+    },
+    {
+      "path": "public-site/public/static/core/report.js",
+      "bytes": 6907,
+      "sha256": "5d41f268953942dce7841a8181ca29b7e6db91d70453863d81e775bca17a2dda"
+    },
+    {
+      "path": "public-site/public/static/core/sandbox.css",
+      "bytes": 9851,
+      "sha256": "ba8d57089d26cce8773426d0c490e7af40fac15e4c0d9ed7423e93ce6436bbc0"
+    },
+    {
+      "path": "public-site/public/static/core/sandbox.js",
+      "bytes": 2773,
+      "sha256": "088023e711dd60babc7bbc8022b473abf98cdd29776c00505019474b282cf986"
+    },
+    {
+      "path": "public-site/public/static/core/sandplay-ai.js",
+      "bytes": 10933,
+      "sha256": "fdb505d73e940040b6c4f98531cbe399edcb83f03dba26153c882b7dbf263592"
+    },
+    {
+      "path": "public-site/public/static/core/scene-life.js",
+      "bytes": 7225,
+      "sha256": "33b8774e974f66267c1de5eb7dafb5f12a4fdf8a625a39632d645b04f520749c"
+    },
+    {
+      "path": "public-site/public/static/core/scene-world.js",
+      "bytes": 3888,
+      "sha256": "a64e7f5e74c17df56a20deeefaaf6c0e64d34a6dda1788b59c18a274b52cf66f"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/PROMPTS.md",
+      "bytes": 4543,
+      "sha256": "53b18e2abc8b997323ed799e71bae9e380aa78d9efdbbb1002931ed42c9d6382"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/animal-motion-clean.png",
+      "bytes": 1793554,
+      "sha256": "622c832f3f17dd22e4419b80a886c0796c007d33ca8ac356b410a11681ed6fa7"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/animal-user.png",
+      "bytes": 1686348,
+      "sha256": "43c05c85e6cd5960d9577c079f9358d73d3e2a09833756b63b7856ea4f689ce3"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/animal.webp",
+      "bytes": 247636,
+      "sha256": "62c095d51f61f8ec6922d021034c0733fba1225f5faef61210a68f3f5870461f"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/city.webp",
+      "bytes": 228902,
+      "sha256": "2a1ef6fee694d6938063355c4fadd4e655cc8876d18964b199985a2c7fac9b5d"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/free.webp",
+      "bytes": 246878,
+      "sha256": "f18abc1f8c77e71d7ca473d3018343c2439123034f0d6166e660d8432c3bb9a7"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/nature-user.png",
+      "bytes": 1709576,
+      "sha256": "9ade55bba7c7661e3ad490c6be78cb269b75973f3e9a9411d1179fed397878a9"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/nature.webp",
+      "bytes": 263148,
+      "sha256": "7be6e376a13f206883707757f800bf278a42e2a48d5a09e1189bb019bb9ff131"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/ocean.webp",
+      "bytes": 218836,
+      "sha256": "6f36556cb97b7b9fd85a98093c2285541b2b13196ba8bf922f3dfb122a492dd7"
+    },
+    {
+      "path": "public-site/public/static/core/scenes/space.webp",
+      "bytes": 273924,
+      "sha256": "519df48cbe5caa49b228719d0c72da88bd5de0a0657592ecb9042414a038843d"
+    },
+    {
+      "path": "public-site/public/static/core/split-view.css",
+      "bytes": 21427,
+      "sha256": "9fea063e849abaf1049df69e46289daa1bb12df5dba5bd7309a1a9a518f19c64"
+    },
+    {
+      "path": "public-site/public/static/core/style.css",
+      "bytes": 12847,
+      "sha256": "0444cc9d97d128cf975636fc3d95ee0f0984e82d8a70d8a385377e5f9bd16ac0"
+    },
+    {
+      "path": "public-site/public/static/core/toy-catalog.js",
+      "bytes": 12029,
+      "sha256": "ea3b520c6906b38380414226ddb53d67a9d6a5b53c80be2b8b9dc2b134722734"
+    },
+    {
+      "path": "public-site/public/static/core/toys/adult-reference.jpg",
+      "bytes": 5331,
+      "sha256": "0292ad9efd7916a27422404ac9eb3c769d945d77c9a495f0a20bc53f84797124"
+    },
+    {
+      "path": "public-site/public/static/core/toys/adult.png",
+      "bytes": 17244,
+      "sha256": "c49916ba2f2a73352709e9e98d7ff35d9251c7b8c6100518dfa1c6126477484f"
+    },
+    {
+      "path": "public-site/public/static/core/toys/alarm-reference.jpg",
+      "bytes": 5821,
+      "sha256": "b39cde5e711d3518f33dbf3677d433f5b9c82eab71154be097186e055ff5116d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/alarm.png",
+      "bytes": 18479,
+      "sha256": "746aa5076b9c6a6f65e718b6b0e3722f7a5a4887a43576cec10b314845a4928b"
+    },
+    {
+      "path": "public-site/public/static/core/toys/arch-reference.jpg",
+      "bytes": 6378,
+      "sha256": "22164b01a1ddb25086e5429190843e95b2738f6f2fb2831c5f411f3076ef30ff"
+    },
+    {
+      "path": "public-site/public/static/core/toys/arch.png",
+      "bytes": 22782,
+      "sha256": "36f940d87018d4e8680cad0b0f8b0bc6ce76efc346062917651562e7874f4244"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bag-reference.jpg",
+      "bytes": 6705,
+      "sha256": "ac933be526eee376f88907f78c1669741f5579d5fe528bb19b008b4b4fa3a8f4"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bag.png",
+      "bytes": 20980,
+      "sha256": "ed658e70e81da9ee14e4b96318795b92b65bdbd6bd66e60ce77de3d48c379c1d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/balance-reference.jpg",
+      "bytes": 4153,
+      "sha256": "b02dfdfc773728ef50d6a369fed7c5280627909749fad6bbeef5570c88f35eaa"
+    },
+    {
+      "path": "public-site/public/static/core/toys/balance.png",
+      "bytes": 13653,
+      "sha256": "8f0b840c7e08157df422852b161430881cbb8b4d9952af61a09809089c37e4e6"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bed-reference.jpg",
+      "bytes": 6026,
+      "sha256": "f55281a906103fc36167ff18f23975de60815b40887b9af0182e1e08bd313f51"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bed.png",
+      "bytes": 18796,
+      "sha256": "26278fe6a32c6188b36f12191da720faac4c3d2b1dd43411ecafee55c987e8b8"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bike-reference.jpg",
+      "bytes": 6811,
+      "sha256": "a1b0be3e6e5475286d7beb0b718ccd903422c5cbfbf1b11c79110f223d81cc86"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bike.png",
+      "bytes": 19901,
+      "sha256": "b4061ef6037363ad030d8773b4011f7dd1703a7dbc0c8a5f9c4eb472e6eec752"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bird-reference.jpg",
+      "bytes": 6398,
+      "sha256": "bd41a54353a11d7417f5ede7cbe6b9a249bd560313566dc3325ad22772fc405c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bird.png",
+      "bytes": 22423,
+      "sha256": "42daf1397143cd4f2417f8be12e1705c328a98220c6b193616b62d30628c333c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/boat-reference.jpg",
+      "bytes": 6007,
+      "sha256": "bcfa8cd91e9184046680fabc6e4139cdc50067cda413c91907fc09d1ab544bd3"
+    },
+    {
+      "path": "public-site/public/static/core/toys/boat.png",
+      "bytes": 18156,
+      "sha256": "2352549911c504020170053cdaaf76470c86c3d1db3c6ad7343aba6188e66f71"
+    },
+    {
+      "path": "public-site/public/static/core/toys/books-reference.jpg",
+      "bytes": 6809,
+      "sha256": "d2ccbbbf78521a31e3124c8adbfcba761e16826e98321dd8d9f7beecb13b3cde"
+    },
+    {
+      "path": "public-site/public/static/core/toys/books.png",
+      "bytes": 20783,
+      "sha256": "b4b108d2122bc09af0c3f9d8baee8123e6bc3867c16a8aee0d2b17617d92a5ba"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bridge-reference.jpg",
+      "bytes": 7238,
+      "sha256": "d269d3912736d9e657ad6cb289e8c9f234b5ab8650810102f94d90f960109c7d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bridge.png",
+      "bytes": 23100,
+      "sha256": "3e246ff5c2e42c4dd9f4cc24f406c992acfc6f4d967331cf2514738962423ac8"
+    },
+    {
+      "path": "public-site/public/static/core/toys/brokenwall-reference.jpg",
+      "bytes": 7417,
+      "sha256": "1238ed80344f64817d20a92b3af360dc66b379dbe0e6c2262b76fa37f223ab9c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/brokenwall.png",
+      "bytes": 25581,
+      "sha256": "6605e2ffa29206b272f3fef0a4eebc78508be819673c2dd8fb1c2b246c869cd0"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bus-reference.jpg",
+      "bytes": 7246,
+      "sha256": "c5c2c862c998160833b8024fdfa66f81b227b4ec53b94208b7b0e38e8cecc5f5"
+    },
+    {
+      "path": "public-site/public/static/core/toys/bus.png",
+      "bytes": 20634,
+      "sha256": "eb47976762d61963d5a687aa340232b311963eb92e9078e6391221f517ac6bf7"
+    },
+    {
+      "path": "public-site/public/static/core/toys/cactus-reference.jpg",
+      "bytes": 6098,
+      "sha256": "177f47c85af75446ca59f994393e48b57cd6c69e7e51a54bef4ffe77f6f32d42"
+    },
+    {
+      "path": "public-site/public/static/core/toys/cactus.png",
+      "bytes": 18917,
+      "sha256": "f394f8874a8459d05fc7425f6a9d5fb3cf65c060a276de3b1f07cff899254bc7"
+    },
+    {
+      "path": "public-site/public/static/core/toys/car-reference.jpg",
+      "bytes": 7187,
+      "sha256": "98bc0cd9ee431c3000c688c6a25b3c67956126fe5778b452996d9f701381cd2c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/car.png",
+      "bytes": 21799,
+      "sha256": "014b5569f8de4012ff37bf377597d16358ef3f2cbaf2266058f370e7c06f36b9"
+    },
+    {
+      "path": "public-site/public/static/core/toys/cat-reference.jpg",
+      "bytes": 6373,
+      "sha256": "b602923d0858651856b53b352c3e52db660a5d9123221364efc4bff6ed82bcab"
+    },
+    {
+      "path": "public-site/public/static/core/toys/cat.png",
+      "bytes": 20999,
+      "sha256": "97ab9b85aadf48b95ca5853ea9973423b281a27efdd82e767cd52c832715faeb"
+    },
+    {
+      "path": "public-site/public/static/core/toys/catalog.json",
+      "bytes": 16605,
+      "sha256": "86f8a79f28459e5a40f5b2eb8c748dded45947d3f2c7671d7bd834e3fe54d96c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/cave-reference.jpg",
+      "bytes": 5233,
+      "sha256": "c48ab1fc92e769a7f9f960abc0d9afc8fd54d7db8ea3ee694eac5b039d960717"
+    },
+    {
+      "path": "public-site/public/static/core/toys/cave.png",
+      "bytes": 20418,
+      "sha256": "41e514fd778d6257fab3b286bbc44cb706d7a1386694ea34899263dd0776a449"
+    },
+    {
+      "path": "public-site/public/static/core/toys/child-reference.jpg",
+      "bytes": 4063,
+      "sha256": "9fa9019f1da299bb52bc4fef2f0b51caa33b513435660179788a72d4b3b30652"
+    },
+    {
+      "path": "public-site/public/static/core/toys/child.png",
+      "bytes": 13359,
+      "sha256": "41b3efe70adbf23c303f24259af4b3e9f5ebfd70da424d570a1a7523f4ed4fda"
+    },
+    {
+      "path": "public-site/public/static/core/toys/companions-reference.jpg",
+      "bytes": 9671,
+      "sha256": "d9c070f22f85c746d57b063545c8eb009ecde28eea90b815f4230a52a071028c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/companions.png",
+      "bytes": 34022,
+      "sha256": "36534a4b9d0b4f266297ee59957a15ddf360014f2356ea96994a7dff2da1c4ca"
+    },
+    {
+      "path": "public-site/public/static/core/toys/curled-reference.jpg",
+      "bytes": 6579,
+      "sha256": "3cd232f69e554a8d45270f2977125087bbddc4441aa2c64847fe45f344de5ac0"
+    },
+    {
+      "path": "public-site/public/static/core/toys/curled.png",
+      "bytes": 24138,
+      "sha256": "86202048c210c5aa50d995c479ee8cdb144e59b2fcbaffd5d6bf1f97ed730bef"
+    },
+    {
+      "path": "public-site/public/static/core/toys/desk-reference.jpg",
+      "bytes": 6874,
+      "sha256": "f0a658d1d3b4a26fdc470ddc843d9e56e0d3d8544ce8875e03632c422fb32e89"
+    },
+    {
+      "path": "public-site/public/static/core/toys/desk.png",
+      "bytes": 22455,
+      "sha256": "c5c76e371dd228260d19b1706ad9abeb0d08b22e3a869da1ab2759f74d9288fb"
+    },
+    {
+      "path": "public-site/public/static/core/toys/dog-reference.jpg",
+      "bytes": 7744,
+      "sha256": "40ea8ca221f43169a1620243ba99c4dc3c0ef38ca2c347c7527a1d52d1facf13"
+    },
+    {
+      "path": "public-site/public/static/core/toys/dog.png",
+      "bytes": 27269,
+      "sha256": "128676688d75f17378607c3af0caad6c351abba475d663bd0fe99a2bfe4c11d1"
+    },
+    {
+      "path": "public-site/public/static/core/toys/dragon-reference.jpg",
+      "bytes": 8518,
+      "sha256": "3f3026fca57a5c7c8966697c04bc13049a312d09b346157ab70ac720a56c9888"
+    },
+    {
+      "path": "public-site/public/static/core/toys/dragon.png",
+      "bytes": 25084,
+      "sha256": "c94d633ca21f0ba89d0e674f796f4819f5b79f0c46b9b337012483e3376c138e"
+    },
+    {
+      "path": "public-site/public/static/core/toys/elder-reference.jpg",
+      "bytes": 5480,
+      "sha256": "fb0770121ad4b003ca3486120e61f6766f241f4221bce4a1832a6b89a0805fc3"
+    },
+    {
+      "path": "public-site/public/static/core/toys/elder.png",
+      "bytes": 16874,
+      "sha256": "68856c434a512c4c122d57957fde5fa3ee2ef8874c44a8b5dbc20f1e1f439e06"
+    },
+    {
+      "path": "public-site/public/static/core/toys/entrance-reference.jpg",
+      "bytes": 5127,
+      "sha256": "88cf1e96b2d4380a26c7adbd88e4ce11ea414efbe22813da4bd37139c180013c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/entrance.png",
+      "bytes": 15308,
+      "sha256": "fc6c3d3c0d5afcbc17cb07b51ad388fc4420e8a45e3698bc9cd3964e7b9022f8"
+    },
+    {
+      "path": "public-site/public/static/core/toys/fence-reference.jpg",
+      "bytes": 4887,
+      "sha256": "9bb800c87fe5996a7b59d904fea5d9eae9292164b59860ac25fd921dee7a76f8"
+    },
+    {
+      "path": "public-site/public/static/core/toys/fence.png",
+      "bytes": 15039,
+      "sha256": "0cd9e61886fb09aed0cc6d1fb4717fc1a0dfd17738b50f66130178d422c817ab"
+    },
+    {
+      "path": "public-site/public/static/core/toys/fish-reference.jpg",
+      "bytes": 7402,
+      "sha256": "a57f661839eb7f05b4a29166767db4649bc4870d1a0bb8ca1dbb864c52b24794"
+    },
+    {
+      "path": "public-site/public/static/core/toys/fish.png",
+      "bytes": 24667,
+      "sha256": "e57047fa099546b628fb8f60d11dd8c36cfa7b0f466459b61f1be77aff1b8f1e"
+    },
+    {
+      "path": "public-site/public/static/core/toys/flower-reference.jpg",
+      "bytes": 5995,
+      "sha256": "cb7ffd3d23d24ddadcd357fc01be7436ff7a7cbe67a7e88156a0984a700eaf32"
+    },
+    {
+      "path": "public-site/public/static/core/toys/flower.png",
+      "bytes": 18705,
+      "sha256": "59c436e51295c6dbf79520abdc98ca3e417f4c7337e96ca263b6e65561e03b7b"
+    },
+    {
+      "path": "public-site/public/static/core/toys/food-reference.jpg",
+      "bytes": 6467,
+      "sha256": "f7024ee0f76b224650bb5c882afab5b37a021a240412079ddd04534d835b690d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/food.png",
+      "bytes": 22478,
+      "sha256": "20369b83ec4f0405e57d4d046eed7ceba7d5fff2a7480c2a47b5834e93aaf49e"
+    },
+    {
+      "path": "public-site/public/static/core/toys/gate-reference.jpg",
+      "bytes": 5889,
+      "sha256": "83fb1801d529ad3e32794c965ad8c43423ba1cba42325439330297ee940a81cd"
+    },
+    {
+      "path": "public-site/public/static/core/toys/gate.png",
+      "bytes": 18023,
+      "sha256": "cb907c73f8516cdd8c92706cef24f948f4ee073bec9e3700b2e31df07e80a4b7"
+    },
+    {
+      "path": "public-site/public/static/core/toys/guardian-reference.jpg",
+      "bytes": 7199,
+      "sha256": "1f28c6afdc219f7adfafb423b08472e70424ea6a41b31c5ea47b02b39c4455fe"
+    },
+    {
+      "path": "public-site/public/static/core/toys/guardian.png",
+      "bytes": 22634,
+      "sha256": "e5e8a546b6e58f4f4d9621d2635a0bbc53c0c7057d83006a56bfcfda36e514d2"
+    },
+    {
+      "path": "public-site/public/static/core/toys/heart-reference.jpg",
+      "bytes": 6344,
+      "sha256": "b5fcd34dee85a294cb0381d44b55408638e7de9f9930862cfb12420599501f9d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/heart.png",
+      "bytes": 19824,
+      "sha256": "e731ead05dbd4fc0c7b5aa5c7fe36f257faab3c0b1b6a7a46544441010c59789"
+    },
+    {
+      "path": "public-site/public/static/core/toys/hero-reference.jpg",
+      "bytes": 8276,
+      "sha256": "9f90f44a0fa0684e439ae646f39563807baa9717f2fade795edba3ef39cd719a"
+    },
+    {
+      "path": "public-site/public/static/core/toys/hero.png",
+      "bytes": 24380,
+      "sha256": "959ec74791eee554ca41c3e18b2a0a65e6e3dedd17c3e975ea3ec09417976448"
+    },
+    {
+      "path": "public-site/public/static/core/toys/hospital-reference.jpg",
+      "bytes": 6310,
+      "sha256": "1a7db8bbba78ad3f7b39207d0c099f2a2f65a744c62753a1fe1ab0ed37b9e76e"
+    },
+    {
+      "path": "public-site/public/static/core/toys/hospital.png",
+      "bytes": 18449,
+      "sha256": "501c4ad500a336cf26e916d2b9838040fe407eeb9c11dbbe3e838935d5a3fc79"
+    },
+    {
+      "path": "public-site/public/static/core/toys/house-reference.jpg",
+      "bytes": 6019,
+      "sha256": "605eb34dcf6d5389ab294ef05df56fe12c40c9d3b97e763e053391936c2aa5ff"
+    },
+    {
+      "path": "public-site/public/static/core/toys/house.png",
+      "bytes": 19806,
+      "sha256": "7dc11bf93e679b9d229051fa6429cf1612cf6cc59e4711f6dcee80a8b0f67e7c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/king-reference.jpg",
+      "bytes": 5910,
+      "sha256": "92c4336cad979f652798fbb07547a4a482029c24cebfa88dcd34a729e9f89ae0"
+    },
+    {
+      "path": "public-site/public/static/core/toys/king.png",
+      "bytes": 17812,
+      "sha256": "41041601b37390e60f9e4679786d07fbe7f65d2f8d23e6a3ce170f1485c37b5d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/knot-reference.jpg",
+      "bytes": 5696,
+      "sha256": "968a6c028b8a248d6db12cf7f57ec64e25121907119ebbf367d112bee45cbcd0"
+    },
+    {
+      "path": "public-site/public/static/core/toys/knot.png",
+      "bytes": 19626,
+      "sha256": "7549a671cbf1b7fd8f50649543ffd75a33109f59cc22e3b4f5c310b8157079b0"
+    },
+    {
+      "path": "public-site/public/static/core/toys/lightning-reference.jpg",
+      "bytes": 4806,
+      "sha256": "b2e250051b6f2853245015eb09797f85a057bf8b7f885bff1fcd0948129c6f8f"
+    },
+    {
+      "path": "public-site/public/static/core/toys/lightning.png",
+      "bytes": 16707,
+      "sha256": "f8bbf9ec7e72fe50b08d049e451f6e3f38740e9e6b505d78887dd6c3120bf300"
+    },
+    {
+      "path": "public-site/public/static/core/toys/lock-reference.jpg",
+      "bytes": 5661,
+      "sha256": "96e7fa612a70872241d678d93b69e5605b3a20d8b79b94ff1fbff0ce9ed4ecbb"
+    },
+    {
+      "path": "public-site/public/static/core/toys/lock.png",
+      "bytes": 16842,
+      "sha256": "56f9dd1e58ba755d283b9480b1895a6443453c919b81efdcc6317dfe5e92d13d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/magicdoor-reference.jpg",
+      "bytes": 6768,
+      "sha256": "32707d4e1e47e6143240459299e0d3e36d4ee68197302aab5df8af70183115a4"
+    },
+    {
+      "path": "public-site/public/static/core/toys/magicdoor.png",
+      "bytes": 20978,
+      "sha256": "787c1420e5198775650ad1849fa5c1b886476aa81a7fdb46af2507bb2b281ea6"
+    },
+    {
+      "path": "public-site/public/static/core/toys/mask-reference.jpg",
+      "bytes": 7103,
+      "sha256": "a0992b38d601368086ea3302c56c6e5252de7b31fd90c8d139c4beae42fcd6e7"
+    },
+    {
+      "path": "public-site/public/static/core/toys/mask.png",
+      "bytes": 21207,
+      "sha256": "90bd0f88b1f12ee1fa7386aa6664d012a7f50134c122495d034855ec2936e50f"
+    },
+    {
+      "path": "public-site/public/static/core/toys/monster-reference.jpg",
+      "bytes": 7684,
+      "sha256": "dac53686d794ae656f4c143199a335b6a6116132f131a72052881d6e373f0425"
+    },
+    {
+      "path": "public-site/public/static/core/toys/monster.png",
+      "bytes": 23973,
+      "sha256": "0d5b1e8e63bfd9336ca1c375ab796a58a735c309120f27ecf55bc1c1a8cbbc7a"
+    },
+    {
+      "path": "public-site/public/static/core/toys/phone-reference.jpg",
+      "bytes": 5399,
+      "sha256": "7344d5f98175de6dd8f59736a7e2c24ee51cff2edc3b2c93cb6f614a6bcc7711"
+    },
+    {
+      "path": "public-site/public/static/core/toys/phone.png",
+      "bytes": 16846,
+      "sha256": "da65d318836712968403c5ee81ee4c94fbc538cd6f5f913cbc7c30a936e2c7b7"
+    },
+    {
+      "path": "public-site/public/static/core/toys/plane-reference.jpg",
+      "bytes": 7880,
+      "sha256": "af89bd5b6cba4d8ae3c9f42d732e0d6349206de1165d0a9eab22fbe756558769"
+    },
+    {
+      "path": "public-site/public/static/core/toys/plane.png",
+      "bytes": 23898,
+      "sha256": "4ca97bcdc0d9beba054d3925875e5793ef5adae31dbb8e2ab170e44944411040"
+    },
+    {
+      "path": "public-site/public/static/core/toys/rabbit-reference.jpg",
+      "bytes": 4997,
+      "sha256": "ce83e320dd90979e469bcd42d307020958d4bc11172841047ba508428500351c"
+    },
+    {
+      "path": "public-site/public/static/core/toys/rabbit.png",
+      "bytes": 16996,
+      "sha256": "f39a5ecddb4b50b96c28326325f518c87beb44ff377c1072449b0639908f2caa"
+    },
+    {
+      "path": "public-site/public/static/core/toys/reference-sheet.jpg",
+      "bytes": 449980,
+      "sha256": "e866f30348154f5353d98c0e7a05ccd692785ef895af08c35d056d8a03edcbbd"
+    },
+    {
+      "path": "public-site/public/static/core/toys/road-reference.jpg",
+      "bytes": 5303,
+      "sha256": "7a7769079160fcbf61f0272d385f24b5c6a00f35ebceb4e4c6c5767153281e41"
+    },
+    {
+      "path": "public-site/public/static/core/toys/road.png",
+      "bytes": 18217,
+      "sha256": "2919e6c14724c1b3fc1729fcd15a9770ddb4a0c3a9874ced3a0b1093d668659a"
+    },
+    {
+      "path": "public-site/public/static/core/toys/rocks-reference.jpg",
+      "bytes": 5393,
+      "sha256": "f06fd949ee6279a4ac26878b8aad8b91527b1263c3f5ef28825e9529be30a5c3"
+    },
+    {
+      "path": "public-site/public/static/core/toys/rocks.png",
+      "bytes": 22373,
+      "sha256": "1cd7086dd4b7c7ff8619b6824e395df0ccfdd454e366cf16b3c28314a840f333"
+    },
+    {
+      "path": "public-site/public/static/core/toys/school-reference.jpg",
+      "bytes": 8216,
+      "sha256": "45405ca045010f546ef45291076481e9628e64580fd85d26176b7a53986a66d4"
+    },
+    {
+      "path": "public-site/public/static/core/toys/school.png",
+      "bytes": 24071,
+      "sha256": "034f0d0a0e5f8e6486522ead3ffd4247be33b0ba7e4654383e5dfa98f68abb55"
+    },
+    {
+      "path": "public-site/public/static/core/toys/seated-reference.jpg",
+      "bytes": 6366,
+      "sha256": "b8c88cfdf07751e39638abfa807a5fc484a9f8d6ffddab3485ff84576c34626e"
+    },
+    {
+      "path": "public-site/public/static/core/toys/seated.png",
+      "bytes": 20944,
+      "sha256": "85680a6feee0d2bc917fd3c5f70bd95f7ea373c4a3e32fff1454de866d5c9fd3"
+    },
+    {
+      "path": "public-site/public/static/core/toys/shelter-reference.jpg",
+      "bytes": 6270,
+      "sha256": "27c52abafdc27c3298ea7d6444886243952a45f57d840200d96c5fd236ce1dd4"
+    },
+    {
+      "path": "public-site/public/static/core/toys/shelter.png",
+      "bytes": 23145,
+      "sha256": "4ef8672645e79d6c816a2554cd3b10f6c1c3ba03cd29d364d54a46e3a6383610"
+    },
+    {
+      "path": "public-site/public/static/core/toys/shield-reference.jpg",
+      "bytes": 6326,
+      "sha256": "d8bf835be1e4d0c555d8bc95bf9950ffbb1e39bcfce6bd7e1a55b61462cceb86"
+    },
+    {
+      "path": "public-site/public/static/core/toys/shield.png",
+      "bytes": 19058,
+      "sha256": "10a61800a513df894a8446a43799a5f02467aab7baf7b020f60060ddf2d53324"
+    },
+    {
+      "path": "public-site/public/static/core/toys/shop-reference.jpg",
+      "bytes": 7202,
+      "sha256": "ea68485e90387b59082bdf5282b77fe5415c10d3ec8f90b4e1e1846abce1a4a6"
+    },
+    {
+      "path": "public-site/public/static/core/toys/shop.png",
+      "bytes": 21334,
+      "sha256": "098e79bff4238669508df6d3903853da2172b62a78120458e628862d25b81263"
+    },
+    {
+      "path": "public-site/public/static/core/toys/splitball-reference.jpg",
+      "bytes": 4230,
+      "sha256": "8b3b3e239e50517508df5772a71f7e5c0a0a329f05bc5c7438d516a1afe1262d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/splitball.png",
+      "bytes": 14115,
+      "sha256": "da43c88a107d2595ef32bcdd323f17a5e7209546ebfef1ee82e558972a81c7ae"
+    },
+    {
+      "path": "public-site/public/static/core/toys/stairs-reference.jpg",
+      "bytes": 4361,
+      "sha256": "1a390f42617c852d1fa7fa781e0a08295bbd5c6f27d61417bb5932e9b2e9c375"
+    },
+    {
+      "path": "public-site/public/static/core/toys/stairs.png",
+      "bytes": 13016,
+      "sha256": "876a6a1e843dbb0ede754c0571d620aa934c2d4ecabe98512812fa87ee83a3c2"
+    },
+    {
+      "path": "public-site/public/static/core/toys/swirl-reference.jpg",
+      "bytes": 6017,
+      "sha256": "1c44fb0fef336eec41a051127cbe2e24bf922978ee5e0ee70900749bd92806cb"
+    },
+    {
+      "path": "public-site/public/static/core/toys/swirl.png",
+      "bytes": 20019,
+      "sha256": "3bb556af307f9b89f403a6a69b74ede94e8172e5a9f24ac572a54c957c762cd8"
+    },
+    {
+      "path": "public-site/public/static/core/toys/teen-reference.jpg",
+      "bytes": 5666,
+      "sha256": "0d5ec3e273546daa19b9fd03d5a611786457ae993d3323457ca1c3e2c1186540"
+    },
+    {
+      "path": "public-site/public/static/core/toys/teen.png",
+      "bytes": 16145,
+      "sha256": "60b0be77951247b878676dc8a395aa74b6d7414f5e0732afae96ebe9ea21ba39"
+    },
+    {
+      "path": "public-site/public/static/core/toys/tower-reference.jpg",
+      "bytes": 5217,
+      "sha256": "5a4fbb884ca6067536cbd4644cb9558ac7e5735358f263426dcf674ead031173"
+    },
+    {
+      "path": "public-site/public/static/core/toys/tower.png",
+      "bytes": 15428,
+      "sha256": "61df76067ebd9dba6a7da0e69ee1008427ddc464999d3683a35d5b2ed5ff2bda"
+    },
+    {
+      "path": "public-site/public/static/core/toys/train-reference.jpg",
+      "bytes": 7378,
+      "sha256": "579ef056a0a06e9651d8d09ff5e79984870364ee5333617804445cbce0045147"
+    },
+    {
+      "path": "public-site/public/static/core/toys/train.png",
+      "bytes": 23202,
+      "sha256": "88e372bf2b221993c5900a0b79109a7ffba6a2f397d7c78e2eafef1675ad1db6"
+    },
+    {
+      "path": "public-site/public/static/core/toys/tree-reference.jpg",
+      "bytes": 8264,
+      "sha256": "456fd37340d6276f05434e342d8aa4f5196569ebfdb94c468bdf33b72f0b2f9a"
+    },
+    {
+      "path": "public-site/public/static/core/toys/tree.png",
+      "bytes": 28035,
+      "sha256": "d817da5d5889a2516a5b29860165dbcf9ddcaf1da8bd04a8ca71c607422ec10e"
+    },
+    {
+      "path": "public-site/public/static/core/toys/turtle-reference.jpg",
+      "bytes": 7415,
+      "sha256": "bd55e14ae4322d429d390738d20fc04281204e5c20011ea2bfff3db943c02d18"
+    },
+    {
+      "path": "public-site/public/static/core/toys/turtle.png",
+      "bytes": 29810,
+      "sha256": "f75fecc9a5b60329309e5e32df6ca58e5e790437ed4131b919d521121f226735"
+    },
+    {
+      "path": "public-site/public/static/core/toys/volcano-reference.jpg",
+      "bytes": 7847,
+      "sha256": "ba111abd138909981c1b976b8fc390e1b3114e81fa5ec692f6ab91198e4ce6e6"
+    },
+    {
+      "path": "public-site/public/static/core/toys/volcano.png",
+      "bytes": 25737,
+      "sha256": "a4f13953b873568c9b6c2f4104e8b03a0927bc4e0cb9b88aa21e2489940e767d"
+    },
+    {
+      "path": "public-site/public/static/core/toys/wall-reference.jpg",
+      "bytes": 3623,
+      "sha256": "76396fb86df6d134fda82351dfa8b7cced97ed3cca55b6a46c4fa3a1823f67ce"
+    },
+    {
+      "path": "public-site/public/static/core/toys/wall.png",
+      "bytes": 11525,
+      "sha256": "e3d8844a10fe451ed50a91d1987ba501dd06234c3e5b2aaa1faf717175133374"
+    },
+    {
+      "path": "public-site/public/static/core/toys/water-reference.jpg",
+      "bytes": 8031,
+      "sha256": "7a05302c873816106c1e8fcb79da945b90026d799fb13c0d011844e9c5dbb221"
+    },
+    {
+      "path": "public-site/public/static/core/toys/water.png",
+      "bytes": 28127,
+      "sha256": "e1dd02d94bebcf344e6d8dbdb2e98f99014a2f4456548827ff7fbdddd08a7d52"
+    },
+    {
+      "path": "public-site/public/static/core/vendor/jsQR-1.4.0.js",
+      "bytes": 256885,
+      "sha256": "bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859"
+    },
+    {
+      "path": "public-site/public/static/core/vendor/jsQR-LICENSE.txt",
+      "bytes": 11358,
+      "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+    },
+    {
+      "path": "public-site/public/static/core/vendor/opencv-4.10.0.js",
+      "bytes": 10378215,
+      "sha256": "19b46167b59efbef9cc3836264b0b657110833e4b1df84282004b8b3141c048d"
+    },
+    {
+      "path": "public-site/public/static/core/vendor/opencv-LICENSE.txt",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "public-site/public/static/core/voice-input.js",
+      "bytes": 6688,
+      "sha256": "334a7a1eab1715f22bf582ff2299b661cbb8985e66ff4f807b887b3b5ebbb8b5"
+    },
+    {
+      "path": "public-site/public/static/core/xiaoyu-speech.js",
+      "bytes": 3988,
+      "sha256": "405d0420c7dce173997896e7dd80aa80d3ff4c0a3b8cf9bcbd070aef85654f71"
+    },
+    {
+      "path": "public-site/scripts/build-verified.sh",
+      "bytes": 661,
+      "sha256": "2ae5329ac860076070c9217a43106a15cb5ecf907a0f7baeb9ef903f76b53c68"
+    },
+    {
+      "path": "public-site/scripts/connector-preview/connector-preview-session.mjs",
+      "bytes": 6855,
+      "sha256": "57224ad185a25115a14fccc68d3217e55b199260c3dd98a2c807beffec1a0a9b"
+    },
+    {
+      "path": "public-site/scripts/connector-preview/host-binding.mjs",
+      "bytes": 7793,
+      "sha256": "9e44ab6864133a5c82f834a5904ebb7d6104cb783c24efba3c0fe1a161182cea"
+    },
+    {
+      "path": "public-site/scripts/connector-preview/protocol.mjs",
+      "bytes": 1781,
+      "sha256": "111e062ebf08d3f180130f5bc3dcb3c1414c1d7be3c032c9d675a61c0c7513a8"
+    },
+    {
+      "path": "public-site/scripts/connector-preview/worker.mjs",
+      "bytes": 618,
+      "sha256": "bd9c98fc68f29d975fe10508dfc9029bb681dc5789a62861d5c938bdea2064bb"
+    },
+    {
+      "path": "public-site/scripts/execution-profile.mjs",
+      "bytes": 624,
+      "sha256": "2e71116f4d2b70cff8bb70436f8dd5c709ec7ff62893424530f404e0193d3630"
+    },
+    {
+      "path": "public-site/scripts/import-pages.mjs",
+      "bytes": 652,
+      "sha256": "32ab825c529a917ad367094d1c5d08c1233c0317ee9d5764662e99446a7422e7"
+    },
+    {
+      "path": "public-site/scripts/install-ci.mjs",
+      "bytes": 1685,
+      "sha256": "4a5a92d60a08d0ba54effd8373da2da06284312c55b767287c68a0bec7200da7"
+    },
+    {
+      "path": "public-site/scripts/install-ci.sh",
+      "bytes": 6783,
+      "sha256": "10d8764a61be50351dc3496e13588270de7956f0aa5f1189c49cabb2d89fe5c0"
+    },
+    {
+      "path": "public-site/scripts/install-pnpm.sh",
+      "bytes": 9015,
+      "sha256": "a684c02c2b493dfbf262a66252a5cd36f81ca995a4024761728662ae63aa40c0"
+    },
+    {
+      "path": "public-site/scripts/npm-install.mjs",
+      "bytes": 7025,
+      "sha256": "9715c6a32d1d4a0289ef6376a0e819c3b6a6416b8a9877733d9fb4339ce626b6"
+    },
+    {
+      "path": "public-site/scripts/pnpm-install.mjs",
+      "bytes": 10633,
+      "sha256": "a83164e344c1947053def83b546be8115deaa827314bbaead7afe6b6451c5cdf"
+    },
+    {
+      "path": "public-site/scripts/run-framework.mjs",
+      "bytes": 993,
+      "sha256": "9bf9f41a29314cabe0238b8e9c540ec3f7b5a6adafc7c8fb6c3940722d061dca"
+    },
+    {
+      "path": "public-site/scripts/sites-env.mjs",
+      "bytes": 522,
+      "sha256": "21d7bde6acb9f716287e652c1b0e43ae4803d79be367ca2192fcba14740b5338"
+    },
+    {
+      "path": "public-site/scripts/sites-env.sh",
+      "bytes": 1600,
+      "sha256": "d18af7b222db748c9de257d5955b9d7f77ec350dab6321f114f0bc44c20388ac"
+    },
+    {
+      "path": "public-site/scripts/tool-environment.mjs",
+      "bytes": 791,
+      "sha256": "6da99286e0eb7905595ca851e68983bedf94a0f93814819d61f2b1f3a0342ba2"
+    },
+    {
+      "path": "public-site/scripts/vite/connector-preview-plugin.mjs",
+      "bytes": 7211,
+      "sha256": "a6a9fe2086e302f94a3f91e3c1a68a45bb3aa07d4a79faf01b14732191eb4e80"
+    },
+    {
+      "path": "public-site/scripts/vite/sites-vite-plugin.LICENSE",
+      "bytes": 1063,
+      "sha256": "7de1e115d165f176e68f962acdb809b5ab8d8ae78d3981e0701392b2ac50c713"
+    },
+    {
+      "path": "public-site/scripts/vite/sites-vite-plugin.ts",
+      "bytes": 7185,
+      "sha256": "07af20e7097d9ed1d76f7c446d02997550b8fc5ca89668b249e25eabd62c6834"
+    },
+    {
+      "path": "public-site/tsconfig.json",
+      "bytes": 893,
+      "sha256": "a4c1cc83b63ef9d39641d3babaefffa063dccbbc93338e18017b5013d713163e"
+    },
+    {
+      "path": "public-site/vendor/shadcn-tailwind-4.13.0.LICENSE.md",
+      "bytes": 1063,
+      "sha256": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f"
+    },
+    {
+      "path": "public-site/vendor/shadcn-tailwind-4.13.0.css",
+      "bytes": 16041,
+      "sha256": "bc7d83425702955b4cb67cb14ede9d603f9d912376d57a2d81d661094d2a782a"
+    },
+    {
+      "path": "public-site/vite.config.ts",
+      "bytes": 2673,
+      "sha256": "22ff558b1636d251e076f74c1697c7166079861667af10922d6bc505cb8f8290"
+    },
+    {
+      "path": "public-site/worker/index.ts",
+      "bytes": 1775,
+      "sha256": "ab14270d83771909c8190ab926519e79332aa2f1762155bf2a3c986e6bb68734"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 96,
+      "sha256": "c41d2d8a13d93869e00b47c9f39cc0979695f511760d4641096c036241211fd8"
+    },
+    {
+      "path": "scripts/export_site.py",
+      "bytes": 7789,
+      "sha256": "05e83dcef277278e7571880bf4b744c6f956d8819a226309a677bf036b4e240c"
+    },
+    {
+      "path": "scripts/generate_test_cards.py",
+      "bytes": 624,
+      "sha256": "464bacef17ce5b4908f1626f07caf37cde74172b25ad8d21942b3ad86118494d"
+    },
+    {
+      "path": "scripts/generate_toy_catalog.py",
+      "bytes": 4077,
+      "sha256": "54457106acb71b640d7860ab7d2ade03211f2dafc3753edc009132eeeab36718"
+    },
+    {
+      "path": "scripts/package_github.py",
+      "bytes": 7759,
+      "sha256": "a8036cd7c3b8bdf5c0de554c017517243c970cac3677c24dd0ea27a8525c98d9"
+    },
+    {
+      "path": "scripts/prepare_ai_runtime.py",
+      "bytes": 1119,
+      "sha256": "22639f47c30d789ba3bb35122df89e10aac422542f64902bb1c35323824629dc"
+    },
+    {
+      "path": "scripts/prepare_palette_references.py",
+      "bytes": 1620,
+      "sha256": "05c572b4cbf7c35c1ee2e01e1d6ce23f17e58ef050452790234290a92aa3a721"
+    },
+    {
+      "path": "scripts/trace_wordmark.py",
+      "bytes": 3544,
+      "sha256": "8bf9d79cd7b4be0404649d9f23ce641ab74907bad4dc83516c875e651512bbf8"
+    },
+    {
+      "path": "start-server.ps1",
+      "bytes": 181,
+      "sha256": "cc974f038591d646962a6dbbe895ac3a90e99e9f4fe0f12cb60fd61f5320cfb4"
+    },
+    {
+      "path": "启动网站.cmd",
+      "bytes": 233,
+      "sha256": "f0bd9f833680bc8793e74509031daa0f5de67e84db937d798bdc8397e6f1cd2d"
+    }
+  ]
+}

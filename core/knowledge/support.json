@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "purpose": "表达陪伴的检索参考，不是心理咨询训练、诊断标准或沙具象征解释表；需由合格专业人员继续审核完善。",
+  "principles": [
+    {"id":"listening", "rule":"先倾听，少说教；问用户希望被倾听还是一起想办法。", "source":"UNICEF", "url":"https://www.unicef.org/parenting/mental-health/how-to-talk-to-kids-mental-health"},
+    {"id":"choice", "rule":"不强迫讲述，不追问细节；允许沉默、拒答、跳过与暂停。", "source":"WHO Psychological first aid", "url":"https://www.who.int/publications-detail-redirect/9789241548205"},
+    {"id":"expression", "rule":"接纳用户自己说出的感受，非评判地复述；用开放式问题邀请表达，不替用户命名其情绪。", "source":"UNICEF", "url":"https://www.unicef.org/lac/en/parenting-lac/nurturing-care/how-communicate-effectively-young-child"},
+    {"id":"observation", "rule":"仅描述可核实的摆放和移动。摆件的象征意义由用户解释，不以物体类型、位置或颜色推断心理状态。", "source":"项目边界规范", "url":null}
+  ]
+}

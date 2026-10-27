@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 240" preserveAspectRatio="none">
+  <defs>
+    <radialGradient id="body" cx="44%" cy="32%" r="76%">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".64" stop-color="#fffefb"/>
+      <stop offset=".87" stop-color="#f3efed"/>
+      <stop offset="1" stop-color="#ded7d9"/>
+    </radialGradient>
+    <linearGradient id="rim" x2=".2" y2="1">
+      <stop stop-color="#f8f3ed"/>
+      <stop offset="1" stop-color="#d6c5cc"/>
+    </linearGradient>
+    <filter id="soft-shadow" x="-15%" y="-20%" width="135%" height="150%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#9b7e85" flood-opacity=".17"/>
+    </filter>
+    <filter id="blur"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <path d="M40 103C15 79 35 36 78 39C91 10 137 8 160 30C182 2 231 8 247 28C280 5 327 21 333 47C376 34 409 70 391 102C422 123 415 165 385 176C392 208 352 227 324 209C301 238 260 238 239 217C208 242 162 235 148 213C111 236 67 218 67 192C26 194 8 163 20 137C17 122 28 109 40 103Z" fill="url(#body)" stroke="url(#rim)" stroke-width="1.4" filter="url(#soft-shadow)"/>
+  <path d="M48 87C35 66 52 43 77 45M92 37C112 15 139 23 150 35M174 28C193 13 222 16 236 30M259 29C285 17 309 28 320 45M345 49C370 44 389 65 383 83" fill="none" stroke="white" stroke-opacity=".9" stroke-width="5" stroke-linecap="round" filter="url(#blur)"/>
+  <path d="M79 188C80 204 109 217 132 209M162 211C177 226 209 229 227 215M252 214C270 230 304 222 313 209M337 205C357 214 380 199 378 182" fill="none" stroke="#c7bbc4" stroke-opacity=".19" stroke-width="5" stroke-linecap="round" filter="url(#blur)"/>
+</svg>

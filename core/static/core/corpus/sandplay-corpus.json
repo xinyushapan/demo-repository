@@ -1,0 +1,813 @@
+{
+  "corpus_version": "1.0.0",
+  "language": "zh-CN",
+  "purpose": "儿童实体沙盘摆件识别与温和陪伴式对话",
+  "voice": {
+    "assistant_name": "小语",
+    "self_introduction": "嗨，我是小语！一起搭个小世界吧。",
+    "profile": "warm_gentle_feminine",
+    "language": "zh-CN",
+    "rate": 0.98,
+    "pitch": 1.04,
+    "volume": 0.72,
+    "delivery": "优先自然中文女声，语气亲切轻快，正常音高略明亮，短句间留少量停顿，不拖长尾音，不使用尖细奶音。",
+    "consent": "默认尝试播放问候，受浏览器自动播放规则约束；始终提供关闭语音与文字选项。"
+  },
+  "recognition_policy": {
+    "input": "摄像头实时画面；需先获得摄像头权限并在产品中明确说明画面处理方式。",
+    "temporal_stability_frames": 3,
+    "high_confidence": 0.82,
+    "clarification_confidence": 0.55,
+    "max_objects_per_utterance": 3,
+    "rules": [
+      "优先报告稳定、清楚可见的摆件名称；不要把遮挡、反光或模糊区域猜成确定物体。",
+      "置信度达到 high_confidence 且连续多帧稳定时才用肯定语气；中等置信度使用确认问句；低置信度不报名称。",
+      "同屏物件较多时每次最多提及三件，避免像清点库存一样连续报数。",
+      "检测到移动只描述画面变化，不推断摆放者的意图、性格、家庭情况或心理状态。",
+      "摆件名称来自本语料标签；孩子为摆件取的名字优先作为本次对话称呼，不覆盖标准识别标签。"
+    ]
+  },
+  "conversation_safety": {
+    "principles": [
+      "以儿童熟悉、尊重、温柔的语气回应；不评判、不诊断、不贴标签。",
+      "不把任何摆件或组合直接解释成某种情绪、创伤或家庭关系。",
+      "多用开放问题；允许孩子不回答、暂停、改摆或结束。",
+      "不承诺保密；若孩子提到正在受伤或有危险，温和询问眼下是否安全，并鼓励马上找可信任的成年人或当地紧急帮助。",
+      "不向儿童索要姓名、地址、学校、电话等身份信息。"
+    ],
+    "never_say": [
+      "你摆这个说明你很害怕/生气/不喜欢爸爸妈妈。",
+      "我知道你心里真正想什么。",
+      "你必须告诉我。",
+      "我会替你保密，谁也不告诉。"
+    ]
+  },
+  "categories": [
+    {
+      "id": "people_relationships",
+      "name": "人物与关系",
+      "items": [
+        {
+          "id": "person_child",
+          "name": "儿童",
+          "aliases": [
+            "小朋友",
+            "小孩"
+          ],
+          "visual_cues": "小比例圆头人物，黄色上衣、红色底座。",
+          "prompt": "你想让这个小朋友在沙盘里做什么？"
+        },
+        {
+          "id": "person_teen",
+          "name": "少年",
+          "aliases": [
+            "戴帽子的人",
+            "男孩"
+          ],
+          "visual_cues": "戴红色帽子、蓝色衣服的站立人物。",
+          "prompt": "这个少年现在要去哪里呢？"
+        },
+        {
+          "id": "person_adult",
+          "name": "成年人",
+          "aliases": [
+            "大人",
+            "成人"
+          ],
+          "visual_cues": "较高的蓝衣站立人物。",
+          "prompt": "你想给这位大人安排一个什么角色？"
+        },
+        {
+          "id": "person_elder",
+          "name": "老年人",
+          "aliases": [
+            "老人",
+            "长者"
+          ],
+          "visual_cues": "灰色发髻、紫色长衣并拿着手杖的人物。",
+          "prompt": "这位长者想在这里做些什么呢？"
+        },
+        {
+          "id": "person_sitting",
+          "name": "坐姿人物",
+          "aliases": [
+            "坐着的人",
+            "坐姿小人"
+          ],
+          "visual_cues": "橙色上衣、红色圆头的低姿态人物，双腿向前弯曲，脚边有浅黄色圆形细节。",
+          "prompt": "这个坐着的人物想看一看什么？"
+        },
+        {
+          "id": "person_curled",
+          "name": "蜷缩人物",
+          "aliases": [
+            "缩起来的人",
+            "抱膝人物",
+            "蜷缩小人"
+          ],
+          "visual_cues": "紫色人物身体向前收拢，双臂抱住弯曲的腿，呈蜷缩姿势。",
+          "prompt": "这个小人想继续缩在这里，还是想试着换个位置？"
+        },
+        {
+          "id": "relationship_peers",
+          "name": "同伴关系",
+          "aliases": [
+            "两个伙伴",
+            "朋友",
+            "同伴"
+          ],
+          "visual_cues": "两个不同颜色的人物相邻或牵手。",
+          "prompt": "这两位伙伴之间发生了什么故事？"
+        }
+      ]
+    },
+    {
+      "id": "animals",
+      "name": "动物",
+      "items": [
+        {
+          "id": "animal_dog",
+          "name": "小狗",
+          "aliases": [
+            "狗狗",
+            "狗"
+          ],
+          "visual_cues": "棕色四足动物，圆耳、短尾。",
+          "prompt": "这只小狗在找什么，还是想和谁待在一起？"
+        },
+        {
+          "id": "animal_cat",
+          "name": "小猫",
+          "aliases": [
+            "猫咪",
+            "猫"
+          ],
+          "visual_cues": "白色身体、橙色耳朵和尾巴的四足动物。",
+          "prompt": "你想让小猫在这里做什么？"
+        },
+        {
+          "id": "animal_bird",
+          "name": "小鸟",
+          "aliases": [
+            "鸟",
+            "黄色小鸟"
+          ],
+          "visual_cues": "黄色圆身体，带蓝色翅膀和喙。",
+          "prompt": "这只小鸟想飞到哪里去看看？"
+        },
+        {
+          "id": "animal_rabbit",
+          "name": "兔子",
+          "aliases": [
+            "小兔",
+            "兔兔"
+          ],
+          "visual_cues": "白色身体、两只长耳朵的动物。",
+          "prompt": "兔子现在想靠近谁，或者去哪里呢？"
+        },
+        {
+          "id": "animal_turtle",
+          "name": "乌龟",
+          "aliases": [
+            "小乌龟",
+            "龟"
+          ],
+          "visual_cues": "绿色身体，背上有圆拱形深绿色龟壳。",
+          "prompt": "小乌龟准备慢慢去什么地方？"
+        },
+        {
+          "id": "animal_fish",
+          "name": "小鱼",
+          "aliases": [
+            "鱼",
+            "鱼鱼"
+          ],
+          "visual_cues": "橙色身体带白色条纹，尾鳍和鱼鳍明显。",
+          "prompt": "这条小鱼游在什么样的水里？"
+        }
+      ]
+    },
+    {
+      "id": "nature",
+      "name": "自然现象",
+      "items": [
+        {
+          "id": "nature_tree",
+          "name": "树木",
+          "aliases": [
+            "树",
+            "大树"
+          ],
+          "visual_cues": "棕色树干和绿色团状树冠。",
+          "prompt": "这棵树旁边有什么？谁会来这里休息？"
+        },
+        {
+          "id": "nature_flower",
+          "name": "花朵",
+          "aliases": [
+            "花",
+            "小花"
+          ],
+          "visual_cues": "红色花瓣、黄色花心和绿色底座。",
+          "prompt": "你想把这朵花放在什么地方？"
+        },
+        {
+          "id": "nature_cactus",
+          "name": "仙人掌",
+          "aliases": [
+            "仙人掌树"
+          ],
+          "visual_cues": "竖直绿色柱状植物，侧边有短枝，顶端有黄色圆点。",
+          "prompt": "这株仙人掌住在怎样的地方？"
+        },
+        {
+          "id": "nature_rocks",
+          "name": "石堆",
+          "aliases": [
+            "石头",
+            "石块"
+          ],
+          "visual_cues": "由多个灰色大小不一的圆角石块堆叠组成。",
+          "prompt": "这些石头可以怎样摆成一条路或一个地方？"
+        },
+        {
+          "id": "nature_water",
+          "name": "水流",
+          "aliases": [
+            "河流",
+            "水波"
+          ],
+          "visual_cues": "蓝色层叠起伏的波浪形水流摆件。",
+          "prompt": "这条水流从哪里来，又会流向哪里？"
+        },
+        {
+          "id": "nature_volcano",
+          "name": "火山",
+          "aliases": [
+            "冒火山",
+            "火山口"
+          ],
+          "visual_cues": "棕色锥形山体，顶部和侧面有橙红色熔岩。",
+          "prompt": "这座火山周围是什么样的地方？"
+        }
+      ]
+    },
+    {
+      "id": "buildings_places",
+      "name": "建筑与场所",
+      "items": [
+        {
+          "id": "place_home",
+          "name": "家",
+          "aliases": [
+            "房子",
+            "小屋"
+          ],
+          "visual_cues": "红色屋顶、浅色墙体和拱形门洞。",
+          "prompt": "这个家里有什么让人觉得舒服的地方？"
+        },
+        {
+          "id": "place_school",
+          "name": "学校",
+          "aliases": [
+            "校园",
+            "校舍"
+          ],
+          "visual_cues": "蓝色屋顶，正面有圆形时钟和蓝色门窗。",
+          "prompt": "你想让谁来到这所学校？"
+        },
+        {
+          "id": "place_hospital",
+          "name": "医院",
+          "aliases": [
+            "诊所"
+          ],
+          "visual_cues": "白蓝色小楼，正面带红色十字标记。",
+          "prompt": "在这个故事里，医院可以帮助谁？"
+        },
+        {
+          "id": "place_tower",
+          "name": "高塔",
+          "aliases": [
+            "塔",
+            "蓝顶塔"
+          ],
+          "visual_cues": "细长浅色塔身、蓝色尖顶和圆形窗洞。",
+          "prompt": "站在高塔上，可以看到什么？"
+        },
+        {
+          "id": "place_cave",
+          "name": "洞穴",
+          "aliases": [
+            "山洞",
+            "洞"
+          ],
+          "visual_cues": "灰色厚拱形岩洞，中央有深色洞口。",
+          "prompt": "洞穴里面是什么样的？你想让谁进去看看？"
+        },
+        {
+          "id": "place_shop",
+          "name": "商店",
+          "aliases": [
+            "店铺",
+            "小店"
+          ],
+          "visual_cues": "带红白条纹遮阳篷、蓝色门窗的小店。",
+          "prompt": "这家商店里会卖些什么有趣的东西？"
+        }
+      ]
+    },
+    {
+      "id": "boundaries_connections",
+      "name": "边界与连接",
+      "items": [
+        {
+          "id": "boundary_fence",
+          "name": "围栏",
+          "aliases": [
+            "栅栏",
+            "篱笆"
+          ],
+          "visual_cues": "棕色立柱与横杆，底部为绿色支座。",
+          "prompt": "这个围栏把哪些地方分开，或连在一起？"
+        },
+        {
+          "id": "boundary_wall",
+          "name": "墙壁",
+          "aliases": [
+            "墙",
+            "砖墙"
+          ],
+          "visual_cues": "灰色方砖排列成的矮墙或墙段。",
+          "prompt": "这面墙后面是什么？你想留一个出口吗？"
+        },
+        {
+          "id": "boundary_gate",
+          "name": "大门",
+          "aliases": [
+            "门",
+            "栅门"
+          ],
+          "visual_cues": "棕色拱形门框，两侧柱顶有黄色圆点。",
+          "prompt": "这扇门可以由谁打开？门后有什么？"
+        },
+        {
+          "id": "boundary_bridge",
+          "name": "桥梁",
+          "aliases": [
+            "桥",
+            "蓝色桥"
+          ],
+          "visual_cues": "蓝色拱形桥体，带多个通行拱口。",
+          "prompt": "桥的两边分别是什么地方？谁会走过这座桥？"
+        },
+        {
+          "id": "boundary_road",
+          "name": "道路",
+          "aliases": [
+            "马路",
+            "路"
+          ],
+          "visual_cues": "灰色弯曲道路，上有白色虚线。",
+          "prompt": "这条路会带你去哪里？"
+        },
+        {
+          "id": "boundary_stairs",
+          "name": "台阶",
+          "aliases": [
+            "楼梯",
+            "阶梯"
+          ],
+          "visual_cues": "浅色阶梯逐级升高，侧面带蓝色结构。",
+          "prompt": "走上这些台阶后，会到达哪里？"
+        },
+        {
+          "id": "boundary_entrance",
+          "name": "入口",
+          "aliases": [
+            "拱门",
+            "门口"
+          ],
+          "visual_cues": "黄色拱形门洞，中央有蓝色门板和圆形把手。",
+          "prompt": "这是一个怎样的入口？谁可以从这里进出？"
+        }
+      ]
+    },
+    {
+      "id": "daily_school",
+      "name": "日常与学校",
+      "items": [
+        {
+          "id": "daily_desk_chair",
+          "name": "书桌椅",
+          "aliases": [
+            "桌椅",
+            "课桌椅"
+          ],
+          "visual_cues": "棕色桌面与桌腿，配套小椅子。",
+          "prompt": "谁会坐在这张桌子旁边？"
+        },
+        {
+          "id": "daily_bed",
+          "name": "床",
+          "aliases": [
+            "小床"
+          ],
+          "visual_cues": "棕色床架、浅色枕头和蓝色被面。",
+          "prompt": "这个小床属于谁？睡前会发生什么？"
+        },
+        {
+          "id": "daily_backpack",
+          "name": "书包",
+          "aliases": [
+            "背包",
+            "红书包"
+          ],
+          "visual_cues": "红色双肩包，带蓝色侧边和黄色扣件。",
+          "prompt": "书包里装着什么重要的东西？"
+        },
+        {
+          "id": "daily_books",
+          "name": "书本",
+          "aliases": [
+            "书",
+            "一摞书"
+          ],
+          "visual_cues": "蓝、橙、绿等颜色的书叠放成一摞。",
+          "prompt": "你想翻开哪一本书？里面可能有什么故事？"
+        },
+        {
+          "id": "daily_phone",
+          "name": "手机",
+          "aliases": [
+            "电话",
+            "手机模型"
+          ],
+          "visual_cues": "深蓝色长方形手机，正面有浅蓝色屏幕。",
+          "prompt": "这个手机在故事里用来做什么？"
+        },
+        {
+          "id": "daily_food",
+          "name": "食物",
+          "aliases": [
+            "饭碗",
+            "水果碗"
+          ],
+          "visual_cues": "蓝色碗中装有不同颜色的圆形食物和小勺。",
+          "prompt": "这碗食物想和谁一起分享？"
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "name": "交通与移动",
+      "items": [
+        {
+          "id": "transport_car",
+          "name": "汽车",
+          "aliases": [
+            "小汽车",
+            "红汽车"
+          ],
+          "visual_cues": "红色车身、白色车窗、黑色车轮。",
+          "prompt": "这辆汽车要从哪里出发，去哪里呢？"
+        },
+        {
+          "id": "transport_bus",
+          "name": "公交车",
+          "aliases": [
+            "巴士",
+            "校车"
+          ],
+          "visual_cues": "黄色长车身，带多个蓝色车窗。",
+          "prompt": "公交车上会有谁？它要停在哪一站？"
+        },
+        {
+          "id": "transport_bicycle",
+          "name": "自行车",
+          "aliases": [
+            "单车",
+            "脚踏车"
+          ],
+          "visual_cues": "蓝色车架，带两个圆形车轮和车把。",
+          "prompt": "骑这辆自行车时，想沿着哪条路走？"
+        },
+        {
+          "id": "transport_train",
+          "name": "火车",
+          "aliases": [
+            "小火车",
+            "列车"
+          ],
+          "visual_cues": "红蓝色车头连接黄色车厢，底部有黑色车轮。",
+          "prompt": "火车要带着大家去哪里旅行？"
+        },
+        {
+          "id": "transport_boat",
+          "name": "船",
+          "aliases": [
+            "小船",
+            "轮船"
+          ],
+          "visual_cues": "红白色船身，蓝色窗户和烟囱。",
+          "prompt": "这艘船在什么水面上航行？"
+        },
+        {
+          "id": "transport_airplane",
+          "name": "飞机",
+          "aliases": [
+            "小飞机"
+          ],
+          "visual_cues": "白色机身、蓝色圆窗和红色机翼细节。",
+          "prompt": "飞机飞过的地方会是什么样子？"
+        }
+      ]
+    },
+    {
+      "id": "fantasy_power",
+      "name": "幻想与力量",
+      "items": [
+        {
+          "id": "fantasy_guardian",
+          "name": "守护者",
+          "aliases": [
+            "天使",
+            "守护天使"
+          ],
+          "visual_cues": "白色人物、金色光环和黄色翅膀。",
+          "prompt": "这位守护者想保护什么，或陪伴谁？"
+        },
+        {
+          "id": "fantasy_monster",
+          "name": "怪兽",
+          "aliases": [
+            "小怪兽",
+            "紫色怪物"
+          ],
+          "visual_cues": "紫色身体、角和张开的嘴，牙齿清晰可见。",
+          "prompt": "这个怪兽有名字吗？它也有温柔的一面吗？"
+        },
+        {
+          "id": "fantasy_dragon",
+          "name": "龙",
+          "aliases": [
+            "小龙",
+            "红龙"
+          ],
+          "visual_cues": "红橙色龙形身体，带角、翅膀和尾巴。",
+          "prompt": "这条龙最喜欢做什么？它想去哪里？"
+        },
+        {
+          "id": "fantasy_king",
+          "name": "国王",
+          "aliases": [
+            "王子",
+            "戴皇冠的人"
+          ],
+          "visual_cues": "蓝色长衣人物，头顶黄色皇冠。",
+          "prompt": "这位国王会怎样照顾他的王国？"
+        },
+        {
+          "id": "fantasy_star_hero",
+          "name": "星星英雄",
+          "aliases": [
+            "星星人",
+            "英雄"
+          ],
+          "visual_cues": "蓝色人物举起带黄色星星的手臂，衣服也有星形标记。",
+          "prompt": "这位星星英雄有什么特别的本领？"
+        },
+        {
+          "id": "fantasy_magic_door",
+          "name": "魔法门",
+          "aliases": [
+            "魔法门洞",
+            "传送门"
+          ],
+          "visual_cues": "紫色拱形门框，门内有黄色星星图案。",
+          "prompt": "如果打开这扇门，你希望它通向哪里？"
+        }
+      ]
+    },
+    {
+      "id": "safety_protection",
+      "name": "危险与保护",
+      "items": [
+        {
+          "id": "safety_shield",
+          "name": "盾牌",
+          "aliases": [
+            "保护盾",
+            "蓝盾"
+          ],
+          "visual_cues": "蓝色盾面和黄色盾缘。",
+          "prompt": "这面盾牌想保护谁或什么东西？"
+        },
+        {
+          "id": "safety_lock",
+          "name": "锁",
+          "aliases": [
+            "挂锁",
+            "安全锁"
+          ],
+          "visual_cues": "黄色锁身、灰色拱形锁梁和蓝色钥匙孔。",
+          "prompt": "这把锁要保护什么？谁可以打开它？"
+        },
+        {
+          "id": "safety_broken_wall",
+          "name": "破裂的墙",
+          "aliases": [
+            "裂墙",
+            "破墙"
+          ],
+          "visual_cues": "灰色砖块中间出现明显裂缝和散落石块。",
+          "prompt": "你注意到墙上的裂缝了。你想让谁来帮忙修理或照看这里？"
+        },
+        {
+          "id": "safety_warning_lightning",
+          "name": "警示闪电",
+          "aliases": [
+            "闪电标志",
+            "警告闪电"
+          ],
+          "visual_cues": "黄色闪电形标记，底部有浅色圆座。",
+          "prompt": "这个标记在提醒大家注意什么？"
+        },
+        {
+          "id": "safety_rescue_beacon",
+          "name": "求救灯",
+          "aliases": [
+            "警示灯",
+            "红色警报灯"
+          ],
+          "visual_cues": "红色圆顶灯罩，黑色底座。",
+          "prompt": "如果这个灯亮了，谁可以来帮忙？"
+        },
+        {
+          "id": "safety_safe_haven",
+          "name": "安全庇护所",
+          "aliases": [
+            "庇护所",
+            "安全小屋"
+          ],
+          "visual_cues": "浅色拱形外壳，里面有蓝色人物或小空间。",
+          "prompt": "在这个安全的地方，谁可以陪着你？"
+        }
+      ]
+    },
+    {
+      "id": "abstract_emotions",
+      "name": "抽象情绪",
+      "items": [
+        {
+          "id": "abstract_spiral",
+          "name": "旋涡",
+          "aliases": [
+            "红色旋涡",
+            "漩涡"
+          ],
+          "visual_cues": "红色圆形旋转纹路，从外向内卷曲。",
+          "prompt": "看着这个旋涡，你会想到什么？"
+        },
+        {
+          "id": "abstract_split_ball",
+          "name": "分合球",
+          "aliases": [
+            "双色球",
+            "分开的球"
+          ],
+          "visual_cues": "黄色与紫色两半组成的圆球或椭圆球体。",
+          "prompt": "这两半想靠在一起，还是想分开一点？"
+        },
+        {
+          "id": "abstract_protective_arch",
+          "name": "保护拱门",
+          "aliases": [
+            "拱门",
+            "绿色拱形"
+          ],
+          "visual_cues": "绿色拱形外圈，中央有蓝色圆形部分。",
+          "prompt": "拱门里面是什么？你想让谁走进去？"
+        },
+        {
+          "id": "abstract_balance_stones",
+          "name": "平衡石",
+          "aliases": [
+            "叠叠石",
+            "平衡球"
+          ],
+          "visual_cues": "蓝色圆形部件上下叠放，顶部有黄色圆点。",
+          "prompt": "这些小石头怎样摆放会让你觉得稳稳的？"
+        },
+        {
+          "id": "abstract_knot",
+          "name": "纠结结",
+          "aliases": [
+            "紫色结",
+            "打结"
+          ],
+          "visual_cues": "紫色线条或环形结构交错缠绕。",
+          "prompt": "这个结看起来容易解开吗？你想让谁来帮忙？"
+        },
+        {
+          "id": "abstract_hollow_heart",
+          "name": "空心爱心",
+          "aliases": [
+            "爱心",
+            "红色心形"
+          ],
+          "visual_cues": "红色心形外框，中间镂空。",
+          "prompt": "这个爱心里面，你想放进什么？"
+        },
+        {
+          "id": "abstract_dual_mask",
+          "name": "双面面具",
+          "aliases": [
+            "双色面具",
+            "笑脸和难过脸"
+          ],
+          "visual_cues": "黄蓝双色拼接的面具，一侧笑脸、一侧皱眉脸。",
+          "prompt": "面具的两面分别想说些什么？"
+        }
+      ]
+    }
+  ],
+  "shared_dialogue_templates": {
+    "greeting": [
+      "嗨，我是小语！一起搭个小世界吧。",
+      "准备好啦，你来搭，我来陪你。"
+    ],
+    "encouragement": [
+      "嗯，我在听。",
+      "你慢慢说。",
+      "我们可以边搭边聊。"
+    ],
+    "gentle_reflection": [
+      "我听见你说{child_words}，我理解得对吗？",
+      "听起来你对{topic}有自己的想法。你愿意再告诉我一点吗？",
+      "你刚才说的{child_words}，我会记住这部分。"
+    ],
+    "stable_detection": [
+      "{objects}来啦。",
+      "我看到{objects}了。"
+    ],
+    "uncertain_detection": [
+      "我可能看错了，这个像是{name}吗？你也可以告诉我它叫什么。",
+      "我不太确定这个摆件的名字，你愿意帮我认一认吗？"
+    ],
+    "movement": [
+      "我看到{name}换了一个位置。你想让它去哪里？",
+      "这个摆件现在靠近了{name}，这是你安排的吗？"
+    ],
+    "silence": [
+      "好呀，我们先搭着。",
+      "没关系，先不说。",
+      "那就一起看一会儿。"
+    ],
+    "closing": [
+      "今天先搭到这里吧，下次可以接着玩。"
+    ],
+    "voice_confirmation": [
+      "我可以用声音读出来，也可以只显示文字。你喜欢哪一种？"
+    ]
+  },
+  "sample_dialogues": [
+    {
+      "situation": "首次见面",
+      "assistant": "你好呀，我是小语。很高兴和你一起看看这个小世界。你想先从哪里开始呢？"
+    },
+    {
+      "situation": "鼓励孩子开始表达",
+      "assistant": "谢谢你愿意告诉我。你可以按自己的节奏慢慢讲，我会认真听。"
+    },
+    {
+      "situation": "孩子给摆件起了名字",
+      "child": "这只乌龟叫慢慢。",
+      "assistant": "慢慢这个名字听起来很舒服。谢谢你告诉我，我们就叫它慢慢。你想让慢慢去哪里呢？"
+    },
+    {
+      "situation": "识别到多个摆件",
+      "assistant": "我看见了小狗、小屋和一棵树。你想先讲讲谁的故事？",
+      "child": "小狗在等人。",
+      "assistant_followup": "它在等谁呢？你可以慢慢告诉我。"
+    },
+    {
+      "situation": "名称不确定",
+      "assistant": "我不太确定这个绿色的小摆件是乌龟吗？你也可以给它起一个自己的名字。",
+      "child": "它是阿绿。",
+      "assistant_followup": "好呀，那我们就叫它阿绿。阿绿现在想去哪里？"
+    },
+    {
+      "situation": "孩子没有回应",
+      "assistant": "没关系，我们可以先安静看一会儿。想说的时候再告诉我。"
+    },
+    {
+      "situation": "孩子表达不开心",
+      "assistant": "听起来你现在不太开心。谢谢你告诉我。你想说说发生了什么，还是先让我陪你安静一会儿？"
+    },
+    {
+      "situation": "孩子提到现实中的即时危险",
+      "assistant": "谢谢你告诉我。你现在安全吗？请马上去找你信任的大人陪着你；如果眼前有人受伤或有危险，请让大人联系当地紧急帮助。"
+    }
+  ]
+}

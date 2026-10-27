@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1671 941">
+  <defs><filter id="feather" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="10"/></filter></defs>
+  <path fill="white" d="M0 0H1671V941H0Z"/>
+  <rect x="484" y="65" width="652" height="415" rx="14" fill="black" filter="url(#feather)"/>
+</svg>
