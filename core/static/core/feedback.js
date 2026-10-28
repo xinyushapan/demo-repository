@@ -1,44 +1,116 @@
-(()=>{'use strict';
-const $=s=>document.querySelector(s),read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d;}catch{return d;}},reports=read('xinyu-reports',[]),id=new URLSearchParams(location.search).get('id'),report=reports.find(r=>r.id===id),names=Object.fromEntries((window.SANDPLAY_TOYS||[]).map(t=>[t.id,t.name])),scenes={nature:'自然探险',animal:'动物家园',city:'城市街区',ocean:'海底世界',space:'星空幻想',free:'自由沙盘'};
-const awards=[['landscape','今日造景师奖','#ffa0c8'],['roads','道路规划师奖','#c298f5'],['trying','勇敢尝试奖','#b49af3'],['care','温柔守护奖','#b2e866'],['surprise','惊喜彩蛋奖','#78c9fa'],['detail','细节侦探奖','#b3e978'],['nature','自然发现家奖','#bca0f5'],['imagination','脑洞大开奖','#ffca53'],['story','故事接龙奖','#ffb7dc'],['architecture','小小建筑师奖','#ba9af2']];
-// Award wording follows the supplied designs. AI selects the award and writes the detailed review;
-// this presentation copy is shared by new and previously saved feedback cards.
-const awardCopy={
-landscape:'你在沙盘里充分发挥了想象力和创造力，\n用细心的观察和巧妙的搭配，\n打造出了独一无二的美丽场景。\n你的创意和审美，让这个小世界变得更加精彩！\n期待下次一起创造更多奇妙的场景！',
-roads:'你在沙盘里发挥想象力和创造力，\n用道路和桥梁搭配出自己的场景。\n每一处连接，都可以有属于你的故事。\n期待下次一起创造更多奇妙的小世界！',
-trying:'你在沙盘里尝试了新的搭建方式，\n让这个小世界有了更多有趣的可能！\n每一次新的尝试，都值得被记录。\n期待下次和你一起，探索更多奇妙的搭法！',
-care:'你在沙盘里讲述了守护与照顾的故事，\n让这个小世界多了一份温暖。\n你愿意分享的想法，小语都认真收好了。\n期待下次一起，继续这个温暖的故事！',
-surprise:'你在沙盘里创造了意想不到的惊喜，\n让这个小世界变得更加有趣和独特！\n每一个小小的彩蛋，都可以藏着新的故事。\n期待下次和你一起，发现更多奇妙的秘密！',
-detail:'你在沙盘里介绍了有趣的小细节，\n让这个小世界有了特别的样子。\n每一处小小的发现，都值得被认真看见！\n期待下次再一起，探索更多奇妙的世界！',
-nature:'你用花草、动物和自己的想法，\n搭出了一个有趣的自然小世界。\n一棵树、一朵花，都可以成为故事的开始。\n期待你继续探索，创造更多自然里的奇妙故事！',
-imagination:'你用摆件搭出了特别的场景，\n还给它留下了自己的想法和故事。\n你的想象力，让沙盘里开出新奇的小花，\n也让这个小世界有了独特的样子。\n期待你继续大胆想象，创造更多惊喜！',
-story:'你为沙盘里的角色续写故事，\n让它们相遇、互动，也开启新的冒险。\n你留下的线索，让这个小世界\n有了值得期待的下一页。\n期待你继续讲出精彩故事！',
-architecture:'你用建筑沙具搭出了自己的小世界，\n让一个个想法在沙盘里有了模样。\n每一次摆放和搭配，都可以带来新的故事。\n继续大胆设计，创造属于你的奇妙世界吧！'
+import { awardCandidates, chooseAward, certificateStatistics } from './award-selection.mjs';
+const $ = selector => document.querySelector(selector);
+const read = (key, fallback) => { try { const value = JSON.parse(localStorage.getItem(key)); return value ?? fallback; } catch { return fallback; } };
+const reports = read('xinyu-reports', []);
+const id = new URLSearchParams(location.search).get('id');
+const report = Array.isArray(reports) ? reports.find(r => r?.id === id) : null;
+const catalog = window.SANDPLAY_TOYS || [];
+const status = message => { $('#feedback-status').textContent = message; };
+const loadImage = src => new Promise((resolve, reject) => { const image = new Image(); image.onload = () => resolve(image); image.onerror = () => reject(Error('奖状图片暂时没有加载好，请重新尝试。')); image.src = src; });
+let layouts, busy = false, ready = false;
+function persist() { try { localStorage.setItem('xinyu-reports', JSON.stringify(reports)); return true; } catch { status('浏览器空间不足，请先保存分享图片。'); return false; } }
+function random() { const value = new Uint32Array(1); crypto.getRandomValues(value); return value[0] / 4294967296; }
+
+async function paint() {
+  const awardId = report.feedback?.award_id, layout = layouts[awardId];
+  if (!layout) return false;
+  const template = await loadImage('/static/core/awards/' + awardId + '.png');
+  const canvas = $('#award-certificate');
+  canvas.width = template.naturalWidth; canvas.height = template.naturalHeight;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  // Never re-typeset, clip, move, or replace the supplied title, prose, characters or decorations.
+  context.drawImage(template, 0, 0);
+  const [x, y, width, height] = layout.photo;
+  context.fillStyle = '#fff'; context.fillRect(x, y, width, height);
+  if (/^data:image\/(jpeg|png);base64,/.test(report.screenshot || '')) {
+    const image = await loadImage(report.screenshot);
+    const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+    const w = image.naturalWidth * scale, h = image.naturalHeight * scale;
+    context.drawImage(image, x + (width - w) / 2, y + (height - h) / 2, w, h);
+  }
+  const values = certificateStatistics(report, awardId, catalog);
+  layout.digits.forEach(([dx, dy, dw, dh], i) => {
+    // Sample the original card background just outside the digits; preserve its printed units.
+    const sample = context.getImageData(dx + 2, dy - 3, 1, 1).data;
+    context.fillStyle = `rgb(${sample[0]},${sample[1]},${sample[2]})`;
+    context.fillRect(dx, dy, dw, dh);
+    const value = values[i] === null ? '—' : String(values[i]).padStart(2, '0');
+    let size = dh * .94;
+    context.font = `800 ${size}px Arial, sans-serif`;
+    while (context.measureText(value).width > dw - 2 && size > 18) { size--; context.font = `800 ${size}px Arial, sans-serif`; }
+    context.fillStyle = ['#ff6b13', '#09b417', '#075df0'][i];
+    context.textAlign = 'center'; context.textBaseline = 'middle';
+    context.fillText(value, dx + dw / 2, dy + dh / 2 + 1);
+  });
+  canvas.dataset.ready = 'true';
+  canvas.setAttribute('aria-label', `${layout.name}。本次沙盘图片。统计数字：${values.map(v => v === null ? '未记录' : v).join('、')}。`);
+  $('#share-feedback').disabled = false; $('#certificate-stage').setAttribute('aria-busy', 'false');
+  ready = true;
+  return true;
+}
+function saveSelection(selection, provider) {
+  report.feedback = { award_id: selection.id, evidence: selection.evidence, provider, at: new Date().toISOString() };
+  persist();
+}
+async function localAward(message) {
+  const selection = chooseAward(awardCandidates(report, catalog), random);
+  if (!selection) throw Error('没有找到可用的摆放记录，请先回去搭建一个小世界。');
+  saveSelection(selection, 'local'); await paint();
+  status(message || '已按本机搭建记录匹配奖状；未发送给 AI。');
+  $('#retry-feedback').hidden = true;
+}
+async function generate() {
+  if (busy) return;
+  busy = true; $('#retry-feedback').hidden = true;
+  status('小语正在根据摆件和操作记录挑选奖状…');
+  try {
+    const response = await fetch('/api/ai/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scene: report.scene, pieces: report.pieces || [], events: report.events || [], history: report.history || [], selfReport: report.selfReport || '', consent: true }), signal: AbortSignal.timeout(60000) });
+    const data = await response.json();
+    if (!response.ok || !layouts[data.award_id]) throw Error(data.error || '这次奖状还没有挑选好。');
+    const eligible = awardCandidates(report, catalog).find(a => a.id === data.award_id);
+    if (!eligible) throw Error('奖项和本次搭建记录不一致。');
+    report.feedback = { ...data, at: new Date().toISOString() };
+    report.ai = { summary: data.summary, suggestions: data.suggestions, provider: 'deepseek', at: report.feedback.at };
+    persist(); await paint(); status('小语已根据本次记录匹配并选好奖状。');
+  } catch (error) {
+    await localAward('AI暂时未连接，已按本机记录匹配奖状。');
+  } finally { busy = false; $('#certificate-stage').setAttribute('aria-busy', 'false'); }
+}
+async function start() {
+  let aiReady = false;
+  try { const response = await fetch('/api/ai/status'); aiReady = !!(await response.json()).ready; } catch {}
+  if (!aiReady) { await localAward('AI未配置，当前奖状由本机搭建记录匹配。'); return; }
+  if (sessionStorage.getItem('xinyu-ai-consent') === '1' || sessionStorage.getItem('xinyu-companion-consent-v4') === 'online') { await generate(); return; }
+  status('选择是否让小语用 AI 回看这次搭建。'); $('#feedback-consent').showModal();
+}
+$('#feedback-agree').onclick = () => { sessionStorage.setItem('xinyu-ai-consent', '1'); $('#feedback-consent').close(); void generate().catch(showError); };
+$('#feedback-local').onclick = () => { $('#feedback-consent').close(); void localAward().catch(showError); };
+$('#feedback-consent').addEventListener('cancel', () => { void localAward().catch(showError); });
+$('#retry-feedback').onclick = () => { void start().catch(showError); };
+function showError(error) { status(error.message || '奖状暂时未加载好，请重新尝试。'); $('#retry-feedback').hidden = false; $('#certificate-stage').setAttribute('aria-busy', 'false'); }
+$('#share-feedback').onclick = async () => {
+  if (!ready) return;
+  const button = $('#share-feedback'); button.disabled = true;
+  try {
+    const blob = await new Promise(resolve => $('#award-certificate').toBlob(resolve, 'image/png'));
+    if (!blob) throw Error('图片暂时没有保存好，请重试。');
+    const name = layouts[report.feedback.award_id].name;
+    const file = new File([blob], '心语沙盘-' + name + '.png', { type: 'image/png' });
+    if (navigator.canShare?.({ files: [file] })) await navigator.share({ files: [file], title: name });
+    else { const url = URL.createObjectURL(blob), link = document.createElement('a'); link.href = url; link.download = file.name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
+    status('奖状已保存，文字和版式与原设计一致。');
+  } catch (error) { if (error.name !== 'AbortError') showError(error); }
+  finally { button.disabled = false; }
 };
-if(!report){$('#feedback-missing').hidden=false;return;}$('#feedback-shell').hidden=false;$('#continue-build').href=report.mode==='online'?'/sandbox/':'/build/';$('#full-report').href='/report/?id='+encodeURIComponent(id);
-const pieces=report.pieces||[],events=report.events||[],moves=events.filter(e=>e.action==='移动').length,types=new Set(pieces.map(p=>p.type)).size,routes=Array.isArray(report.connections)?report.connections.filter(r=>r&&typeof r==='object'&&r.from&&r.to).length:null;
-$('#stat-pieces').textContent=String(pieces.length).padStart(2,'0');$('#stat-routes').textContent=routes===null?'—':String(routes).padStart(2,'0');$('#stat-moves').textContent=String(moves).padStart(2,'0');$('#scene-caption').textContent=(scenes[report.scene]||'我的小世界')+' · 保存时的数字画面';
-if(/^data:image\/(jpeg|png);base64,/.test(report.screenshot||''))$('#feedback-image').src=report.screenshot;else $('#feedback-image').alt='这次作品没有保存画面';
-function persist(){try{localStorage.setItem('xinyu-reports',JSON.stringify(reports));return true;}catch{$('#feedback-status').textContent='浏览器空间不足，反馈尚未保存，请先下载纪念卡。';return false;}}
-function paint(){const f=report.feedback,a=awards.find(a=>a[0]===f?.award_id);if(!a)return false;$('#award-salutation').hidden=false;const title=$('#award-name'),prefix=document.createElement('span'),award=document.createElement('strong'),suffix=document.createElement('span');prefix.textContent='恭喜你获得';award.textContent='「'+a[1]+'」';suffix.textContent='！';title.replaceChildren(prefix,document.createTextNode(' '),award,document.createTextNode(' '),suffix);$('#award-encouragement').textContent=f.encouragement;$('#award-description').textContent=awardCopy[a[0]];$('#celebration').style.setProperty('--accent',a[2]);
-// Use the supplied original badge artwork; clip in SVG without redrawing its designed lettering.
-const path='/static/core/awards/'+a[0]+'.png';$('#award-art').innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="270 0 450 222"><defs><clipPath id="badge-silhouette"><path d="M279 125Q279 111 310 104L311 91Q323 74 350 81L365 79L374 61Q394 4 477 3Q561 0 606 76L626 80Q663 73 681 96L680 116Q713 125 709 148L696 159L675 154L659 147L642 154L650 170L646 188L630 204L606 199L571 213Q514 234 474 220L435 211L406 198L373 204L357 193L349 168L357 153L344 148L322 155L302 156Z"/></clipPath></defs><image href="'+path+'" width="1000" height="470" preserveAspectRatio="none" clip-path="url(#badge-silhouette)"/></svg>';
-if(a[0]==='imagination')$('#award-art path').setAttribute('d','M406 15L451 7L493 18L515 3L535 16L545 33L560 34L579 59L607 98L619 122Q651 124 651 145L648 158Q679 169 672 189L663 204L643 200L626 211L612 216Q595 235 560 233L516 241L471 238L428 227L403 225L392 208L377 205L357 210L330 202L331 180L348 164L345 143L357 130L380 123L389 111L380 77L387 50L399 42L399 24Z');
-$('#award-friends').innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="48 28 245 138"><defs><clipPath id="feedback-pink"><path d="M50 146C50 93 87 48 142 35C181 24 224 38 255 68C277 90 289 118 290 145Q292 160 276 161H66Q49 161 50 146Z"/></clipPath></defs><image href="/static/core/images/xiaoyu-expressions.png" width="1144" height="184" clip-path="url(#feedback-pink)"/></svg>';
-$('#award-evidence').replaceChildren();for(const e of f.evidence||[]){const li=document.createElement('li'),r=e.record||{};li.textContent=e.kind==='statement'?'你说：“'+(r.text||'')+'”':(r.at?new Date(r.at).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}):'记录')+' · '+(r.action||'')+' '+(names[r.type]||'')+(Number.isFinite(r.x)?'（位置 '+Math.round(r.x*100)+'%，'+Math.round(r.y*100)+'%）':'');$('#award-evidence').append(li);}$('#award-basis').hidden=false;$('#share-feedback').disabled=false;$('#retry-feedback').hidden=true;return true;}
-let busy=false;
-async function generate(){if(busy)return;busy=true;$('#retry-feedback').hidden=true;$('#feedback-status').textContent='小语正在回看 '+events.length+' 条操作记录和本次对话，整理你的创作纪念…';$('#celebration').setAttribute('aria-busy','true');
-try{const response=await fetch('/api/ai/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({scene:report.scene,pieces,events,history:report.history||[],selfReport:report.selfReport||'',consent:true}),signal:AbortSignal.timeout(60000)}),data=await response.json();if(!response.ok)throw Error(data.error||'暂时无法整理');if(!awards.some(a=>a[0]===data.award_id)||!data.description||!data.encouragement||!data.evidence?.length)throw Error('反馈内容不完整，请再试一次');report.feedback={...data,at:new Date().toISOString()};report.ai={summary:data.summary,suggestions:data.suggestions,provider:'deepseek',at:report.feedback.at};paint();if(persist())$('#feedback-status').textContent='小语整理好了 · 根据 '+data.analyzed_events+' 条操作记录与 '+data.analyzed_statements+' 段用户表达生成。';}
-catch(error){$('#award-name').textContent='作品已保存，反馈还没整理好';$('#award-encouragement').textContent='你的小世界好好地留在这里啦。小语这次没有整理成功，可以稍后再试。';$('#award-description').textContent='你可以先查看完整的搭建记录，或继续搭建。';$('#feedback-status').textContent=error.name==='TimeoutError'?'整理时间有些长，可以重新生成。':error.message;$('#retry-feedback').hidden=false;}
-finally{busy=false;$('#celebration').removeAttribute('aria-busy');}}
-function start(){if(sessionStorage.getItem('xinyu-ai-consent')==='1'){void generate();return;}$('#award-name').textContent='作品已保存';$('#feedback-status').textContent='尚未发送给 AI。你可以查看本机记录，或同意后生成反馈。';$('#feedback-consent').showModal();}
-$('#feedback-agree').onclick=()=>{sessionStorage.setItem('xinyu-ai-consent','1');sessionStorage.setItem('xinyu-companion-consent-v4','online');$('#feedback-consent').close();void generate();};$('#feedback-local').onclick=()=>{$('#feedback-consent').close();$('#retry-feedback').hidden=false;$('#retry-feedback').textContent='生成 AI 反馈';};$('#feedback-consent').addEventListener('cancel',()=>{$('#retry-feedback').hidden=false;$('#retry-feedback').textContent='生成 AI 反馈';});$('#retry-feedback').onclick=start;
-// Export only this creation card, never the private conversation or camera feed.
-$('#share-feedback').onclick=async()=>{const button=$('#share-feedback');button.disabled=true;try{const f=report.feedback,a=awards.find(a=>a[0]===f.award_id),canvas=document.createElement('canvas');canvas.width=1600;canvas.height=1000;const c=canvas.getContext('2d');c.fillStyle='#f5fcff';c.fillRect(0,0,1600,1000);for(let x=30;x<1600;x+=150)for(let y=30;y<1000;y+=150){c.fillStyle=['#ffe3ed','#e4ddfa','#def4fc'][(x+y)%3];c.beginPath();c.arc(x,y,18,0,Math.PI*2);c.fill();}c.fillStyle=a[2];c.beginPath();c.roundRect(50,145,1500,800,30);c.fill();c.fillStyle='#fffaf3';c.beginPath();c.roundRect(66,161,1468,768,22);c.fill();
-const load=src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src;});const badge=await load('/static/core/awards/'+a[0]+'.png');c.save();c.translate(400,0);c.scale(800/450,800/450);c.translate(-270,0);const shape=new Path2D($('#award-art path').getAttribute('d'));c.clip(shape);c.drawImage(badge,0,0,1000,470);c.restore();
-function wrap(text,x,y,width,size,line=1.65){c.font=size+'px "Microsoft YaHei",sans-serif';let row='';for(const ch of text){if(ch==='\n'||c.measureText(row+ch).width>width){c.fillText(row,x,y);y+=size*line;row=ch==='\n'?'':ch;}else row+=ch;}if(row)c.fillText(row,x,y);return y+size*line;}
-c.fillStyle='#e95125';c.font='bold 37px "Microsoft YaHei",sans-serif';c.fillText(a[1],120,445);c.fillStyle='#382820';let y=wrap(f.encouragement,120,500,650,25);wrap(awardCopy[a[0]],120,y+25,650,23);
-if(report.screenshot){const photo=await load(report.screenshot);c.fillStyle='#ffda19';c.fillRect(840,425,630,365);const ratio=Math.min(610/photo.width,345/photo.height);c.drawImage(photo,850+(610-photo.width*ratio)/2,435+(345-photo.height*ratio)/2,photo.width*ratio,photo.height*ratio);}c.fillStyle='#382820';c.font='bold 25px "Microsoft YaHei",sans-serif';c.fillText('画面沙具 '+pieces.length+' 件  ·  连接路线 '+(routes===null?'未记录':routes+' 条')+'  ·  调整 '+moves+' 次',840,850);c.font='18px "Microsoft YaHei",sans-serif';c.fillStyle='#826e62';c.fillText('心语沙盘 · 创作纪念',120,884);
-const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('图片生成失败');const file=new File([blob],'心语沙盘-'+a[1]+'.png',{type:'image/png'});if(navigator.canShare?.({files:[file]}))await navigator.share({files:[file],title:a[1]});else{const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=file.name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}$('#feedback-status').textContent='纪念卡已导出。你可以把图片发给想分享的人。';}catch(e){$('#feedback-status').textContent=e.name==='AbortError'?'已取消分享。':'导出未完成，请重试。';}finally{button.disabled=false;}};
-if(paint())$('#feedback-status').textContent='这是本次已生成的创作纪念。';else start();
-})();
+async function init() {
+  if (!report) { $('#feedback-missing').hidden = false; return; }
+  $('#feedback-shell').hidden = false;
+  $('#continue-build').href = (report.mode === 'online' ? '/sandbox/' : '/build/') + '?record=' + encodeURIComponent(id);
+  $('#full-report').href = '/report/?id=' + encodeURIComponent(id);
+  const response = await fetch('/static/core/awards/certificates.json');
+  if (!response.ok) throw Error('奖状目录暂时不可用。');
+  layouts = await response.json();
+  if (await paint()) { status(report.feedback.provider === 'local' ? '这是按本机记录匹配并保存的奖状（AI未连接）。' : '这是本次已保存的奖状。'); return; }
+  await start();
+}
+void init().catch(showError);
