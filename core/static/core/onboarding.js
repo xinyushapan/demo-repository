@@ -40,7 +40,7 @@
   }
   function agePicker() {
     dialog.classList.remove('xy-tour', 'xy-tour-positioned'); dialog.removeAttribute('style');
-    frame('welcome', '<h2 id="xy-title">嗨！我是小语～<br>你今年几岁啦？</h2><p class="xy-copy">选一选，让我帮你找个好玩的地方！</p>', '<div class="xy-age-options" aria-label="选择年龄"><button data-age="6">6岁及以下<span>小小探索家</span></button><button data-age="9">7–9岁<span>好奇冒险家</span></button><button data-age="12">10–12岁<span>创意设计师</span></button><button data-age="13">13岁及以上<span>自由创造家</span></button></div><button class="xy-self-select" data-action="no-age">我想自己选玩法 →</button>');
+    frame('welcome', '<h2 id="xy-title">嗨！我是小语～<br>你今年几岁啦？</h2><p class="xy-copy">选一选，让我帮你找个好玩的地方！</p>', '<div class="xy-age-options" aria-label="选择年龄"><button data-age="6">6岁及以下<span>小小探索家</span></button><button data-age="9">7–9岁<span>好奇冒险家</span></button><button data-age="12">10–12岁<span>创意设计师</span></button></div><button class="xy-self-select" data-action="no-age">我想自己选玩法 →</button>');
     open();
   }
   function modePicker(age) {

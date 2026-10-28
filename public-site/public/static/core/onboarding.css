@@ -56,3 +56,18 @@
  .xy-tour h2{font-size:18px}.xy-tour .xy-copy{font-size:16px}.xy-tour .xy-bubble{padding:15px 17px}.xy-tour-actions{gap:2px}.xy-guide .xy-tour-actions button{font-size:12px;padding:6px 4px;white-space:nowrap;flex-shrink:0}.xy-progress{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.xy-guide button{transition:none}}
+
+/* Painted wooden choices: coral rectangle, yellow round block, violet square. */
+.xy-age-options{grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;gap:18px;margin-top:28px;padding-bottom:10px}
+.xy-guide .xy-age-options button{--wood:#f39a91;--edge:#bc625c;--ink:#5a302b;position:relative;isolation:isolate;box-sizing:border-box;width:100%;min-height:112px;padding:24px 8px;color:var(--ink);border:2px solid #fff3cda6;border-radius:9px;background-color:var(--wood);background-image:repeating-linear-gradient(7deg,transparent 0 7px,#6338200a 8px,transparent 10px 19px),repeating-linear-gradient(172deg,#fff8dc0b 0 2px,transparent 3px 13px),linear-gradient(115deg,#fff9d23b,transparent 45%,#6d332416);box-shadow:inset 2px 3px 2px #fff8d975,inset -3px -3px 3px #63382020,0 7px 0 var(--edge),0 11px 14px #37200b2c;font-size:20px;text-shadow:0 1px #fff9d735;transition:transform .15s,box-shadow .15s}
+.xy-age-options button span{font-size:13px;margin-top:10px;white-space:nowrap}
+.xy-guide .xy-age-options button:nth-child(2){--wood:#ffe668;--edge:#c5a13f;--ink:#594919;aspect-ratio:1;min-height:0;border-radius:50%;background-color:var(--wood);border-color:#fff9cea6;box-shadow:inset 2px 3px 2px #fff8d975,inset -3px -3px 3px #63382020,0 7px 0 var(--edge),0 11px 14px #37200b2c}
+.xy-guide .xy-age-options button:nth-child(3){--wood:#8780bb;--edge:#5f568f;--ink:#fffbed;aspect-ratio:1;min-height:0;border-radius:10px;background-color:var(--wood);border-color:#e7defaa6;box-shadow:inset 2px 3px 2px #fff8d94a,inset -3px -3px 3px #34214b2b,0 7px 0 var(--edge),0 11px 14px #37200b2c;text-shadow:0 1px #42325a5c}
+.xy-guide .xy-age-options button:hover{transform:translateY(-4px)}
+.xy-guide .xy-age-options button:active{transform:translateY(4px);box-shadow:inset 2px 2px 3px #63382020,0 2px 0 var(--edge),0 5px 8px #37200b20}
+.xy-guide .xy-mode{background-color:#f09a91;background-image:repeating-linear-gradient(5deg,transparent 0 9px,#6338200a 10px,transparent 12px 20px),linear-gradient(115deg,#fff9d233,transparent 55%,#6d332415);border:2px solid #fff0cdb0;border-radius:9px;box-shadow:inset 2px 3px 2px #fff8d960,inset -3px -3px 3px #63382020,0 7px 0 #bb625d,0 10px 12px #37200b25}
+.xy-guide .xy-mode[data-mode=online]{background-color:#f05d76;background-image:repeating-linear-gradient(5deg,transparent 0 9px,#6338200a 10px,transparent 12px 20px),linear-gradient(115deg,#fff9d226,transparent 55%,#6d332415);color:#fffaf0;border-color:#ffe2d2ab;border-radius:50px 50px 9px 9px;box-shadow:inset 2px 3px 2px #fff8d94a,inset -3px -3px 3px #63382020,0 7px 0 #b43e56,0 10px 12px #37200b25}
+.xy-guide .xy-mode.is-recommended{outline:3px solid #ffe668;outline-offset:3px}
+@media(max-width:600px){.xy-age-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:25px}.xy-guide .xy-age-options button{min-height:82px;padding:18px 3px;font-size:15px;border-width:1px}.xy-age-options button span{font-size:10px;margin-top:7px}.xy-guide .xy-age-options button:nth-child(2),.xy-guide .xy-age-options button:nth-child(3){min-height:0;padding:15px 3px}}
+.xy-guide .xy-age-options button:nth-child(n){background-image:repeating-linear-gradient(7deg,transparent 0 7px,#6338200a 8px,transparent 10px 19px),repeating-linear-gradient(172deg,#fff8dc0b 0 2px,transparent 3px 13px),linear-gradient(115deg,#fff9d23b,transparent 45%,#6d332416)}
+.xy-mode .xy-tag{color:#684e22}
