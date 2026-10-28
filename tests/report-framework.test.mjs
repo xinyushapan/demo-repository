@@ -2,7 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {references,observationRecord,activitiesFor} from '../core/static/core/report-framework.mjs';
+import {references,observationRecord,activitiesFor,reportTimeline,reportMaterials} from '../core/static/core/report-framework.mjs';
+
+test('timeline uses actual event time and never fabricates missing or negative elapsed time',()=>{
+ const events=[{action:'放入',type:'tree',at:'2026-10-28T01:00:25Z',source:'线上搭建'},{action:'移动',at:'invalid'},{action:'移除',at:'2026-10-28T00:59:00Z'}];
+ const timeline=reportTimeline({startedAt:'2026-10-28T01:00:00Z',events},{tree:'树木'});
+ assert.equal(timeline[0].elapsed,'开始后 0分25秒');assert.equal(timeline[0].at,events[0].at.replace('Z','.000Z'));assert.match(timeline[0].title,/树木/);
+ assert.equal(timeline[1].at,null);assert.equal(timeline[1].clock,'时间未记录');assert.equal(timeline[1].elapsed,'相对时长未记录');assert.equal(timeline[2].elapsed,'相对时长未记录');
+ assert.deepEqual(reportTimeline({}),[]);
+});
+
+test('material cards reflect saved quantities instead of reference mockup samples',()=>{
+ const cards=reportMaterials({pieces:[{type:'house'},{type:'house'},{type:'tree'}]},[{id:'house',name:'家',category:'建筑',image:'/house.png'}]);
+ assert.equal(cards.length,2);assert.equal(cards[0].count,2);assert.equal(cards[0].name,'家');assert.equal(cards[1].image,null);assert.equal(cards[1].name,'未核对物件');
+});
 
 test('observations keep user words separate from assistant inventions and do not fill missing evidence',()=>{
  const record=observationRecord({pieces:[{type:'tree'},{type:'tree'}],events:[{action:'移动'}],history:[{role:'assistant',text:'你很开心'},{role:'user',text:'这是森林'}],selfReport:'我给树搬了家'},{tree:'树木'});

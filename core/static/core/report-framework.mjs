@@ -28,3 +28,21 @@ export function activitiesFor(age) {
   };
   return activities[age]?[{...activities[age],sources:['HARVARD']},common]:[common];
 }
+
+export function reportTimeline(report, names={}) {
+  const start=Date.parse(report.startedAt);
+  return (Array.isArray(report.events)?report.events:[]).filter(e=>e&&typeof e==='object').map((event,index)=>{
+    const at=Date.parse(event.at),valid=Number.isFinite(at);
+    const elapsed=valid&&Number.isFinite(start)&&at>=start?Math.floor((at-start)/1000):null;
+    return {number:index+1,at:valid?new Date(at).toISOString():null,
+      clock:valid?new Date(at).toLocaleTimeString('zh-CN',{hour12:false}):'时间未记录',
+      elapsed:elapsed===null?'相对时长未记录':`开始后 ${Math.floor(elapsed/60)}分${String(elapsed%60).padStart(2,'0')}秒`,
+      title:`${event.action||'操作未注明'}${names[event.type]?' · '+names[event.type]:''}`,
+      description:`记录来源：${event.source||'未注明'}${event.type&&!names[event.type]?'；物件类型待核对':''}。`};
+  });
+}
+
+export function reportMaterials(report,catalog=[]) {
+  const counts=new Map();for(const piece of Array.isArray(report.pieces)?report.pieces:[])if(piece?.type)counts.set(piece.type,(counts.get(piece.type)||0)+1);
+  return [...counts].map(([id,count])=>{const toy=catalog.find(t=>t.id===id);return {id,count,name:toy?.name||'未核对物件',category:toy?.category||'类别未记录',image:toy?.image||null};});
+}
