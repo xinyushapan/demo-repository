@@ -101,6 +101,7 @@
     Object.assign(arrow.style, { left: `${best.side === 'left' ? r.left - 29 : best.side === 'right' ? r.right + 3 : r.left + rw / 2 - 13}px`, top: `${best.side === 'above' ? r.top - 34 : best.side === 'below' ? r.bottom + 1 : r.top + rh / 2 - 18}px` });
   }
   function tour() {
+    dialog.classList.remove('xy-intro');
     clearResume();
     stopVoice();
     const step = steps[index];
@@ -115,6 +116,11 @@
     if (voice) void speak();
   }
   function complete() { store.set(`xy-tour-${online ? 'online' : 'physical'}-v1`, 'done'); close(); }
+  function tutorialWelcome() {
+    dialog.classList.add('xy-intro');
+    frame('welcome', '<h2 id="xy-title">小语带你逛一逛？</h2><p class="xy-copy">一起认识这里的小机关吧！<br>已经会玩啦？也可以直接开始～</p>', '<div class="xy-welcome-actions"><button class="xy-primary" data-action="start-tour">开始教程 →</button><button data-action="skip">跳过教程，直接搭建</button></div>');
+    open();
+  }
   dialog.addEventListener('click', event => {
     if (dialog.classList.contains('xy-tour') && (event.target === dialog || event.target.classList.contains('xy-blank-hint') || event.target.classList.contains('xy-guide-art'))) { dialog.querySelector('[data-action=next]').click(); return; }
     const button = event.target.closest('button'); if (!button) return;
@@ -131,6 +137,7 @@
       case 'voice-cancel': dialog.querySelector('.xy-voice-consent').hidden = true; position(); break;
       case 'mute': voice = false; stopVoice(); button.hidden = true; dialog.querySelector('.xy-voice-status').textContent = '声音已关闭'; break;
       case 'skip': complete(); break;
+      case 'start-tour': index = 0; tour(); break;
       case 'prev': if (index > 0) { index--; tour(); } break;
       case 'next':
         if (steps[index].scene && document.querySelector('#digital-view').hidden) {
@@ -154,6 +161,6 @@
     document.body.append(toolbar);
     document.querySelector('#xy-replay').onclick = () => { index = 0; tour(); };
     document.querySelector('#xy-switch').onclick = () => { dialog.classList.remove('xy-tour', 'xy-tour-positioned'); modePicker(null); };
-    if (!new URLSearchParams(location.search).has('record') && (new URLSearchParams(location.search).has('tour') || !store.get(`xy-tour-${online ? 'online' : 'physical'}-v1`))) tour();
+    if (!new URLSearchParams(location.search).has('record') && (new URLSearchParams(location.search).has('tour') || !store.get(`xy-tour-${online ? 'online' : 'physical'}-v1`))) tutorialWelcome();
   }
 })();

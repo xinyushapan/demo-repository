@@ -71,3 +71,12 @@
 @media(max-width:600px){.xy-age-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:25px}.xy-guide .xy-age-options button{min-height:82px;padding:18px 3px;font-size:15px;border-width:1px}.xy-age-options button span{font-size:10px;margin-top:7px}.xy-guide .xy-age-options button:nth-child(2),.xy-guide .xy-age-options button:nth-child(3){min-height:0;padding:15px 3px}}
 .xy-guide .xy-age-options button:nth-child(n){background-image:repeating-linear-gradient(7deg,transparent 0 7px,#6338200a 8px,transparent 10px 19px),repeating-linear-gradient(172deg,#fff8dc0b 0 2px,transparent 3px 13px),linear-gradient(115deg,#fff9d23b,transparent 45%,#6d332416)}
 .xy-mode .xy-tag{color:#684e22}
+/* Compact self-selection button stays right-aligned in its existing position. */
+.xy-guide .xy-self-select[data-action=no-age]{padding:7px 12px;font-size:12px;border-radius:14px;min-height:0}
+.xy-mode-grid{align-items:stretch}
+.xy-guide .xy-mode,.xy-guide .xy-mode[data-mode=online]{box-sizing:border-box;aspect-ratio:1;min-height:0;padding:18px 14px;border-radius:9px;gap:12px;overflow:visible}
+.xy-guide .xy-mode[data-mode=online]{background-color:#ffe668;background-image:repeating-linear-gradient(5deg,transparent 0 9px,#6338200a 10px,transparent 12px 20px),linear-gradient(115deg,#fff9d24d,transparent 55%,#6d332415);color:#594919;border-color:#fff9cea6;box-shadow:inset 2px 3px 2px #fff8d975,inset -3px -3px 3px #63382020,0 7px 0 #c5a13f,0 10px 12px #37200b25}
+.xy-welcome-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.xy-guide .xy-welcome-actions button{font-size:16px;padding:13px 18px;background:#fff5c8;border:1px solid #eac65a}
+.xy-guide .xy-welcome-actions .xy-primary{background:#ffe668;font-weight:700;box-shadow:0 4px 0 #c5a13f}
+@media(max-width:600px){.xy-guide .xy-mode,.xy-guide .xy-mode[data-mode=online]{min-height:0;padding:14px 10px;gap:10px}.xy-mode strong{font-size:19px}.xy-mode>span:not(.xy-tag){font-size:12px}.xy-mode b{font-size:13px}.xy-welcome-actions{justify-content:center;gap:10px}.xy-guide .xy-welcome-actions button{font-size:14px;padding:12px 14px}}
