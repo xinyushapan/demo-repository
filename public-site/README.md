@@ -1,16 +1,27 @@
 # 心语沙盘 · 可编辑网站源码
 
-这是公开网站的前端源码和服务端接口源码。只预览页面可以使用 Python 静态服务器；DeepSeek 和 MiniMax 接口需要运行 server-source 中的 Sites/Vinext 服务端。密钥只能配置到服务端环境变量。
+这是公开网站的 Vinext / Cloudflare Worker 服务端及完整前端素材源码。请在 `public-site/` 内启动完整服务，以同时预览页面与接口。密钥只能配置到服务端环境变量。
 
 ## 在电脑上运行
 
-1. 解压源码包；再下载 /downloads/xinyu-award-assets.zip 并解压到同一个目录（保留 static/core/awards 路径）。奖励设计素材单独打包，以适配网站发布大小限制。
-2. 如果电脑已安装 Python，在解压目录打开终端，执行：
-   python -m http.server 8080
-3. 用 Chrome 或 Edge 访问 http://localhost:8080/ 。
-4. 保持终端运行。按 Ctrl+C 停止。
+需要 Node.js 22.13 或更高版本，以及 `package.json` 指定的 pnpm 11.25.0。
 
-不要直接双击 HTML 文件：摄像头和静态资源需要通过本地 HTTP 或线上 HTTPS 地址使用。
+在仓库根目录打开终端，执行：
+
+```sh
+cd public-site
+pnpm install --frozen-lockfile
+pnpm run build
+pnpm run start
+```
+
+用 Chrome 或 Edge 访问终端输出的本地地址，默认是 http://127.0.0.1:8787/ 。保持终端运行，按 Ctrl+C 停止。修改源码后重新构建和启动；开发时也可使用 `pnpm run dev`，默认端口为 5173。
+
+当前仓库已包含 `public/static/core/awards/` 奖状素材，无需另外下载素材包。不要直接双击 HTML 文件，摄像头和麦克风需要 localhost 或 HTTPS，以及浏览器权限。
+
+需要 AI 或语音接口时，将 `.dev.vars.example` 复制为 `.dev.vars`，填写自己的服务端密钥后重新启动。未配置密钥也可以预览本机搭建、语料和记录功能；联网 AI 和语音功能需要相应配置。不要提交 `.dev.vars`。
+
+此源码目录不能直接用 `python -m http.server` 替代完整服务端。只预览 Django 页面时，请参照仓库根目录 README；Django 预览不提供 Worker 的 AI 接口。
 
 ## 修改哪些文件
 
