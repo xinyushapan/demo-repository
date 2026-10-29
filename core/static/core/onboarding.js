@@ -22,7 +22,7 @@
     dialog.classList.toggle('xy-age-picker', isAgePicker);
     dialog.classList.toggle('xy-mode-picker', isModePicker);
     dialog.classList.toggle('xy-selection-panel', isSelectionPanel);
-    const portrait=isSelectionPanel?'/static/core/images/age-dialog-peeking-mascot-v3.png':`${art}${pose}.webp`;
+    const portrait=isSelectionPanel?'/static/core/images/age-dialog-peeking-mascot-v4.png':`${art}${pose}.webp`;
     dialog.innerHTML = `<button class="xy-close" type="button" data-action="close" aria-label="关闭引导">×</button><img class="xy-guide-art" src="${portrait}" alt="小语陪你一起探索"><div class="xy-guide-content"><div class="xy-bubble">${content}</div>${options}</div>`;
   }
   async function speak() {
