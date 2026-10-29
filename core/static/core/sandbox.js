@@ -8,7 +8,7 @@
  $('.stage-top span:first-child').textContent='✦ 我的小世界';$('.stage-top span:last-child').textContent='鼠标自由搭建';$('#world-canvas').setAttribute('aria-label','线上沙盘大画布，可以拖动沙具自由摆放');
  $('#sample-world').textContent='先摆一个小示例';$('#world-empty').innerHTML='小世界，等你来搭建<br><small>从左边选一件喜欢的沙具吧</small>';
  const tools=document.createElement('div');tools.className='online-library-tools';
- const label=document.createElement('label');label.className='online-search';const search=document.createElement('input');search.type='search';search.placeholder='找一找小摆件';search.maxLength=40;search.setAttribute('aria-label','搜索当前分类的沙具');label.append(search);
+ const label=document.createElement('label');label.className='online-search';const search=document.createElement('input');search.type='search';search.placeholder='';search.maxLength=40;search.setAttribute('aria-label','搜索当前分类的沙具');label.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg>';label.append(search);
  const categories=document.createElement('div');categories.className='online-categories';categories.setAttribute('aria-label','沙具分类');
  for(const option of select.options){const button=document.createElement('button');button.type='button';button.textContent=option.value==='全部沙具'?'全部':option.value;button.dataset.category=option.value;button.onclick=()=>{select.value=option.value;search.value='';select.dispatchEvent(new Event('change'));update();};categories.append(button);}
  tools.append(label,categories);library.insertBefore(tools,$('#toy-list'));
