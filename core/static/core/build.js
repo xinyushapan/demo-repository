@@ -62,7 +62,7 @@
     $('#toy-list').replaceChildren();
     for(const toy of catalog.filter(t=>categoryFor(t.category)===category)){
       const button=document.createElement('button');button.className='toy-button';button.dataset.toy=toy.id;button.disabled=cardMode;
-      const image=document.createElement('img');image.src=toy.image;image.alt='';button.append(image,document.createTextNode(toy.name+' ＋'));button.setAttribute('aria-label',`手动放入${toy.name}`);
+      const image=document.createElement('img');image.src=toy.image;image.alt='';button.append(image);if(onlineMode){const name=document.createElement('span');name.className='online-toy-name';name.textContent=toy.name;const add=document.createElementNS('http://www.w3.org/2000/svg','svg');add.classList.add('toy-add-icon');add.setAttribute('viewBox','0 0 24 24');add.setAttribute('aria-hidden','true');add.innerHTML='<circle cx="12" cy="12" r="11" fill="#fff2c8"/><path d="M12 7v10M7 12h10" fill="none" stroke="#a78845" stroke-width="1.8" stroke-linecap="round"/>';button.append(name,add);}else{button.append(document.createTextNode(toy.name+' ＋'));}button.setAttribute('aria-label',`手动放入${toy.name}`);
       button.onclick=()=>addToy(toy.id);if(onlineMode){button.draggable=true;button.addEventListener('dragstart',event=>{event.dataTransfer.setData('text/x-sandplay-toy',toy.id);event.dataTransfer.effectAllowed='copy';});}$('#toy-list').append(button);
     }
   }
