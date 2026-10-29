@@ -85,3 +85,5 @@ body.build-page{height:100vh;height:100dvh;overflow:hidden}
 @keyframes xiaoyu-mouth-talk{0%,45%{visibility:visible}22%,68%,100%{visibility:hidden}}
 @keyframes xiaoyu-mouth-small{0%,32%,45%,73%{visibility:hidden}22%,68%,85%{visibility:visible}}
 @media(prefers-reduced-motion:reduce){.mascot-friends[data-mood=speaking] .xiaoyu-mouth{animation:none;visibility:hidden}.mascot-friends[data-mood=speaking] .xiaoyu-mouth-talk{visibility:visible}}
+
+.build-page #camera-message{display:none}.build-page .camera-help .recognition-settings-icon{display:inline-block;font:18px/1.5 "Segoe UI Symbol",sans-serif;vertical-align:middle}.build-page .camera-help summary:focus-visible{outline:2px solid #bba16b;outline-offset:3px}
