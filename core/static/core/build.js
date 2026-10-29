@@ -53,13 +53,14 @@
     button.innerHTML = `<span class="scene-picture scene-art scene-art-${scene.id}" aria-hidden="true"></span><strong>${scene.name}</strong>`;
     button.onclick = () => { state.scene = scene.id; record('切换场景',null,'用户选择'); persist(); sync(); showDigital(); }; $('#scene-list').append(button);
   });
-  const categories=[...(onlineMode?['全部沙具']:[]),...new Set(catalog.map(toy=>toy.category))];
+  const categoryFor=category=>onlineMode&&['幻想与力量','危险与保护'].includes(category)?'其他':category;
+  const categories=[...new Set(catalog.map(toy=>categoryFor(toy.category)))];
   const categorySelect=document.createElement('select');categorySelect.className='toy-category';categorySelect.setAttribute('aria-label','沙具种类');
   categories.forEach(category=>{const option=document.createElement('option');option.value=category;option.textContent=category;categorySelect.append(option);});
   document.querySelector('.simulation-title').append(categorySelect);
   function showToys(category){
     $('#toy-list').replaceChildren();
-    for(const toy of catalog.filter(t=>category==='全部沙具'||t.category===category)){
+    for(const toy of catalog.filter(t=>categoryFor(t.category)===category)){
       const button=document.createElement('button');button.className='toy-button';button.dataset.toy=toy.id;button.disabled=cardMode;
       const image=document.createElement('img');image.src=toy.image;image.alt='';button.append(image,document.createTextNode(toy.name+' ＋'));button.setAttribute('aria-label',`手动放入${toy.name}`);
       button.onclick=()=>addToy(toy.id);if(onlineMode){button.draggable=true;button.addEventListener('dragstart',event=>{event.dataTransfer.setData('text/x-sandplay-toy',toy.id);event.dataTransfer.effectAllowed='copy';});}$('#toy-list').append(button);
