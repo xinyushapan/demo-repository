@@ -22,7 +22,17 @@
   catch(error){if(enabled){$('#ai-mode-status').textContent=error.name==='AbortError'?'已暂停':error.message;window.SandplayCompanion?.respondLocal(message);}}
   finally{busy=false;}
  }
- window.XinyuAI={answerIfEnabled(text){void answer(text);return true;},recordLocal:(text)=>history('assistant',text),enabled:()=>enabled&&ready,speechConsent:()=>choice==='online',beforeCamera:()=>ensureConsent('camera'),beforeVoice:async()=>{await ensureConsent('voice');return choice==='online';}};
+ let speechPending=null;
+ const speechConsent=()=>choice==='online'||sessionStorage.getItem('xinyu-speech-consent-v1')==='1';
+ async function beforeSpeech(){
+  if(speechConsent())return true;
+  if(speechPending)return speechPending;
+  const dialog=document.createElement('dialog');dialog.className='ai-dialog';
+  dialog.innerHTML='<h2>听小语说话？</h2><p>只将小语的台词发送给 MiniMax 合成声音，不发送摄像头画面或录音。声音是 AI 合成的，可以随时关闭。未成年用户请和家长或老师一起了解此说明。</p><div class="card-controls"><button data-choice="cancel">先看文字</button><button data-choice="agree">同意并听小语说</button></div>';
+  speechPending=new Promise(resolve=>{const finish=agreed=>{if(agreed)sessionStorage.setItem('xinyu-speech-consent-v1','1');dialog.close();dialog.remove();speechPending=null;resolve(agreed);};dialog.querySelector('[data-choice=agree]').onclick=()=>finish(true);dialog.querySelector('[data-choice=cancel]').onclick=()=>finish(false);dialog.addEventListener('cancel',event=>{event.preventDefault();finish(false);});});
+  document.body.append(dialog);dialog.showModal();return speechPending;
+ }
+ window.XinyuAI={answerIfEnabled(text){void answer(text);return true;},recordLocal:(text)=>history('assistant',text),enabled:()=>enabled&&ready,speechConsent,beforeSpeech,beforeCamera:()=>ensureConsent('camera'),beforeVoice:async()=>{await ensureConsent('voice');return choice==='online';}};
  const form=$('#xiaoyu-text-form');form.onsubmit=e=>{e.preventDefault();const input=$('#xiaoyu-text');const value=input.value.trim();if(value){input.value='';void answer(value);}};
  async function status(){try{const r=await fetch('/api/ai/status');const data=await r.json();ready=!!data.ready;}catch{ready=false;}enabled=choice==='online'&&ready;$('#ai-mode-status').textContent=enabled?'小语在这里陪着你':ready?'小语陪你慢慢搭建':'小语正在用本机语料陪你';$('#ai-confirm-consent').disabled=!ready;}
  async function ensureConsent(context){await statusReady;if(choice)return;if(!consentPending)consentPending=new Promise(resolve=>{consentResolve=resolve;$('#ai-confirm-consent').textContent=context==='camera'?'同意并连接摄像头':context==='voice'?'同意并使用麦克风':'同意并继续聊天';$('#ai-cancel-consent').textContent=context==='camera'?'仅本机预览':'仅用本机语料';$('#ai-consent-dialog').showModal();});await consentPending;}

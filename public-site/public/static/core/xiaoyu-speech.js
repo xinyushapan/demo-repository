@@ -11,7 +11,7 @@
   function next(){if(waiting){const text=waiting;waiting='';void begin(text);}}
   async function begin(text){
    const token=generation;loading=true;lastText=text;
-   if(capability===null)await status();if(token!==generation)return;
+   if(capability!==true)await status();if(token!==generation)return;
    if(!capability){loading=false;lastText='';return;}
    if(!window.XinyuAI?.speechConsent()){loading=false;notice('语音合成会将小语的台词发送给MiniMax，连接时了解说明。');return;}
    const activeController=new AbortController();controller=activeController;const timeout=setTimeout(()=>activeController.abort(),35000);notice('小语的声音准备中…');

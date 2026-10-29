@@ -119,9 +119,13 @@
 
   window.addEventListener('sandplay:voice-input-state',event=>{isListening=event.detail.active;setMascotMood(isListening?'listening':'idle');if(isListening){showBubble();clearTimeout(bubbleTimer);}});
 
-  voiceButton.addEventListener('click', () => {
+  voiceButton.addEventListener('click', async () => {
     if (!window.Audio) {
       line.textContent = '这台设备暂不支持网页语音，我们可以继续用文字慢慢聊。'; return;
+    }
+    if(!window.XinyuAI?.speechConsent()){
+      if(!await window.XinyuAI?.beforeSpeech())return;
+      voiceEnabled=false;
     }
     voiceEnabled = !voiceEnabled;
     voiceButton.setAttribute('aria-pressed', String(voiceEnabled));
@@ -138,9 +142,10 @@
   window.addEventListener('sandplay:correct-object',event=>confirm({label_id:map[event.detail.type],track_id:event.detail.id}));
   $('#camera').addEventListener('playing',()=>{if($('#toggle-appearance').getAttribute('aria-pressed')==='true')void start($('#camera'));});
   window.addEventListener('pagehide',stop);
-  mascot.onclick=()=>{
+  mascot.onclick=async()=>{
     if(!cameraRunning){line.textContent=document.body.classList.contains('online-mode')?'我是小语，陪你一起搭个小世界。':'我是小语。连接摄像头后，我会陪你一起搭建。';question.textContent='';}
     showBubble();
+    if(!window.XinyuAI?.speechConsent()&&!await window.XinyuAI?.beforeSpeech())return;
     if(!voiceEnabled)voiceButton.click();else speak(`${line.textContent} ${question.textContent}`);
   };
   mascot.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();mascot.click();}};
