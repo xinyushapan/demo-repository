@@ -3,7 +3,7 @@
  const $=s=>document.querySelector(s),panel=$('.scene-panel'),library=$('.simulation'),select=$('.toy-category');
  // Reuse the same companion, six scenes and toy world in a spacious online layout.
  for(const selector of ['#xiaoyu-speech','.mascot-friends'])panel.append($(selector));
- $('.simulation-title h3').textContent='沙具小口袋';$('.simulation>p').textContent='点一下放入，或拖进沙盘。';
+ $('.simulation-title h3').textContent='沙具小口袋';$('.simulation>p').remove();
  $('#input-source-note').textContent='点击选中 · 拖动摆放 · 方向键微调 · Delete移除';
  $('.stage-top span:first-child').textContent='✦ 我的小世界';$('.stage-top span:last-child').textContent='鼠标自由搭建';$('#world-canvas').setAttribute('aria-label','线上沙盘大画布，可以拖动沙具自由摆放');
  $('#sample-world').textContent='先摆一个小示例';$('#world-empty').innerHTML='小世界，等你来搭建<br><small>从左边选一件喜欢的沙具吧</small>';
