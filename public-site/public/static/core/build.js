@@ -55,6 +55,7 @@
   });
   const categoryFor=category=>onlineMode&&['幻想与力量','危险与保护'].includes(category)?'其他':category;
   const categories=[...new Set(catalog.map(toy=>categoryFor(toy.category)))];
+  if(onlineMode){categories.splice(categories.indexOf('其他'),1);categories.push('其他');}
   const categorySelect=document.createElement('select');categorySelect.className='toy-category';categorySelect.setAttribute('aria-label','沙具种类');
   categories.forEach(category=>{const option=document.createElement('option');option.value=category;option.textContent=category;categorySelect.append(option);});
   document.querySelector('.simulation-title').append(categorySelect);
