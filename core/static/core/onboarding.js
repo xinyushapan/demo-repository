@@ -22,7 +22,7 @@
     dialog.classList.toggle('xy-age-picker', isAgePicker);
     dialog.classList.toggle('xy-mode-picker', isModePicker);
     dialog.classList.toggle('xy-selection-panel', isSelectionPanel);
-    const portrait=isSelectionPanel?'/static/core/images/age-dialog-peeking-mascot-v2.png':`${art}${pose}.webp`;
+    const portrait=isSelectionPanel?'/static/core/images/age-dialog-peeking-mascot-v3.png':`${art}${pose}.webp`;
     dialog.innerHTML = `<button class="xy-close" type="button" data-action="close" aria-label="关闭引导">×</button><img class="xy-guide-art" src="${portrait}" alt="小语陪你一起探索"><div class="xy-guide-content"><div class="xy-bubble">${content}</div>${options}</div>`;
   }
   async function speak() {
@@ -47,7 +47,7 @@
   }
   function agePicker() {
     dialog.classList.remove('xy-tour', 'xy-tour-positioned'); dialog.removeAttribute('style');
-    frame('welcome', '<h2 id="xy-title">嗨！我是小语～<br>你今年几岁啦？</h2><p class="xy-copy">选一选，让我帮你找个好玩的地方！</p>', '<div class="xy-age-options" aria-label="选择年龄"><button data-age="6">6岁及以下<span>小小探索家</span></button><button data-age="9">7–9岁<span>好奇冒险家</span></button><button data-age="12">10–12岁<span>创意设计师</span></button></div><button class="xy-self-select" data-action="no-age">我想自己选玩法 →</button>');
+    frame('welcome', '<h2 id="xy-title" class="xy-age-headline">嗨，我是小语！你今年几岁？</h2><p class="xy-copy">选一选，我会为你推荐适合的搭建方式</p>', '<div class="xy-age-options" aria-label="选择年龄"><button data-age="6">6岁及以下<span>小小探索家</span></button><button data-age="9">7–9岁<span>好奇冒险家</span></button><button data-age="12">10–12岁<span>创意设计师</span></button></div><button class="xy-self-select" data-action="no-age">我想自己选玩法 →</button>');
     open();
   }
   function modePicker(age) {
