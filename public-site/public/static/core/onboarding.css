@@ -82,14 +82,16 @@
 @media(max-width:600px){.xy-guide .xy-mode,.xy-guide .xy-mode[data-mode=online]{min-height:0;padding:14px 10px;gap:10px}.xy-mode strong{font-size:19px}.xy-mode>span:not(.xy-tag){font-size:12px}.xy-mode b{font-size:13px}.xy-welcome-actions{justify-content:center;gap:10px}.xy-guide .xy-welcome-actions button{font-size:14px;padding:12px 14px}}
 
 /* The age chooser keeps its existing choices inside a single soft panel. */
-.xy-guide.xy-age-picker[open]{display:block;position:fixed;isolation:isolate;width:900px;max-width:calc(100vw - 36px);padding:140px 48px 34px;overflow:visible;background:transparent}
-.xy-guide.xy-age-picker:before{content:'';position:absolute;z-index:-1;inset:85px 0 0;background:linear-gradient(135deg,#fffdf5,#fff8e9);border:2px solid #fffdf7;border-radius:36px;box-shadow:0 14px 44px #4f382238,inset 0 1px 5px #fff}
-.xy-guide.xy-age-picker .xy-guide-art{position:absolute;z-index:2;left:22px;top:0;width:200px;height:200px;max-width:none;object-fit:contain;filter:drop-shadow(0 6px 5px #5e40221a);pointer-events:none}
-.xy-guide.xy-age-picker .xy-guide-content{max-width:650px;margin:auto}
-.xy-guide.xy-age-picker .xy-bubble{margin:0;padding:0;background:transparent;box-shadow:none;min-height:0;text-align:center}
-.xy-guide.xy-age-picker .xy-bubble:before{display:none}
-.xy-guide.xy-age-picker .xy-close{position:absolute;top:103px;right:17px;background:#fff7e5;box-shadow:0 2px 5px #c5a56a24}
-@media(max-width:600px){.xy-guide.xy-age-picker[open]{padding:126px 18px 24px;max-width:calc(100vw - 24px)}.xy-guide.xy-age-picker:before{inset:65px 0 0;border-radius:27px}.xy-guide.xy-age-picker .xy-guide-art{left:5px;top:0;width:145px;height:145px}.xy-guide.xy-age-picker .xy-close{top:79px;right:12px;width:34px;height:34px;font-size:23px}.xy-guide.xy-age-picker .xy-bubble{margin:0;padding:0;min-height:0}}
-@media(max-height:620px) and (min-width:601px){.xy-guide.xy-age-picker[open]{padding-top:100px;padding-bottom:22px;width:780px}.xy-guide.xy-age-picker:before{top:55px}.xy-guide.xy-age-picker .xy-guide-art{width:155px;height:155px}.xy-guide.xy-age-picker .xy-close{top:70px}.xy-guide.xy-age-picker .xy-guide-content{max-width:530px}}
+.xy-guide.xy-selection-panel[open]{display:block;position:fixed;isolation:isolate;width:900px;max-width:calc(100vw - 36px);padding:140px 48px 34px;overflow:visible;background:transparent}
+.xy-guide.xy-selection-panel:before{content:'';position:absolute;z-index:-1;inset:85px 0 0;background:linear-gradient(135deg,#fffdf5,#fff8e9);border:2px solid #fffdf7;border-radius:36px;box-shadow:0 14px 44px #4f382238,inset 0 1px 5px #fff}
+.xy-guide.xy-selection-panel .xy-guide-art{position:absolute;z-index:2;left:22px;top:0;width:200px;height:200px;max-width:none;object-fit:contain;filter:drop-shadow(0 6px 5px #5e40221a);pointer-events:none}
+.xy-guide.xy-selection-panel .xy-guide-content{max-width:650px;margin:auto}
+.xy-guide.xy-selection-panel .xy-bubble{margin:0;padding:0;background:transparent;box-shadow:none;min-height:0;text-align:center}
+.xy-guide.xy-selection-panel .xy-bubble:before{display:none}
+.xy-guide.xy-selection-panel .xy-close{position:absolute;top:103px;right:17px;background:#fff7e5;box-shadow:0 2px 5px #c5a56a24}
+@media(max-width:600px){.xy-guide.xy-selection-panel[open]{padding:126px 18px 24px;max-width:calc(100vw - 24px)}.xy-guide.xy-selection-panel:before{inset:65px 0 0;border-radius:27px}.xy-guide.xy-selection-panel .xy-guide-art{left:5px;top:0;width:145px;height:145px}.xy-guide.xy-selection-panel .xy-close{top:79px;right:12px;width:34px;height:34px;font-size:23px}.xy-guide.xy-selection-panel .xy-bubble{margin:0;padding:0;min-height:0}}
+@media(max-height:620px) and (min-width:601px){.xy-guide.xy-selection-panel[open]{padding-top:100px;padding-bottom:22px;width:780px}.xy-guide.xy-selection-panel:before{top:55px}.xy-guide.xy-selection-panel .xy-guide-art{width:155px;height:155px}.xy-guide.xy-selection-panel .xy-close{top:70px}.xy-guide.xy-selection-panel .xy-guide-content{max-width:530px}}
 
-.xy-guide.xy-age-picker .xy-guide-art{left:10px;top:-65px;width:350px;height:197px;filter:drop-shadow(0 4px 3px #77532d26)}@media(max-width:600px){.xy-guide.xy-age-picker .xy-guide-art{left:3px;top:-32px;width:220px;height:124px}}@media(max-height:620px) and (min-width:601px){.xy-guide.xy-age-picker .xy-guide-art{width:280px;height:158px;top:-65px}}
+.xy-guide.xy-selection-panel .xy-guide-art{left:10px;top:-65px;width:350px;height:197px;filter:drop-shadow(0 4px 3px #77532d26)}@media(max-width:600px){.xy-guide.xy-selection-panel .xy-guide-art{left:3px;top:-32px;width:220px;height:124px}}@media(max-height:620px) and (min-width:601px){.xy-guide.xy-selection-panel .xy-guide-art{width:280px;height:158px;top:-65px}}
+
+.xy-selection-panel .xy-mode-grid{max-width:480px;margin:24px auto 0}.xy-selection-panel.xy-mode-picker .xy-self-select{max-width:480px}@media(max-height:620px) and (min-width:601px){.xy-selection-panel .xy-mode-grid{max-width:400px}}
