@@ -3,3 +3,6 @@
 .speech-provider-status{display:block;margin-top:5px;font:9px/1.5 "Microsoft YaHei",sans-serif;color:#947786}
 
 .voice-input-status{display:block;margin-top:5px;font:9px/1.5 "Microsoft YaHei",sans-serif;color:#8b665b}.voice-input-status:empty{display:none}#voice-input[aria-pressed=true]{background:#f7c6c7;color:#824659}
+
+/* Keep provider and runtime diagnostics out of the companion bubble. */
+#xiaoyu-speech #speech-provider-status,#xiaoyu-speech .ai-inline{display:none}
