@@ -16,6 +16,7 @@
   function open() { returnFocus = document.activeElement; if (!dialog.open) dialog.showModal(); }
   const voiceControls = '<div class="xy-voice"><button type="button" data-action="voice" aria-label="听小语说">♫ 听小语说</button><button type="button" data-action="mute" hidden>静音</button><span class="xy-voice-status" role="status"></span></div>';
   function frame(pose, content, options = '') {
+    dialog.classList.toggle('xy-age-picker', options.includes('class="xy-age-options"'));
     dialog.innerHTML = `<button class="xy-close" type="button" data-action="close" aria-label="关闭引导">×</button><img class="xy-guide-art" src="${art}${pose}.webp" alt="小语陪你一起探索"><div class="xy-guide-content"><div class="xy-bubble">${content}</div>${options}</div>`;
   }
   async function speak() {
