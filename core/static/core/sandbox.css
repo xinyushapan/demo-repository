@@ -16,4 +16,4 @@
 @media(prefers-reduced-motion:reduce){.online-sand-entry,.online-mode .toy-button{transition:none}}
 .online-mode .simulation{grid-column:1;grid-row:1}.online-mode .digital-stage{grid-column:2;grid-row:1}
 
-.online-mode .toy-button .online-toy-name{display:block;font-size:14px;font-weight:500;line-height:1.5;margin:2px 0 0;color:#81653d}.online-mode .toy-button .toy-add-icon{position:absolute;top:5px;right:5px;width:18px;height:18px;pointer-events:none}@media(max-width:1050px){.online-mode .toy-button .online-toy-name{font-size:12px}}@media(max-width:700px){.online-mode .toy-button .online-toy-name{font-size:11px}.online-mode .toy-button .toy-add-icon{width:16px;height:16px;top:3px;right:3px}}
+.online-mode .toy-button .online-toy-name{display:block;font-size:12px;font-weight:600;line-height:1.5;margin:2px 0 0;color:#81653d}.online-mode .toy-button .toy-add-icon{position:absolute;top:5px;right:5px;width:18px;height:18px;pointer-events:none}@media(max-width:700px){.online-mode .toy-button .online-toy-name{font-size:9px}.online-mode .toy-button .toy-add-icon{width:16px;height:16px;top:3px;right:3px}}
