@@ -87,3 +87,5 @@ body.build-page{height:100vh;height:100dvh;overflow:hidden}
 @media(prefers-reduced-motion:reduce){.mascot-friends[data-mood=speaking] .xiaoyu-mouth{animation:none;visibility:hidden}.mascot-friends[data-mood=speaking] .xiaoyu-mouth-talk{visibility:visible}}
 
 .build-page #camera-message{display:none}.build-page .camera-help .recognition-settings-icon{display:inline-block;font:18px/1.5 "Segoe UI Symbol",sans-serif;vertical-align:middle}.build-page .camera-help summary:focus-visible{outline:2px solid #bba16b;outline-offset:3px}
+
+.build-page .section-heading h2{display:inline-flex;align-items:center;gap:8px;min-width:0}.build-page .section-heading h2 .section-title-icon{display:block;flex:none;width:30px;height:30px;object-fit:contain;filter:drop-shadow(0 2px 1px #a97e3415)}.build-page .section-heading h2>span{margin-left:0}@media(max-width:700px){.build-page .section-heading h2{gap:4px}.build-page .section-heading h2 .section-title-icon{width:21px;height:21px}}
