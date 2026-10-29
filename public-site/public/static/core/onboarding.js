@@ -9,12 +9,12 @@
   dialog.className = 'xy-guide';
   dialog.setAttribute('aria-labelledby', 'xy-title');
   document.body.append(dialog);
-  let returnFocus, index = 0, audio, controller, audioURL, generation = 0, voice = false, voiceApproved = false, resumeScene;
+  let returnFocus, index = 0, audio, controller, audioURL, generation = 0, voice = true, resumeScene;
   function clearResume() { if (resumeScene) document.querySelector('#scene-list')?.removeEventListener('click', resumeScene); resumeScene = null; }
   function stopVoice() { generation++; controller?.abort(); audio?.pause(); audio = null; if (audioURL) URL.revokeObjectURL(audioURL); audioURL = null; }
   function close() { stopVoice(); dialog.close(); document.querySelector('.xy-spotlight')?.remove(); returnFocus?.focus(); }
   function open() { returnFocus = document.activeElement; if (!dialog.open) dialog.showModal(); }
-  const voiceControls = '<div class="xy-voice"><button type="button" data-action="voice" aria-label="听小语说">♫ 听小语说</button><button type="button" data-action="mute" hidden>静音</button><span class="xy-voice-status" role="status"></span></div><div class="xy-voice-consent" hidden><p>开启 AI 语音？只将这段引导文字交给 MiniMax 配音。</p><button type="button" data-action="voice-confirm">开启语音</button><button type="button" data-action="voice-cancel">先看文字</button></div>';
+  const voiceControls = '<div class="xy-voice"><button type="button" data-action="voice" aria-label="听小语说">♫ 听小语说</button><button type="button" data-action="mute" hidden>静音</button><span class="xy-voice-status" role="status"></span></div>';
   function frame(pose, content, options = '') {
     dialog.innerHTML = `<button class="xy-close" type="button" data-action="close" aria-label="关闭引导">×</button><img class="xy-guide-art" src="${art}${pose}.webp" alt="小语陪你一起探索"><div class="xy-guide-content"><div class="xy-bubble">${content}</div>${options}</div>`;
   }
@@ -131,10 +131,7 @@
       case 'no-age': modePicker(null); break;
       case 'age': agePicker(); break;
       case 'voice':
-        if (!voiceApproved) { dialog.querySelector('.xy-voice-consent').hidden = false; position(); break; }
         voice = true; dialog.querySelector('[data-action=mute]').hidden = false; void speak(); break;
-      case 'voice-confirm': voiceApproved = true; voice = true; dialog.querySelector('.xy-voice-consent').hidden = true; dialog.querySelector('[data-action=mute]').hidden = false; position(); void speak(); break;
-      case 'voice-cancel': dialog.querySelector('.xy-voice-consent').hidden = true; position(); break;
       case 'mute': voice = false; stopVoice(); button.hidden = true; dialog.querySelector('.xy-voice-status').textContent = '声音已关闭'; break;
       case 'skip': complete(); break;
       case 'start-tour': index = 0; tour(); break;

@@ -123,10 +123,6 @@
     if (!window.Audio) {
       line.textContent = '这台设备暂不支持网页语音，我们可以继续用文字慢慢聊。'; return;
     }
-    if(!window.XinyuAI?.speechConsent()){
-      if(!await window.XinyuAI?.beforeSpeech())return;
-      voiceEnabled=false;
-    }
     voiceEnabled = !voiceEnabled;
     voiceButton.setAttribute('aria-pressed', String(voiceEnabled));
     voiceButton.textContent = voiceEnabled ? '◼ 关闭语音' : '▶ 听小语说';
@@ -145,7 +141,6 @@
   mascot.onclick=async()=>{
     if(!cameraRunning){line.textContent=document.body.classList.contains('online-mode')?'我是小语，陪你一起搭个小世界。':'我是小语。连接摄像头后，我会陪你一起搭建。';question.textContent='';}
     showBubble();
-    if(!window.XinyuAI?.speechConsent()&&!await window.XinyuAI?.beforeSpeech())return;
     if(!voiceEnabled)voiceButton.click();else speak(`${line.textContent} ${question.textContent}`);
   };
   mascot.onkeydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();mascot.click();}};

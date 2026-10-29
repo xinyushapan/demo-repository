@@ -13,7 +13,6 @@
    const token=generation;loading=true;lastText=text;
    if(capability!==true)await status();if(token!==generation)return;
    if(!capability){loading=false;lastText='';return;}
-   if(!window.XinyuAI?.speechConsent()){loading=false;notice('语音合成会将小语的台词发送给MiniMax，连接时了解说明。');return;}
    const activeController=new AbortController();controller=activeController;const timeout=setTimeout(()=>activeController.abort(),35000);notice('小语的声音准备中…');
    try{
     const r=await fetch('/api/speech/synthesize',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,consent:true}),signal:activeController.signal});
@@ -30,7 +29,7 @@
    finally{clearTimeout(timeout);if(controller===activeController)controller=null;}
   }
   function speak(value){if(document.hidden||window.XinyuVoiceInput?.active())return;const text=String(value||'').replace(/\s+/g,' ').trim().slice(0,400);if(!text)return;if(text===lastText&&(current||loading))return;if(current||loading){waiting=text;return;}void begin(text);}
-  function permissionChanged(){stop();if(window.XinyuAI?.speechConsent()&&document.querySelector('#voice-toggle')?.getAttribute('aria-pressed')==='true')speak([document.querySelector('#companion-line')?.textContent,document.querySelector('#companion-question')?.textContent].filter(Boolean).join(' '));}
+  function permissionChanged(){stop();if(document.querySelector('#voice-toggle')?.getAttribute('aria-pressed')==='true')speak([document.querySelector('#companion-line')?.textContent,document.querySelector('#companion-question')?.textContent].filter(Boolean).join(' '));}
   window.addEventListener('sandplay:voice-input-start',stop);window.addEventListener('sandplay:speech-consent',permissionChanged);window.addEventListener('pagehide',stop);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   void status();return{speak,stop};
