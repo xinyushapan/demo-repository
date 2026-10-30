@@ -116,3 +116,7 @@
 .xy-mode-start span{font-size:23px;font-weight:600;line-height:1}
 .xy-mode:hover .xy-mode-start{filter:brightness(1.04)}
 @media(max-width:600px){.xy-mode .xy-mode-start{min-height:38px;padding:7px 6px;font-size:15px;gap:7px}.xy-mode-start span{font-size:20px}}
+
+/* Fit the play-mode panel more closely around its two existing cards. */
+@media(min-width:601px){.xy-guide.xy-mode-picker[open]{width:600px;padding:112px 30px 18px}.xy-guide.xy-mode-picker .xy-mode-grid{margin-top:18px}.xy-guide.xy-mode-picker .xy-self-select{margin-top:14px}}
+@media(max-height:620px) and (min-width:601px){.xy-guide.xy-mode-picker[open]{width:540px;padding:88px 30px 18px}}
