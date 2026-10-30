@@ -120,3 +120,22 @@
 /* Fit the play-mode panel more closely around its two existing cards. */
 @media(min-width:601px){.xy-guide.xy-mode-picker[open]{width:600px;padding:112px 30px 18px}.xy-guide.xy-mode-picker .xy-mode-grid{margin-top:18px}.xy-guide.xy-mode-picker .xy-self-select{margin-top:14px}}
 @media(max-height:620px) and (min-width:601px){.xy-guide.xy-mode-picker[open]{width:540px;padding:88px 30px 18px}}
+
+/* Small clay illustrations make each play mode tangible without widening the panel. */
+.xy-guide .xy-mode{aspect-ratio:auto;min-height:245px;gap:7px;padding:16px 12px 14px}
+.xy-mode .xy-mode-picture{position:relative;display:block;align-self:stretch;height:105px;margin:2px 0 0;flex:1;min-height:85px}
+.xy-mode-art{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 4px 3px #8c633b18)}
+.xy-mode-picture:before{content:'';position:absolute;left:2px;top:11px;width:22px;height:30px;background:center/contain no-repeat url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 30"%3E%3Cpath d="m15 4 4 7M5 14l7 4M4 25l7-1" stroke="%23fff1cb" stroke-width="3" stroke-linecap="round"/%3E%3C/svg%3E')}
+.xy-mode[data-mode=online] .xy-mode-picture:before{filter:sepia(1) saturate(5)}
+@media(max-width:600px){.xy-guide .xy-mode{min-height:222px;padding:14px 9px 12px;gap:7px}.xy-mode .xy-mode-picture{height:90px;min-height:75px}.xy-mode-picture:before{width:17px;height:23px;left:0;top:7px}}
+@media(max-height:620px) and (min-width:601px){.xy-guide .xy-mode{min-height:218px}.xy-mode .xy-mode-picture{height:82px;min-height:65px}}
+
+.xy-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.xy-guide .xy-mode{min-width:0}
+.xy-mode .xy-mode-picture{flex:0 0 110px;height:110px;min-height:0;min-width:0}
+@media(max-width:600px){.xy-mode .xy-mode-picture{flex-basis:88px;height:88px}}
+@media(max-height:620px) and (min-width:601px){.xy-mode .xy-mode-picture{flex-basis:75px;height:75px}}
+
+.xy-guide .xy-mode,.xy-guide .xy-mode[data-mode=online]{width:100%;aspect-ratio:auto;min-width:0;min-height:245px;gap:7px;padding:16px 12px 14px}
+@media(max-width:600px){.xy-guide .xy-mode,.xy-guide .xy-mode[data-mode=online]{min-height:222px;padding:14px 9px 12px}}
+@media(max-height:620px) and (min-width:601px){.xy-guide .xy-mode,.xy-guide .xy-mode[data-mode=online]{min-height:218px}}
