@@ -108,3 +108,11 @@
 .xy-guide.xy-selection-panel .xy-age-options{margin-top:20px}
 @media(max-width:600px){.xy-guide.xy-selection-panel[open]{padding:112px 14px 20px}.xy-guide.xy-selection-panel .xy-guide-art{top:-32px}.xy-guide.xy-age-picker .xy-age-headline{gap:5px;font-size:clamp(14px,4.2vw,20px);letter-spacing:0;line-height:1.5}.xy-age-headline:before,.xy-age-headline:after{width:15px;height:22px}.xy-guide.xy-age-picker .xy-copy{font-size:12px;line-height:1.6}.xy-guide.xy-selection-panel .xy-age-options{margin-top:18px}}
 @media(max-height:620px) and (min-width:601px){.xy-guide.xy-selection-panel[open]{width:740px;padding:94px 38px 20px}.xy-guide.xy-selection-panel .xy-guide-art{top:-65px}.xy-guide.xy-age-picker .xy-age-headline{font-size:29px}.xy-guide.xy-age-picker .xy-copy{font-size:15px}}
+
+/* Reference-style start pills at the foot of each play-mode card. */
+.xy-guide .xy-mode{justify-content:flex-start}
+.xy-mode .xy-mode-start{display:flex;align-items:center;justify-content:center;gap:10px;align-self:stretch;box-sizing:border-box;min-height:45px;margin-top:auto;padding:9px 12px;border:2px solid #fffaf2;border-radius:999px;background:linear-gradient(180deg,#fa8c96 0%,#f26776 55%,#ed5e71 100%);box-shadow:inset 0 2px 5px #ffffff50,0 4px 8px #ae425b30;color:#fff;font-size:18px;font-weight:800;line-height:1.3;text-shadow:0 1px 1px #a5334630}
+.xy-mode[data-mode=online] .xy-mode-start{background:linear-gradient(180deg,#ffc932 0%,#ffb410 52%,#f5a500 100%);box-shadow:inset 0 2px 5px #ffffff65,0 4px 8px #c2822530}
+.xy-mode-start span{font-size:23px;font-weight:600;line-height:1}
+.xy-mode:hover .xy-mode-start{filter:brightness(1.04)}
+@media(max-width:600px){.xy-mode .xy-mode-start{min-height:38px;padding:7px 6px;font-size:15px;gap:7px}.xy-mode-start span{font-size:20px}}
