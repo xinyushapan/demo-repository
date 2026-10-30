@@ -31,11 +31,35 @@
   const tray = $('#input-tray');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const environment=window.SandplayWorld.create(ctx,{reducedMotion,onLoad:()=>draw(performance.now())});
+  const journeys=new Map(),interactionBar=document.createElement('div');
+  interactionBar.className='scene-play-actions';interactionBar.setAttribute('role','group');interactionBar.setAttribute('aria-label','沙具互动');interactionBar.hidden=true;
+  document.querySelector('.digital-stage').append(interactionBar);
   window.addEventListener('sandplay:operation',event=>{
     const operation=event.detail;
-    if(['切换场景','清空','移除','离开画面','忽略误认'].includes(operation.action))environment.resetResponses();
-    else if(['放入','移动','进入画面'].includes(operation.action))environment.respond(operation.scene,operation,performance.now()/1000);
+    if(['切换场景','清空','移除','离开画面','忽略误认','载入示例','更正类别'].includes(operation.action)){environment.resetResponses();journeys.clear();}
+    else if(['放入','移动','进入画面'].includes(operation.action)){
+      environment.respond(operation.scene,operation,performance.now()/1000);
+      if(onlineMode&&operation.action==='放入'&&environment.actions(operation.scene,operation.type)[0]?.kind==='drive'){
+        const piece=state.pieces.find(p=>p.id===operation.id);if(piece)drivePiece(piece,piece.x>.5?-1:1);
+      }
+    }
   });
+  function drivePiece(piece,direction){
+    if(cardMode)return;
+    journeys.delete(piece.id);
+    const from=piece.x,to=Math.max(.07,Math.min(.93,from+direction*.18));
+    if(Math.abs(from-to)<.005){toast('到边缘啦，可以换个方向行驶。');return;}
+    const started=performance.now(),scene=state.scene,job={};journeys.set(piece.id,job);
+    environment.respond(scene,piece,started/1000,{kind:'drive',direction});
+    const step=now=>{
+      if(journeys.get(piece.id)!==job||state.scene!==scene||!state.pieces.includes(piece))return;
+      const progress=reducedMotion?1:Math.min(1,(now-started)/1800);
+      move(piece.id,from+(to-from)*progress,piece.y,true);
+      if(progress<1)requestAnimationFrame(step);
+      else{journeys.delete(piece.id);record(direction>0?'向右行驶':'向左行驶',piece,'场景互动');persist();}
+    };
+    step(started);
+  }
   const validState = data => {
     if (!data || !scenes.some(s => s.id === data.scene) || !Array.isArray(data.pieces)) return null;
     return { scene: data.scene, events: Array.isArray(data.events) ? data.events.filter(e=>e&&typeof e.action==='string'&&typeof e.at==='string').slice(-2000) : [], pieces: data.pieces.slice(0,30).filter(p => p && typeof p.id === 'string' && toys.some(t => t.id === p.type) && Number.isFinite(p.x) && Number.isFinite(p.y)).map(p => ({ id: p.id, type: p.type, x: Math.max(.07,Math.min(.93,p.x)), y: Math.max(.07,Math.min(.93,p.y)) })) };
@@ -99,7 +123,7 @@
       button.setAttribute('aria-pressed',String(selected === piece.id));
       button.style.left = `${piece.x*100}%`; button.style.top = `${piece.y*100}%`;
       button.onclick = () => { selected = piece.id; updateSelection(); environment.respond(state.scene,piece,performance.now()/1000); };
-      button.onpointerdown = event => { if(cardMode)return; event.preventDefault(); selected = piece.id; button.focus(); updateSelection(); drag = { id: piece.id, source: 'tray',initialX:piece.x,initialY:piece.y }; tray.setPointerCapture(event.pointerId); };
+      button.onpointerdown = event => { if(cardMode)return; event.preventDefault(); journeys.delete(piece.id); selected = piece.id; button.focus(); updateSelection(); drag = { id: piece.id, source: 'tray',initialX:piece.x,initialY:piece.y }; tray.setPointerCapture(event.pointerId); };
       button.onkeydown = event => {
         if(cardMode)return;
         const delta = { ArrowLeft: [-.025,0], ArrowRight: [.025,0], ArrowUp: [0,-.025], ArrowDown: [0,.025] }[event.key];
@@ -120,9 +144,22 @@
     tray.querySelectorAll('button').forEach(b => { b.classList.toggle('selected',b.dataset.piece === selected); b.setAttribute('aria-pressed',String(b.dataset.piece === selected)); });
     $('#remove-toy').hidden = !piece;
     $('#selection-info').textContent = piece ? `已选中${toys.find(t => t.id === piece.type).name} · 可拖动调整位置` : '点击场景中的沙具可以选中';
+    interactionBar.replaceChildren();
+    const actions=piece?environment.actions(state.scene,piece.type):[];
+    interactionBar.hidden=!actions.length;
+    for(const action of actions){
+      const button=document.createElement('button');button.type='button';button.textContent=action.label;button.dataset.interaction=action.kind;
+      if(action.direction)button.dataset.direction=action.direction;
+      button.disabled=cardMode&&action.kind==='drive';
+      button.onclick=()=>{
+        if(action.kind==='drive')drivePiece(piece,action.direction);
+        else{environment.respond(state.scene,piece,performance.now()/1000,action);if(reducedMotion)toast('已开启减少动态效果；这项互动以动画呈现。');}
+      };interactionBar.append(button);
+    }
   }
-  function move(id,x,y) {
+  function move(id,x,y,fromJourney=false) {
     const piece = state.pieces.find(p => p.id === id); if (!piece) return;
+    if(!fromJourney)journeys.delete(id);
     piece.x = Math.max(.07,Math.min(.93,x)); piece.y = Math.max(.07,Math.min(.93,y));
     const marker = [...tray.children].find(b => b.dataset.piece === id);
     if (marker) { marker.style.left = `${piece.x*100}%`; marker.style.top = `${piece.y*100}%`; marker.setAttribute('aria-label',`${toys.find(t=>t.id===piece.type).name}，横向 ${Math.round(piece.x*100)}%，纵向 ${Math.round(piece.y*100)}%`); }
@@ -227,6 +264,7 @@
     if(cardMode)return;
     const r=canvas.getBoundingClientRect(), x=(event.clientX-r.left)/r.width*W, y=(event.clientY-r.top)/r.height*H;
     const piece=state.pieces.slice().sort((a,b)=>b.y-a.y).find(p=>{const q=project(p),scale=Math.min(W/700,H/410)*(.9+p.y*.24);const sprite=sprites.get(p.type),area=sprite?.sandplayBounds,halfWidth=area?50*area.w/area.h:35;return Math.abs(q.x-x)<halfWidth*scale&&y>q.y-98*scale&&y<q.y+12*scale;});
+    if(piece)journeys.delete(piece.id);
     selected=piece?.id||null;updateSelection();draw(performance.now());
     if(piece){drag={id:piece.id,source:'canvas',initialX:piece.x,initialY:piece.y,dx:x-project(piece).x,dy:y-project(piece).y};canvas.setPointerCapture(event.pointerId);}
   };
