@@ -139,3 +139,21 @@
 .xy-guide .xy-mode{--mode-edge:#bb625d}
 .xy-guide .xy-mode[data-mode=online]{--mode-edge:#c5a13f}
 .xy-guide .xy-mode,.xy-guide .xy-mode[data-mode=online],.xy-guide .xy-mode.is-recommended{outline:none;box-shadow:inset 2px 3px 2px #fff8d960,inset -3px -3px 3px #63382020,0 7px 0 var(--mode-edge),0 10px 12px #37200b25}
+
+/* Three matching illustrated age cards, following the supplied reference. */
+.xy-guide.xy-age-picker .xy-age-options{align-items:stretch;gap:18px;padding-bottom:8px}
+.xy-guide.xy-age-picker .xy-age-options .xy-age-card:nth-child(n){--card-top:#ffbdbb;--card-bottom:#ffa3a3;--card-edge:#e58182;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 32px 29px;align-items:center;gap:7px;box-sizing:border-box;width:100%;min-width:0;height:220px;min-height:0;aspect-ratio:auto;padding:12px 10px 13px;border:1px solid #fff6e377;border-radius:18px;background:linear-gradient(150deg,var(--card-top),var(--card-bottom));color:#503c2f;text-shadow:none;box-shadow:inset 0 3px 4px #ffffff50,inset 0 -3px 2px #ffffff20,0 6px 0 var(--card-edge),0 10px 14px #765e2924;overflow:visible}
+.xy-guide.xy-age-picker .xy-age-options .xy-age-card:nth-child(2){--card-top:#fff19b;--card-bottom:#ffe471;--card-edge:#dfbb4c}
+.xy-guide.xy-age-picker .xy-age-options .xy-age-card:nth-child(3){--card-top:#d4beff;--card-bottom:#bca2f8;--card-edge:#9b7bda}
+.xy-age-card .xy-age-picture{position:relative;display:block;align-self:stretch;min-height:0;min-width:0;margin:0;border-radius:18px;background:radial-gradient(ellipse at center,#fff8 0%,#fff2 55%,#fff0 75%)}
+.xy-age-picture img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 5px 3px #73552622)}
+.xy-age-picture:before,.xy-age-picture:after{content:'';position:absolute;left:1px;top:44%;width:19px;height:27px;background:center/contain no-repeat url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 30"%3E%3Cpath d="m15 4 4 7M5 14l7 4M4 25l7-1" stroke="%23ed818a" stroke-width="4" stroke-linecap="round"/%3E%3C/svg%3E');transform:rotate(-8deg)}
+.xy-age-picture:after{left:auto;right:1px;top:18%;transform:rotate(175deg);opacity:.8}
+.xy-age-card:nth-child(2) .xy-age-picture:before,.xy-age-card:nth-child(2) .xy-age-picture:after{filter:sepia(1) saturate(5)}
+.xy-age-card:nth-child(3) .xy-age-picture:before,.xy-age-card:nth-child(3) .xy-age-picture:after{filter:hue-rotate(315deg)}
+.xy-age-card strong{display:block;font-size:26px;font-weight:900;line-height:32px;white-space:nowrap;letter-spacing:-.5px}
+.xy-guide .xy-age-card .xy-age-caption{display:flex;align-items:center;justify-content:center;justify-self:center;width:94%;height:29px;margin:0;padding:0 6px;border-radius:999px;background:#fff9e8a6;color:#72533e;font-size:14px;font-weight:500;line-height:1.2;white-space:nowrap}
+.xy-guide.xy-age-picker .xy-age-card:hover{transform:translateY(-3px);filter:brightness(1.025)}
+.xy-guide.xy-age-picker .xy-age-card:active{transform:translateY(3px)}
+@media(max-width:600px){.xy-guide.xy-age-picker .xy-age-options{gap:9px}.xy-guide.xy-age-picker .xy-age-options .xy-age-card:nth-child(n){height:158px;grid-template-rows:minmax(0,1fr) 24px 23px;gap:4px;padding:8px 5px 9px;border-radius:14px;box-shadow:inset 0 2px 3px #ffffff50,0 5px 0 var(--card-edge),0 8px 10px #765e2920}.xy-age-card strong{font-size:17px;line-height:24px;letter-spacing:-.4px}.xy-guide .xy-age-card .xy-age-caption{height:23px;font-size:10px;padding:0 3px;width:100%}.xy-age-picture:before,.xy-age-picture:after{width:12px;height:18px}.xy-age-card .xy-age-picture{border-radius:11px}}
+@media(max-height:620px) and (min-width:601px){.xy-guide.xy-age-picker .xy-age-options .xy-age-card:nth-child(n){height:180px;grid-template-rows:minmax(0,1fr) 28px 25px;padding:9px 8px 10px;gap:5px}.xy-age-card strong{font-size:22px;line-height:28px}.xy-guide .xy-age-card .xy-age-caption{height:25px;font-size:12px}}

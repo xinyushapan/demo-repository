@@ -47,7 +47,9 @@
   }
   function agePicker() {
     dialog.classList.remove('xy-tour', 'xy-tour-positioned'); dialog.removeAttribute('style');
-    frame('welcome', '<h2 id="xy-title" class="xy-age-headline">嗨，我是小语！你今年几岁？</h2><p class="xy-copy">选一选，我会为你推荐适合的搭建方式</p>', '<div class="xy-age-options" aria-label="选择年龄"><button data-age="6">6岁及以下<span>小小探索家</span></button><button data-age="9">7–9岁<span>好奇冒险家</span></button><button data-age="12">10–12岁<span>创意设计师</span></button></div><button class="xy-self-select" data-action="no-age">我想自己选玩法 →</button>');
+    const ages=[{age:6,title:'6岁及以下',name:'小小探索家',icon:'star'},{age:9,title:'7–9岁',name:'好奇冒险家',icon:'magnifier'},{age:12,title:'10–12岁',name:'创意设计师',icon:'palette'}];
+    const choices=ages.map(item=>`<button class="xy-age-card" data-age="${item.age}"><span class="xy-age-picture" aria-hidden="true"><img src="/static/core/images/age-${item.icon}.png" alt="" decoding="async"></span><strong>${item.title}</strong><span class="xy-age-caption">${item.name}</span></button>`).join('');
+    frame('welcome', '<h2 id="xy-title" class="xy-age-headline">嗨，我是小语！你今年几岁？</h2><p class="xy-copy">选一选，我会为你推荐适合的搭建方式</p>', `<div class="xy-age-options" aria-label="选择年龄">${choices}</div><button class="xy-self-select" data-action="no-age">我想自己选玩法 →</button>`);
     open();
   }
   function modePicker(age) {
