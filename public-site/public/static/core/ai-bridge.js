@@ -15,14 +15,14 @@
  async function request(mode,data){const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),40000);controllers.add(controller);try{const response=await fetch(`/api/ai/${mode}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...snapshot(),...data,consent:enabled}),signal:controller.signal});const result=await response.json();if(!response.ok)throw Error(result.error||'AI暂时不可用');return result;}finally{clearTimeout(timeout);controllers.delete(controller);}}
  async function answer(raw){const message=String(raw||'').trim().slice(0,800);if(!message)return;
   if(busy){show('小语还在想上一句话，等一下再告诉我好吗？');return;}
-  if(!choice)await ensureConsent('text');
+  if(!choice&&ready)await ensureConsent('text');
   history('user',message);if(!enabled||!ready){window.SandplayCompanion?.respondLocal(message);return;}
   busy=true;const revision=generation;$('#ai-mode-status').textContent='小语在认真听…';
   try{const reply=await request('chat',{message});if(enabled&&revision===generation){show(reply.line,reply.question,'deepseek');$('#ai-mode-status').textContent='DeepSeek · 已回应';}}
   catch(error){if(enabled){$('#ai-mode-status').textContent=error.name==='AbortError'?'已暂停':error.message;window.SandplayCompanion?.respondLocal(message);}}
   finally{busy=false;}
  }
- window.XinyuAI={answerIfEnabled(text){void answer(text);return true;},recordLocal:(text)=>history('assistant',text),enabled:()=>enabled&&ready,beforeCamera:()=>ensureConsent('camera'),beforeVoice:async()=>{await ensureConsent('voice');return choice==='online';}};
+ window.XinyuAI={answerIfEnabled(text){void answer(text);return true;},recordLocal:(text)=>history('assistant',text),enabled:()=>enabled&&ready,beforeCamera:()=>ensureConsent('camera')};
  const form=$('#xiaoyu-text-form');form.onsubmit=e=>{e.preventDefault();const input=$('#xiaoyu-text');const value=input.value.trim();if(value){input.value='';void answer(value);}};
  async function status(){try{const r=await fetch('/api/ai/status');const data=await r.json();ready=!!data.ready;}catch{ready=false;}enabled=choice==='online'&&ready;$('#ai-mode-status').textContent=enabled?'小语在这里陪着你':ready?'小语陪你慢慢搭建':'小语正在用本机语料陪你';$('#ai-confirm-consent').disabled=!ready;}
  async function ensureConsent(context){await statusReady;if(choice)return;if(!consentPending)consentPending=new Promise(resolve=>{consentResolve=resolve;$('#ai-confirm-consent').textContent=context==='camera'?'同意并连接摄像头':context==='voice'?'同意并使用麦克风':'同意并继续聊天';$('#ai-cancel-consent').textContent=context==='camera'?'仅本机预览':'仅用本机语料';$('#ai-consent-dialog').showModal();});await consentPending;}
