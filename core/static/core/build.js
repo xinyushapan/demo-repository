@@ -33,28 +33,27 @@
   const environment=window.SandplayWorld.create(ctx,{reducedMotion,onLoad:()=>draw(performance.now())});
   const journeys=new Map(),interactionBar=document.createElement('div');
   interactionBar.className='scene-play-actions';interactionBar.setAttribute('role','group');interactionBar.setAttribute('aria-label','沙具互动');interactionBar.hidden=true;
+  const playCaption=document.createElement('div'),playButtons=document.createElement('div');playCaption.className='scene-play-caption';playCaption.setAttribute('aria-live','polite');playButtons.className='scene-play-buttons';interactionBar.append(playCaption,playButtons);
+  const playIcons={leaf:'<path d="M19 4C8 3 3 8 6 14c3 6 12 2 13-10Z" fill="#78aa6b"/><path d="m4 20 11-11" stroke="#56804e"/>',food:'<path d="m5 18 5-5M4 16l4 4" stroke="#bf9970" stroke-width="3"/><path d="M11 14c-7-5 0-14 6-9s0 12-6 9" fill="#d59b7f"/>',fish:'<path d="m3 12 4-5v10zm4 0c3-8 13-8 14 0-1 8-11 8-14 0" fill="#74b9c9"/><circle cx="17" cy="10" r="1" fill="#406b72"/>',bird:'<path d="M3 12q4-9 9-2 6-9 9-5-1 12-10 12-6 0-8-5" fill="#d5ad62"/>',castle:'<path d="M3 20V9h5v11m8 0V9h5v11M8 20V6h8v14M3 9V5m5 4V5m8 4V5m5 4V5M8 6V2m8 4V2" fill="#ead095" stroke="#b49155" stroke-width="2"/><path d="M10 20v-5a2 2 0 0 1 4 0v5" fill="#b49155"/>',rings:'<ellipse cx="12" cy="14" rx="10" ry="6"/><ellipse cx="12" cy="14" rx="6" ry="3"/>',star:'<path d="m12 2 3 6 7 1-5 5 1 8-6-4-6 4 1-8-5-5 7-1Z" fill="#ebc86f" stroke="#caa54c"/>',wave:'<path d="M6 20 3 12q0-2 2-1l2 3V5q1-3 2 0v7-9q1-2 2 0v9-8q1-2 2 0v9-6q1-2 2 0v7l3-3q3-1 1 2l-3 7Z" fill="#e8bb8b" stroke="#c79769"/>',left:'<path d="M20 12H4m6-6-6 6 6 6"/>',right:'<path d="M4 12h16m-6-6 6 6-6 6"/>'};
   document.querySelector('.digital-stage').append(interactionBar);
   window.addEventListener('sandplay:operation',event=>{
     const operation=event.detail;
-    if(['切换场景','清空','移除','离开画面','忽略误认','载入示例','更正类别'].includes(operation.action)){environment.resetResponses();journeys.clear();}
-    else if(['放入','移动','进入画面'].includes(operation.action)){
-      environment.respond(operation.scene,operation,performance.now()/1000);
-      if(onlineMode&&operation.action==='放入'&&environment.actions(operation.scene,operation.type)[0]?.kind==='drive'){
-        const piece=state.pieces.find(p=>p.id===operation.id);if(piece)drivePiece(piece,piece.x>.5?-1:1);
-      }
-    }
+    if(['切换场景','清空','移除','离开画面','忽略误认','载入示例','更正类别'].includes(operation.action)){if(operation.action==='清空')environment.clearPlay();else environment.resetResponses();journeys.clear();}
+    else if(['放入','进入画面'].includes(operation.action))environment.respond(operation.scene,operation,performance.now()/1000);
   });
   function drivePiece(piece,direction){
     if(cardMode)return;
     journeys.delete(piece.id);
     const from=piece.x,to=Math.max(.07,Math.min(.93,from+direction*.18));
     if(Math.abs(from-to)<.005){toast('到边缘啦，可以换个方向行驶。');return;}
+    piece.facing=direction;
     const started=performance.now(),scene=state.scene,job={};journeys.set(piece.id,job);
     environment.respond(scene,piece,started/1000,{kind:'drive',direction});
     const step=now=>{
       if(journeys.get(piece.id)!==job||state.scene!==scene||!state.pieces.includes(piece))return;
       const progress=reducedMotion?1:Math.min(1,(now-started)/1800);
-      move(piece.id,from+(to-from)*progress,piece.y,true);
+      const eased=progress*progress*(3-2*progress);
+      move(piece.id,from+(to-from)*eased,piece.y,true);
       if(progress<1)requestAnimationFrame(step);
       else{journeys.delete(piece.id);record(direction>0?'向右行驶':'向左行驶',piece,'场景互动');persist();}
     };
@@ -62,10 +61,10 @@
   }
   const validState = data => {
     if (!data || !scenes.some(s => s.id === data.scene) || !Array.isArray(data.pieces)) return null;
-    return { scene: data.scene, events: Array.isArray(data.events) ? data.events.filter(e=>e&&typeof e.action==='string'&&typeof e.at==='string').slice(-2000) : [], pieces: data.pieces.slice(0,30).filter(p => p && typeof p.id === 'string' && toys.some(t => t.id === p.type) && Number.isFinite(p.x) && Number.isFinite(p.y)).map(p => ({ id: p.id, type: p.type, x: Math.max(.07,Math.min(.93,p.x)), y: Math.max(.07,Math.min(.93,p.y)) })) };
+    return { scene: data.scene, play:Array.isArray(data.play)?data.play:[], events: Array.isArray(data.events) ? data.events.filter(e=>e&&typeof e.action==='string'&&typeof e.at==='string').slice(-2000) : [], pieces: data.pieces.slice(0,30).filter(p => p && typeof p.id === 'string' && toys.some(t => t.id === p.type) && Number.isFinite(p.x) && Number.isFinite(p.y)).map(p => ({ id: p.id, type: p.type, facing:p.facing===-1?-1:1, x: Math.max(.07,Math.min(.93,p.x)), y: Math.max(.07,Math.min(.93,p.y)) })) };
   };
   function toast(message) { $('#toast').textContent = message; $('#toast').hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => $('#toast').hidden = true, 3200); }
-  function persist() { try { localStorage.setItem(draftKey,JSON.stringify(state)); } catch { toast('浏览器无法保存草稿；当前仍可继续搭建。'); } }
+  function persist() { state.play=environment.savePlay();try { localStorage.setItem(draftKey,JSON.stringify(state)); } catch { toast('浏览器无法保存草稿；当前仍可继续搭建。'); } }
   function record(action,piece=null,source='手动搭建') {
     state.events.push({at:new Date().toISOString(),action,source,scene:state.scene,...(piece?{id:piece.id,type:piece.type,x:Number(piece.x.toFixed(4)),y:Number(piece.y.toFixed(4))}:{})});
     state.events=state.events.slice(-2000);$('#operation-count').textContent=state.events.length;window.dispatchEvent(new CustomEvent('sandplay:operation',{detail:state.events.at(-1)}));
@@ -77,6 +76,7 @@
     const saved = validState(record || JSON.parse(localStorage.getItem(draftKey) || 'null'));
     if (saved) state = saved;
   } catch { /* Invalid or unavailable storage does not prevent building. */ }
+  environment.restorePlay(state.play);
   scenes.forEach(scene => {
     const button = document.createElement('button'); button.className = 'scene-card'; button.dataset.scene = scene.id;
     button.innerHTML = `<span class="scene-picture scene-art scene-art-${scene.id}" aria-hidden="true"></span><strong>${scene.name}</strong>`;
@@ -122,7 +122,7 @@
       button.title = `${toy.name}：拖动或用方向键移动`; button.setAttribute('aria-label',`模拟${toy.name}，横向 ${Math.round(piece.x*100)}%，纵向 ${Math.round(piece.y*100)}%`);
       button.setAttribute('aria-pressed',String(selected === piece.id));
       button.style.left = `${piece.x*100}%`; button.style.top = `${piece.y*100}%`;
-      button.onclick = () => { selected = piece.id; updateSelection(); environment.respond(state.scene,piece,performance.now()/1000); };
+      button.onclick = () => { selected = piece.id; updateSelection(); };
       button.onpointerdown = event => { if(cardMode)return; event.preventDefault(); journeys.delete(piece.id); selected = piece.id; button.focus(); updateSelection(); drag = { id: piece.id, source: 'tray',initialX:piece.x,initialY:piece.y }; tray.setPointerCapture(event.pointerId); };
       button.onkeydown = event => {
         if(cardMode)return;
@@ -144,29 +144,39 @@
     tray.querySelectorAll('button').forEach(b => { b.classList.toggle('selected',b.dataset.piece === selected); b.setAttribute('aria-pressed',String(b.dataset.piece === selected)); });
     $('#remove-toy').hidden = !piece;
     $('#selection-info').textContent = piece ? `已选中${toys.find(t => t.id === piece.type).name} · 可拖动调整位置` : '点击场景中的沙具可以选中';
-    interactionBar.replaceChildren();
+    playButtons.replaceChildren();
     const actions=piece?environment.actions(state.scene,piece.type):[];
     interactionBar.hidden=!actions.length;
     for(const action of actions){
-      const button=document.createElement('button');button.type='button';button.textContent=action.label;button.dataset.interaction=action.kind;
+      const button=document.createElement('button');button.type='button';button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(playIcons[action.icon]||playIcons.star)+'</svg><span>'+action.label+'</span>';button.dataset.interaction=action.kind;
       if(action.direction)button.dataset.direction=action.direction;
       button.disabled=cardMode&&action.kind==='drive';
       button.onclick=()=>{
         if(action.kind==='drive')drivePiece(piece,action.direction);
-        else{environment.respond(state.scene,piece,performance.now()/1000,action);if(reducedMotion)toast('已开启减少动态效果；这项互动以动画呈现。');}
-      };interactionBar.append(button);
+        else{environment.respond(state.scene,piece,performance.now()/1000,action);if(['castle','rings'].includes(action.kind)){record(action.kind==='castle'?'堆沙堡':'画沙纹',piece,'场景互动');persist();}else if(reducedMotion)toast(action.label+'，小伙伴收到啦。');draw(performance.now());}
+      };playButtons.append(button);
     }
+  }
+  function positionPlayControls(time){
+    if(interactionBar.hidden)return;const piece=state.pieces.find(p=>p.id===selected);if(!piece)return;
+    const point=project(piece),width=interactionBar.offsetWidth,height=interactionBar.offsetHeight,activity=environment.activity(state.scene,piece.id,time);
+    const caption=activity?.text||(environment.actions(state.scene,piece.type)[0]?.kind==='drive'?'选个方向，出发吧':'选个小动作，一起玩');
+    if(playCaption.textContent!==caption)playCaption.textContent=caption;
+    interactionBar.classList.toggle('is-playing',!!activity);interactionBar.style.setProperty('--play-progress',activity?(activity.progress*100)+'%':'0%');
+    for(const b of playButtons.children)b.disabled=(cardMode&&b.dataset.interaction==='drive')||(!!activity&&activity.kind!=='drive'&&b.dataset.interaction===activity.kind);
+    const left=Math.max(10,Math.min(W-width-10,point.x-width/2)),below=point.y+21;
+    interactionBar.style.left=(left+canvas.offsetLeft)+'px';interactionBar.style.top=((below+height<H-45?below:Math.max(45,point.y-120*Math.min(W/700,H/410)-height))+canvas.offsetTop)+'px';
   }
   function move(id,x,y,fromJourney=false) {
     const piece = state.pieces.find(p => p.id === id); if (!piece) return;
-    if(!fromJourney)journeys.delete(id);
+    if(!fromJourney){journeys.delete(id);environment.cancelPiece(id);}
     piece.x = Math.max(.07,Math.min(.93,x)); piece.y = Math.max(.07,Math.min(.93,y));
     const marker = [...tray.children].find(b => b.dataset.piece === id);
     if (marker) { marker.style.left = `${piece.x*100}%`; marker.style.top = `${piece.y*100}%`; marker.setAttribute('aria-label',`${toys.find(t=>t.id===piece.type).name}，横向 ${Math.round(piece.x*100)}%，纵向 ${Math.round(piece.y*100)}%`); }
     draw(performance.now());
   }
   tray.onpointermove = e => { if (drag?.source !== 'tray') return; const r = tray.getBoundingClientRect(); move(drag.id,(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height); };
-  const endDrag = () => { if (drag) { const piece=state.pieces.find(p=>p.id===drag.id);if(piece){if(Math.abs(piece.x-drag.initialX)>.002||Math.abs(piece.y-drag.initialY)>.002)record('移动',piece);else environment.respond(state.scene,piece,performance.now()/1000);}drag = null; persist(); } };
+  const endDrag = () => { if (drag) { const piece=state.pieces.find(p=>p.id===drag.id);if(piece){if(Math.abs(piece.x-drag.initialX)>.002||Math.abs(piece.y-drag.initialY)>.002)record('移动',piece);}drag = null; persist(); } };
   tray.onpointerup = endDrag; tray.onpointercancel = endDrag;
   tray.addEventListener('keyup', event => { if(!cardMode&&event.key.startsWith('Arrow')) {const piece=state.pieces.find(p=>p.id===selected);if(piece)record('移动',piece);persist();} });
   function remove() { if(cardMode)return;const piece=state.pieces.find(p=>p.id===selected);if(piece)record('移除',piece);state.pieces = state.pieces.filter(p => p.id !== selected); selected = null; persist(); sync(); }
@@ -222,10 +232,10 @@
   function rounded(x,y,w,h,r,color) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();}
   function path(points,color){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=color;ctx.fill();}
   function project(p){return {x:W*(.12+p.x*.76),y:H*(.40+p.y*.49)};}
-  function toyDraw(type,x,y,s,bob,highlight=false) {
+  function toyDraw(type,x,y,s,bob,highlight=false,pose={}) {
     ctx.save();ctx.translate(x,y);ctx.scale(s,s);ellipse(0,5,24,8,'#39332320');
     if(highlight){ctx.beginPath();ctx.ellipse(0,5,32,12,0,0,Math.PI*2);ctx.strokeStyle='#9b74c5';ctx.lineWidth=3;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);}
-    ctx.translate(0,bob);
+    ctx.rotate(pose.tilt||0);ctx.scale(pose.flip?-1:1,pose.squash||1);ctx.translate(0,bob);
     const sprite=sprites.get(type);if(sprite?.complete&&sprite.naturalWidth){const area=sprite.sandplayBounds||{x:0,y:0,w:sprite.naturalWidth,h:sprite.naturalHeight};const height=100,width=height*area.w/area.h;ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);ctx.restore();return;}
     if(type==='tree') {rounded(-7,-48,14,50,5,'#aa7347');ellipse(2,-22,12,5,'#98633d');ellipse(-17,-55,22,26,'#3f945e');ellipse(17,-57,24,28,'#4ba56a');ellipse(0,-77,27,30,'#65b77a');ellipse(-8,-85,9,12,'#87cb8f');}
     else if(type==='house') {rounded(-28,-45,56,49,5,'#fff0cd');path([[-34,-45],[0,-77],[35,-45]],'#ed785e');path([[0,-77],[35,-45],[31,-39],[-1,-66],[-32,-39],[-34,-45]],'#cf5c48');rounded(-6,-23,15,27,7,'#a47751');rounded(-21,-34,10,13,3,'#8bcbd0');rounded(14,-34,10,13,3,'#8bcbd0');rounded(18,-76,9,20,2,'#f7e2bc');}
@@ -256,15 +266,17 @@
     }
     environment.ambience(scene.id,W,H,t);
     const s=Math.min(W/700,H/410);
-    state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const point=project(p);const scale=s*(.9+p.y*.24);toyDraw(p.type,point.x,point.y,scale,0,p.id===selected);});
+    environment.playGround(scene.id,W,H,t);
+    state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const point=project(p);const scale=s*(.9+p.y*.24);const pose=environment.pose(p,t);toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);});
     environment.ambience(scene.id,W,H,t,true);
     environment.reactions(scene.id,W,H,t);
+    positionPlayControls(time/1000);
   }
   canvas.onpointerdown = event => {
     if(cardMode)return;
     const r=canvas.getBoundingClientRect(), x=(event.clientX-r.left)/r.width*W, y=(event.clientY-r.top)/r.height*H;
     const piece=state.pieces.slice().sort((a,b)=>b.y-a.y).find(p=>{const q=project(p),scale=Math.min(W/700,H/410)*(.9+p.y*.24);const sprite=sprites.get(p.type),area=sprite?.sandplayBounds,halfWidth=area?50*area.w/area.h:35;return Math.abs(q.x-x)<halfWidth*scale&&y>q.y-98*scale&&y<q.y+12*scale;});
-    if(piece)journeys.delete(piece.id);
+    if(piece){journeys.delete(piece.id);environment.cancelPiece(piece.id);}
     selected=piece?.id||null;updateSelection();draw(performance.now());
     if(piece){drag={id:piece.id,source:'canvas',initialX:piece.x,initialY:piece.y,dx:x-project(piece).x,dy:y-project(piece).y};canvas.setPointerCapture(event.pointerId);}
   };
