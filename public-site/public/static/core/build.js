@@ -31,6 +31,11 @@
   const tray = $('#input-tray');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const environment=window.SandplayWorld.create(ctx,{reducedMotion,onLoad:()=>draw(performance.now())});
+  window.addEventListener('sandplay:operation',event=>{
+    const operation=event.detail;
+    if(['切换场景','清空','移除','离开画面','忽略误认'].includes(operation.action))environment.resetResponses();
+    else if(['放入','移动','进入画面'].includes(operation.action))environment.respond(operation.scene,operation,performance.now()/1000);
+  });
   const validState = data => {
     if (!data || !scenes.some(s => s.id === data.scene) || !Array.isArray(data.pieces)) return null;
     return { scene: data.scene, events: Array.isArray(data.events) ? data.events.filter(e=>e&&typeof e.action==='string'&&typeof e.at==='string').slice(-2000) : [], pieces: data.pieces.slice(0,30).filter(p => p && typeof p.id === 'string' && toys.some(t => t.id === p.type) && Number.isFinite(p.x) && Number.isFinite(p.y)).map(p => ({ id: p.id, type: p.type, x: Math.max(.07,Math.min(.93,p.x)), y: Math.max(.07,Math.min(.93,p.y)) })) };
@@ -93,7 +98,7 @@
       button.title = `${toy.name}：拖动或用方向键移动`; button.setAttribute('aria-label',`模拟${toy.name}，横向 ${Math.round(piece.x*100)}%，纵向 ${Math.round(piece.y*100)}%`);
       button.setAttribute('aria-pressed',String(selected === piece.id));
       button.style.left = `${piece.x*100}%`; button.style.top = `${piece.y*100}%`;
-      button.onclick = () => { selected = piece.id; updateSelection(); };
+      button.onclick = () => { selected = piece.id; updateSelection(); environment.respond(state.scene,piece,performance.now()/1000); };
       button.onpointerdown = event => { if(cardMode)return; event.preventDefault(); selected = piece.id; button.focus(); updateSelection(); drag = { id: piece.id, source: 'tray',initialX:piece.x,initialY:piece.y }; tray.setPointerCapture(event.pointerId); };
       button.onkeydown = event => {
         if(cardMode)return;
@@ -124,7 +129,7 @@
     draw(performance.now());
   }
   tray.onpointermove = e => { if (drag?.source !== 'tray') return; const r = tray.getBoundingClientRect(); move(drag.id,(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height); };
-  const endDrag = () => { if (drag) { const piece=state.pieces.find(p=>p.id===drag.id);if(piece&&(Math.abs(piece.x-drag.initialX)>.002||Math.abs(piece.y-drag.initialY)>.002))record('移动',piece);drag = null; persist(); } };
+  const endDrag = () => { if (drag) { const piece=state.pieces.find(p=>p.id===drag.id);if(piece){if(Math.abs(piece.x-drag.initialX)>.002||Math.abs(piece.y-drag.initialY)>.002)record('移动',piece);else environment.respond(state.scene,piece,performance.now()/1000);}drag = null; persist(); } };
   tray.onpointerup = endDrag; tray.onpointercancel = endDrag;
   tray.addEventListener('keyup', event => { if(!cardMode&&event.key.startsWith('Arrow')) {const piece=state.pieces.find(p=>p.id===selected);if(piece)record('移动',piece);persist();} });
   function remove() { if(cardMode)return;const piece=state.pieces.find(p=>p.id===selected);if(piece)record('移除',piece);state.pieces = state.pieces.filter(p => p.id !== selected); selected = null; persist(); sync(); }
@@ -216,6 +221,7 @@
     const s=Math.min(W/700,H/410);
     state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const point=project(p);const scale=s*(.9+p.y*.24);toyDraw(p.type,point.x,point.y,scale,0,p.id===selected);});
     environment.ambience(scene.id,W,H,t,true);
+    environment.reactions(scene.id,W,H,t);
   }
   canvas.onpointerdown = event => {
     if(cardMode)return;
