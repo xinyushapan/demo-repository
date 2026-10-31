@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $=s=>document.querySelector(s),video=$('#camera'),toggle=$('#toggle-appearance'),status=$('#appearance-status'),overlay=$('#recognition-overlay');
-  const catalog=window.SANDPLAY_TOYS,workerURL=new URL('appearance-worker.js?v=20',document.currentScript.src);
+  const catalog=window.SANDPLAY_TOYS,workerURL=new URL('appearance-worker.js?v=21',document.currentScript.src);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
   let worker=null,loaded=false,loading=false,active=false,busy=false,timer=null,stream=null,frame=0,tracks=[],pendingLearn=[],sequence=0,selection=null,learning=false,drag=null;
   let physicalWorker=null,physicalLoaded=false,physicalBusy=false,physicalTimer=null,streamEpoch=0;const sourceFrames={general:0,physical:0},physicalTypes=new Set();
@@ -10,11 +10,11 @@
   function setActive(value){active=value;toggle.setAttribute('aria-pressed',String(active));toggle.textContent=active?'暂停沙具识别':'开始识别沙具';$('#appearance-indicator').textContent=active?'· 识别中':'· 已暂停';sendMode();clearTimeout(timer);clearTimeout(physicalTimer);if(active){startPhysicalWorker();startWorker();tick();physicalTick();}else{$('.camera-label').textContent='本机画面预览 · 不上传';status.textContent='识别已暂停，保留最后的数字摆放。';}}
   function startPhysicalWorker(){
     if(physicalWorker)return;
-    physicalWorker=new Worker(new URL('physical-flower-worker.js?v=3',document.currentScript?.src||workerURL));
+    physicalWorker=new Worker(new URL('physical-flower-worker.js?v=4',document.currentScript?.src||workerURL));
     const failed=()=>{physicalLoaded=false;physicalBusy=false;clearTimeout(physicalTimer);physicalWorker?.terminate();physicalWorker=null;status.textContent='实拍快速识别未就绪，正在使用完整参考匹配。';};
     physicalWorker.onerror=failed;physicalWorker.onmessage=event=>{
       const data=event.data;
-      if(data.kind==='ready'){physicalLoaded=true;physicalTypes.clear();for(const type of data.types||['flower'])physicalTypes.add(type);tracks=tracks.filter(track=>track.source!=='general'||!physicalTypes.has(track.rawType));status.textContent='已记住实物花朵和树木的多个角度，把沙具放到镜头前试试。';physicalTick();}
+      if(data.kind==='ready'){physicalLoaded=true;physicalTypes.clear();for(const type of data.types||['flower'])physicalTypes.add(type);tracks=tracks.filter(track=>track.source!=='general'||!physicalTypes.has(track.rawType));status.textContent='已加载花朵、树木和火山的实拍参考，把沙具放到镜头前试试。';physicalTick();}
       if(data.kind==='error')failed();
       if(data.kind==='result'){physicalBusy=false;if(active){if(!learning&&data.epoch===streamEpoch)update(data.items,'physical');physicalTimer=setTimeout(physicalTick,180);}}
     };
@@ -38,14 +38,14 @@
     worker.onmessage=event=>{
       const data=event.data;
       if(data.kind==='progress'){status.textContent=`正在准备沙具参考 ${data.count}/${data.total}…`;}
-      if(data.kind==='ready'){loaded=true;loading=false;$('#camera-message').textContent='外观匹配已就绪 · 点击识别框可纠正，设置中可补充实拍参考。';for(const item of pendingLearn)worker.postMessage(item);pendingLearn=[];status.textContent=data.physicalCount?'实物花朵和树木识别已就绪。把沙具放到镜头前，保持花心或树冠、底座可见。':'外观识别已就绪。让沙具正面对准镜头，保持间距；点击识别框可以纠正。';tick();}
+      if(data.kind==='ready'){loaded=true;loading=false;$('#camera-message').textContent='外观匹配已就绪 · 点击识别框可纠正，设置中可补充实拍参考。';for(const item of pendingLearn)worker.postMessage(item);pendingLearn=[];status.textContent=data.physicalCount?'实物花朵、树木和火山识别已就绪。把沙具放到镜头前，保持沙具轮廓和底部可见。':'外观识别已就绪。让沙具正面对准镜头，保持间距；点击识别框可以纠正。';tick();}
       if(data.kind==='result'){busy=false;if(active){if(data.epoch===streamEpoch)update(physicalLoaded?data.items.filter(item=>!physicalTypes.has(item.type)):data.items,'general');status.textContent=`${data.items.length?'本帧匹配 '+data.items.length+' 件沙具':'暂未匹配到沙具'} · ${Math.round(data.elapsed)} ms/帧。未识别可框选补充实拍参考。`;timer=setTimeout(tick,350);}}
       if(data.kind==='learned'){status.textContent='已补充这件沙具的实拍参考，正在继续识别。';if(active)tick();}
       if(data.kind==='error')fail('识别暂不可用，请重试；摄像头仍可正常预览。');
     };
     worker.postMessage({kind:'init',custom});
   }
-  function fail(message){busy=false;loading=false;loaded=false;worker?.terminate();worker=null;if(!physicalLoaded)setActive(false);status.textContent=physicalLoaded?'实物花朵和树木识别仍在运行，其他沙具参考暂未就绪。':message;}
+  function fail(message){busy=false;loading=false;loaded=false;worker?.terminate();worker=null;if(!physicalLoaded)setActive(false);status.textContent=physicalLoaded?'实物花朵、树木和火山识别仍在运行，其他沙具参考暂未就绪。':message;}
   function positionOverlay(){const bounds=$('.camera-window').getBoundingClientRect(),ratio=video.videoWidth/video.videoHeight||4/3;let width=bounds.width,height=width/ratio;if(height>bounds.height){height=bounds.height;width=height*ratio;}Object.assign(overlay.style,{width:`${width}px`,height:`${height}px`,left:`${(bounds.width-width)/2}px`,top:`${(bounds.height-height)/2}px`});}
   function tick(){
     clearTimeout(timer);if(!active||!loaded||busy||learning)return;

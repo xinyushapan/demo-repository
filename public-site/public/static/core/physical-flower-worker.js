@@ -1,12 +1,12 @@
 /* Fast local tracking for calibrated physical toys, independent of OpenCV. */
-importScripts('physical-vision.js?v=1','physical-flower.js?v=2','physical-tree.js?v=1');
-const models={flower:PhysicalFlower,tree:PhysicalTree};
+importScripts('physical-vision.js?v=1','physical-flower.js?v=2','physical-tree.js?v=1','physical-volcano.js?v=1');
+const models={flower:PhysicalFlower,tree:PhysicalTree,volcano:PhysicalVolcano};
 let ready=false;
 self.onmessage=async event=>{
   const message=event.data;
   try{
     if(message.kind==='init'){
-      const catalog=await(await fetch('toys/physical/catalog.json?v=3')).json();
+      const catalog=await(await fetch('toys/physical/catalog.json?v=4')).json();
       for(const photo of catalog.photos){
         const image=await createImageBitmap(await(await fetch(photo.reference)).blob());
         const canvas=new OffscreenCanvas(240,Math.round(240*image.height/image.width)),ctx=canvas.getContext('2d',{willReadFrequently:true});

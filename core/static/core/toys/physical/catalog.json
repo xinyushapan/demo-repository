@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "photos": [
     {
       "type": "flower",
@@ -28,6 +28,10 @@
     {
       "type": "tree",
       "reference": "/static/core/toys/physical/tree-upright.jpg"
+    },
+    {
+      "type": "volcano",
+      "reference": "/static/core/toys/physical/volcano-front.jpg"
     }
   ]
 }

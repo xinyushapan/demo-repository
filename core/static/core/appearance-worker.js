@@ -63,11 +63,11 @@ self.onmessage=async event=>{
   const message=event.data;
   try{
     if(message.kind==='init'){
-      importScripts('physical-vision.js?v=1','physical-flower.js?v=2','physical-tree.js?v=1');physicalDetectors={flower:PhysicalFlower,tree:PhysicalTree};
+      importScripts('physical-vision.js?v=1','physical-flower.js?v=2','physical-tree.js?v=1','physical-volcano.js?v=1');physicalDetectors={flower:PhysicalFlower,tree:PhysicalTree,volcano:PhysicalVolcano};
       importScripts('vendor/opencv-4.10.0.js');await new Promise(resolve=>cv.then(()=>resolve()));engine=cv;detector=new engine.ORB();detector.setMaxFeatures(1200);detector.setFastThreshold(7);detector.setEdgeThreshold(8);detector.setPatchSize(21);matcher=new engine.BFMatcher(engine.NORM_HAMMING,false);
       const catalog=await(await fetch('toys/catalog.json')).json();
       for(let i=0;i<catalog.length;i++){await reference(catalog[i].id,await(await fetch(catalog[i].reference)).blob());if(i%12===0)postMessage({kind:'progress',count:i,total:catalog.length});}
-      const physical=await(await fetch('toys/physical/catalog.json?v=3')).json();
+      const physical=await(await fetch('toys/physical/catalog.json?v=4')).json();
       for(const photo of physical.photos)await reference(photo.type,await(await fetch(photo.reference)).blob(),false,true);
       for(const saved of message.custom||[])await reference(saved.type,await(await fetch(saved.data)).blob(),true);
       ready=true;postMessage({kind:'ready',count:references.length,physicalCount:Object.values(physicalDetectors).reduce((n,m)=>n+m.count(),0)});

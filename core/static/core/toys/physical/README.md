@@ -96,3 +96,35 @@ general tree classifier. Live webcam use still needs checking under the team's
 lighting. Keep the dark/pale green crown and brown base visible and leave some
 space between objects; major occlusion and unrepresented viewpoints are not
 covered.
+
+## Clay volcano
+
+The team's supplied orange-lava/brown-mountain photograph maps to the existing
+`volcano` toy and its corpus identifier `nature_volcano`. The orientation-corrected
+source crop is x=.240, y=.200, width=.600, height=.570, re-encoded as a 480 × 608
+JPEG without original EXIF metadata. It is a real photo, not a generated asset.
+
+`physical-volcano.js` checks connected orange/brown regions, orange above brown,
+and a silhouette that widens from upper to middle to lower bands. It then
+compares the colour-layout descriptor with the supplied reference (and mirror).
+It runs in both workers. Manifest version 4 contains eight physical references;
+worker URL versions are updated so a refresh loads the new detector and photo.
+
+Validation: the supplied volcano view at widths 55/100/165 pixels, rotations
+−16°/0°/16° and brightness .65/1/1.25 passed 27/27 composite-frame checks without
+flower/tree detections. The existing four tree views and three flower views
+passed their 108/108 and 81/81 photo checks without volcano detections. Node
+tests cover two volcanoes, smaller objects, missing brown material, plain
+orange/brown blocks and reversed colour ordering.
+
+Software-camera integration used the original uncropped volcano photo rather
+than the training crop: one volcano and one flower entered the scene, the
+volcano kept its identity while moving, and removing either left the other
+intact. Both workers initialized (8 physical references / 71 total references),
+with no page errors. First scene confirmation took 18.7 seconds in this cold
+test run, including initial reference loading; timing depends on load/hardware.
+
+Only one volcano viewpoint is supplied. These are photo/synthetic-video checks;
+actual webcam accuracy has not been established. In particular, the team reports
+the tree remains unreliable on their real camera despite passing photo tests;
+those results must not be treated as proof of live-camera performance.
