@@ -1,10 +1,13 @@
 (() => {
   'use strict';
   const $=s=>document.querySelector(s),video=$('#camera'),toggle=$('#toggle-appearance'),status=$('#appearance-status'),overlay=$('#recognition-overlay');
+  const fusion=window.AppearanceFusion;
   const catalog=window.SANDPLAY_TOYS,workerURL=new URL('appearance-worker.js?v=21',document.currentScript.src);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
   let worker=null,loaded=false,loading=false,active=false,busy=false,timer=null,stream=null,frame=0,tracks=[],pendingLearn=[],sequence=0,selection=null,learning=false,drag=null;
-  let physicalWorker=null,physicalLoaded=false,physicalBusy=false,physicalTimer=null,streamEpoch=0;const sourceFrames={general:0,physical:0},physicalTypes=new Set();
+  let physicalWorker=null,physicalLoaded=false,physicalBusy=false,physicalTimer=null,streamEpoch=0;const sourceFrames={general:0,physical:0};
+  let generalPhysicalSnapshot=[];
+  const physicalObservations=()=>tracks.filter(t=>t.source==='physical'&&t.confirmed&&!t.ignored&&performance.now()-t.lastSeen<650).map(t=>({type:t.rawType,box:{...t.box}}));
   let custom=[];try{custom=JSON.parse(localStorage.getItem('xinyu-appearance-references')||'[]').filter(item=>catalog.some(toy=>toy.id===item.type)&&/^data:image\/jpeg;base64,/.test(item.data)).slice(-25);}catch{}
   const sendMode=()=>window.dispatchEvent(new CustomEvent('sandplay:appearance-mode',{detail:{active}}));
   function setActive(value){active=value;toggle.setAttribute('aria-pressed',String(active));toggle.textContent=active?'暂停沙具识别':'开始识别沙具';$('#appearance-indicator').textContent=active?'· 识别中':'· 已暂停';sendMode();clearTimeout(timer);clearTimeout(physicalTimer);if(active){startPhysicalWorker();startWorker();tick();physicalTick();}else{$('.camera-label').textContent='本机画面预览 · 不上传';status.textContent='识别已暂停，保留最后的数字摆放。';}}
@@ -14,7 +17,7 @@
     const failed=()=>{physicalLoaded=false;physicalBusy=false;clearTimeout(physicalTimer);physicalWorker?.terminate();physicalWorker=null;status.textContent='实拍快速识别未就绪，正在使用完整参考匹配。';};
     physicalWorker.onerror=failed;physicalWorker.onmessage=event=>{
       const data=event.data;
-      if(data.kind==='ready'){physicalLoaded=true;physicalTypes.clear();for(const type of data.types||['flower'])physicalTypes.add(type);tracks=tracks.filter(track=>track.source!=='general'||!physicalTypes.has(track.rawType));status.textContent='已加载花朵、树木和火山的实拍参考，把沙具放到镜头前试试。';physicalTick();}
+      if(data.kind==='ready'){physicalLoaded=true;status.textContent='已加载花朵、树木和火山的实拍参考，把沙具放到镜头前试试。';physicalTick();}
       if(data.kind==='error')failed();
       if(data.kind==='result'){physicalBusy=false;if(active){if(!learning&&data.epoch===streamEpoch)update(data.items,'physical');physicalTimer=setTimeout(physicalTick,180);}}
     };
@@ -39,7 +42,7 @@
       const data=event.data;
       if(data.kind==='progress'){status.textContent=`正在准备沙具参考 ${data.count}/${data.total}…`;}
       if(data.kind==='ready'){loaded=true;loading=false;$('#camera-message').textContent='外观匹配已就绪 · 点击识别框可纠正，设置中可补充实拍参考。';for(const item of pendingLearn)worker.postMessage(item);pendingLearn=[];status.textContent=data.physicalCount?'实物花朵、树木和火山识别已就绪。把沙具放到镜头前，保持沙具轮廓和底部可见。':'外观识别已就绪。让沙具正面对准镜头，保持间距；点击识别框可以纠正。';tick();}
-      if(data.kind==='result'){busy=false;if(active){if(data.epoch===streamEpoch)update(physicalLoaded?data.items.filter(item=>!physicalTypes.has(item.type)):data.items,'general');status.textContent=`${data.items.length?'本帧匹配 '+data.items.length+' 件沙具':'暂未匹配到沙具'} · ${Math.round(data.elapsed)} ms/帧。未识别可框选补充实拍参考。`;timer=setTimeout(tick,350);}}
+      if(data.kind==='result'){busy=false;if(active){if(data.epoch===streamEpoch)update(fusion.generalItems(data.items,[...generalPhysicalSnapshot,...physicalObservations()]),'general');status.textContent=`${data.items.length?'本帧匹配 '+data.items.length+' 件沙具':'暂未匹配到沙具'} · ${Math.round(data.elapsed)} ms/帧。未识别可框选补充实拍参考。`;timer=setTimeout(tick,350);}}
       if(data.kind==='learned'){status.textContent='已补充这件沙具的实拍参考，正在继续识别。';if(active)tick();}
       if(data.kind==='error')fail('识别暂不可用，请重试；摄像头仍可正常预览。');
     };
@@ -50,7 +53,7 @@
   function tick(){
     clearTimeout(timer);if(!active||!loaded||busy||learning)return;
     const image=capture();if(!image){timer=setTimeout(tick,500);return;}
-    busy=true;worker.postMessage({kind:'frame',image,epoch:streamEpoch},[image.data.buffer]);
+    generalPhysicalSnapshot=physicalObservations();busy=true;worker.postMessage({kind:'frame',image,epoch:streamEpoch},[image.data.buffer]);
   }
   function update(items,source='general'){
     frame++;const sourceFrame=++sourceFrames[source];const now=performance.now(),claimed=new Set();
@@ -58,6 +61,7 @@
       if(!catalog.some(toy=>toy.id===item.type)||!Number.isFinite(item.x+item.y)||!item.box||item.score<.86)continue;
       let track=tracks.filter(t=>t.source===source&&(t.rawType===item.type||t.type===item.type)&&!claimed.has(t.id)).sort((a,b)=>Math.hypot(a.x-item.x,a.y-item.y)-Math.hypot(b.x-item.x,b.y-item.y))[0];
       if(track&&Math.hypot(track.x-item.x,track.y-item.y)>.3)track=null;
+      if(!track&&source==='physical'){track=tracks.find(t=>t.source==='general'&&!claimed.has(t.id)&&fusion.sameObject({type:t.rawType,box:t.box},item));if(track){track.source='physical';track.lastSourceFrame=sourceFrame-1;}}
       if(!track){track={id:`vision-${Date.now()}-${++sequence}`,rawType:item.type,type:item.type,x:item.x,y:item.y,confirmations:0,lastFrame:frame-1,lastSourceFrame:sourceFrame-1,source};tracks.push(track);}
       track.confirmations=track.lastSourceFrame===sourceFrame-1?track.confirmations+1:1;track.confirmed=track.confirmed||track.confirmations>=2;track.lastFrame=frame;track.lastSourceFrame=sourceFrame;track.lastSeen=now;track.x=item.x;track.y=item.y;track.box=item.box;track.score=item.score;claimed.add(track.id);
     }

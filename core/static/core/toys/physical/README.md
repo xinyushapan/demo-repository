@@ -64,9 +64,14 @@ mirrors. `physical-vision.js` contains the shared component and descriptor
 operations; the flower detector's classification and matching rules are unchanged.
 
 The existing `physical-flower-worker.js` now runs both physical-toy detectors
-and reports which toy types it owns. The general OpenCV channel suppresses
-these types while the fast channel is available, so it does not create duplicate
-flowers or trees. Both detectors remain in the general worker as a fallback.
+and reports which toy types it supports. General OpenCV results are suppressed
+only when they overlap a confirmed physical observation of the same type.
+Loading a physical reference must never suppress an entire general category:
+that earlier behavior disabled fallback and locally added references when the
+physical colour rules failed to match a real camera frame. Physical takeover
+reuses an overlapping general track's ID. Physical observations at general-frame
+capture time also suppress delayed duplicates after movement. Both detectors
+remain in the general worker as a fallback.
 Raw camera frames are processed locally; adding these samples does not upload
 camera images or call an external recognition API.
 
@@ -126,5 +131,11 @@ test run, including initial reference loading; timing depends on load/hardware.
 
 Only one volcano viewpoint is supplied. These are photo/synthetic-video checks;
 actual webcam accuracy has not been established. In particular, the team reports
-the tree remains unreliable on their real camera despite passing photo tests;
+tree and volcano matching fail on their real camera despite passing photo tests;
 those results must not be treated as proof of live-camera performance.
+
+Fallback regression uses controlled worker observations in the real page: an
+empty physical channel still permits two general volcanoes and one general tree,
+late physical readiness preserves them, and physical takeover of one volcano
+keeps all three IDs and does not hide the other volcano. This validates channel
+fusion, not real-camera visual recognition.
