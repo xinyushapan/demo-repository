@@ -1,8 +1,29 @@
 {
-  "version": 1,
+  "version": 2,
   "photos": [
-    {"type": "flower", "reference": "/static/core/toys/physical/flower-front.jpg"},
-    {"type": "flower", "reference": "/static/core/toys/physical/flower-left.jpg"},
-    {"type": "flower", "reference": "/static/core/toys/physical/flower-right.jpg"}
+    {
+      "type": "flower",
+      "reference": "/static/core/toys/physical/flower-front.jpg"
+    },
+    {
+      "type": "flower",
+      "reference": "/static/core/toys/physical/flower-left.jpg"
+    },
+    {
+      "type": "flower",
+      "reference": "/static/core/toys/physical/flower-right.jpg"
+    },
+    {
+      "type": "tree",
+      "reference": "/static/core/toys/physical/tree-front.jpg"
+    },
+    {
+      "type": "tree",
+      "reference": "/static/core/toys/physical/tree-back.jpg"
+    },
+    {
+      "type": "tree",
+      "reference": "/static/core/toys/physical/tree-side.jpg"
+    }
   ]
 }
