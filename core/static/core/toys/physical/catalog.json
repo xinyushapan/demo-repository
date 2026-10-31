@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "photos": [
+    {"type": "flower", "reference": "/static/core/toys/physical/flower-front.jpg"},
+    {"type": "flower", "reference": "/static/core/toys/physical/flower-left.jpg"},
+    {"type": "flower", "reference": "/static/core/toys/physical/flower-right.jpg"}
+  ]
+}

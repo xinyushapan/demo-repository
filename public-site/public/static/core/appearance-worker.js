@@ -2,9 +2,11 @@
 let engine, detector, matcher, references=[], ready=false;
 const release=(...objects)=>objects.forEach(value=>value?.delete());
 function describe(gray){const keys=new engine.KeyPointVector(),desc=new engine.Mat(),mask=new engine.Mat();detector.detectAndCompute(gray,mask,keys,desc);mask.delete();return {keys,desc};}
-async function reference(type,blob,custom=false){
+async function reference(type,blob,custom=false,physical=false){
   const bitmap=await createImageBitmap(blob),canvas=new OffscreenCanvas(bitmap.width,bitmap.height),context=canvas.getContext('2d');context.drawImage(bitmap,0,0);bitmap.close();
-  const raw=engine.matFromImageData(context.getImageData(0,0,canvas.width,canvas.height)),gray=new engine.Mat();engine.cvtColor(raw,gray,engine.COLOR_RGBA2GRAY);
+  const pixels=context.getImageData(0,0,canvas.width,canvas.height);
+  if(physical&&type==='flower'&&!PhysicalFlower.learn(pixels))throw Error('实拍花朵参考未能建立');
+  const raw=engine.matFromImageData(pixels),gray=new engine.Mat();engine.cvtColor(raw,gray,engine.COLOR_RGBA2GRAY);
   const normalized=new engine.Mat();engine.resize(gray,normalized,new engine.Size(Math.round(gray.cols*200/gray.rows),200));
   const features=describe(normalized),templates=[];
   for(const h of [28,42,63,95,143]){const mat=new engine.Mat();engine.resize(gray,mat,new engine.Size(Math.max(8,Math.round(gray.cols*h/gray.rows)),h));templates.push(mat);}
@@ -32,7 +34,7 @@ function featureMatch(ref,frame){
   }finally{release(src,dst,mask,homography);}
 }
 function scan(image){
-  const rgba=engine.matFromImageData(image),gray=new engine.Mat();engine.cvtColor(rgba,gray,engine.COLOR_RGBA2GRAY);const frame=describe(gray),found=[];
+  const rgba=engine.matFromImageData(image),gray=new engine.Mat();engine.cvtColor(rgba,gray,engine.COLOR_RGBA2GRAY);const frame=describe(gray),found=PhysicalFlower.detect(image);
   try{
     for(const ref of references){
       const match=featureMatch(ref,frame);if(match)found.push(match);
@@ -53,7 +55,7 @@ function scan(image){
         }finally{result.delete();}
       }
     }
-    const selected=[];for(const match of found.sort((a,b)=>b.score-a.score)){if(!selected.some(other=>overlap(match,other)>.4))selected.push(match);if(selected.length===20)break;}
+    const selected=[];for(const match of found.sort((a,b)=>Number(b.method==='physical-flower')-Number(a.method==='physical-flower')||b.score-a.score)){if(!selected.some(other=>overlap(match,other)>.4))selected.push(match);if(selected.length===20)break;}
     return selected.map(item=>({...item,x:(item.x+item.w/2)/image.width,y:(item.y+item.h/2)/image.height,box:{x:item.x/image.width,y:item.y/image.height,w:item.w/image.width,h:item.h/image.height}}));
   }finally{release(rgba,gray,frame.keys,frame.desc);}
 }
@@ -61,12 +63,15 @@ self.onmessage=async event=>{
   const message=event.data;
   try{
     if(message.kind==='init'){
+      importScripts('physical-flower.js?v=1');
       importScripts('vendor/opencv-4.10.0.js');await new Promise(resolve=>cv.then(()=>resolve()));engine=cv;detector=new engine.ORB();detector.setMaxFeatures(1200);detector.setFastThreshold(7);detector.setEdgeThreshold(8);detector.setPatchSize(21);matcher=new engine.BFMatcher(engine.NORM_HAMMING,false);
       const catalog=await(await fetch('toys/catalog.json')).json();
       for(let i=0;i<catalog.length;i++){await reference(catalog[i].id,await(await fetch(catalog[i].reference)).blob());if(i%12===0)postMessage({kind:'progress',count:i,total:catalog.length});}
+      const physical=await(await fetch('toys/physical/catalog.json')).json();
+      for(const photo of physical.photos)await reference(photo.type,await(await fetch(photo.reference)).blob(),false,true);
       for(const saved of message.custom||[])await reference(saved.type,await(await fetch(saved.data)).blob(),true);
-      ready=true;postMessage({kind:'ready',count:references.length});
-    }else if(message.kind==='frame'&&ready){const started=performance.now(),items=scan(message.image);postMessage({kind:'result',items,elapsed:performance.now()-started});}
+      ready=true;postMessage({kind:'ready',count:references.length,physicalCount:PhysicalFlower.count()});
+    }else if(message.kind==='frame'&&ready){const started=performance.now(),items=scan(message.image);postMessage({kind:'result',items,elapsed:performance.now()-started,epoch:message.epoch});}
     else if(message.kind==='learn'&&ready){await reference(message.type,message.blob,true);postMessage({kind:'learned'});}
   }catch(error){postMessage({kind:'error',message:typeof error==='string'?error:(error?.message||String(error))});}
 };
