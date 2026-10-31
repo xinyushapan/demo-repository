@@ -9,12 +9,11 @@
   dialog.className = 'xy-guide';
   dialog.setAttribute('aria-labelledby', 'xy-title');
   document.body.append(dialog);
-  let returnFocus, index = 0, audio, controller, audioURL, generation = 0, voice = true, resumeScene;
+  let returnFocus, index = 0, audio, controller, audioURL, generation = 0, resumeScene;
   function clearResume() { if (resumeScene) document.querySelector('#scene-list')?.removeEventListener('click', resumeScene); resumeScene = null; }
   function stopVoice() { generation++; controller?.abort(); audio?.pause(); audio = null; if (audioURL) URL.revokeObjectURL(audioURL); audioURL = null; }
   function close() { stopVoice(); dialog.close(); document.querySelector('.xy-spotlight')?.remove(); returnFocus?.focus(); }
   function open() { returnFocus = document.activeElement; if (!dialog.open) dialog.showModal(); }
-  const voiceControls = '<div class="xy-voice"><button type="button" data-action="voice" aria-label="听小语说">♫ 听小语说</button><button type="button" data-action="mute" hidden>静音</button><span class="xy-voice-status" role="status"></span></div>';
   function frame(pose, content, options = '') {
     const isAgePicker=options.includes('class="xy-age-options"');
     const isModePicker=options.includes('class="xy-mode-grid"');
@@ -27,11 +26,8 @@
   }
   async function speak() {
     stopVoice();
-    if (!voice) return;
     const token = generation;
-    const status = dialog.querySelector('.xy-voice-status');
     const text = [...dialog.querySelectorAll('#xy-title,.xy-copy')].map(el => el.textContent).join(' ');
-    status.textContent = '小语在准备声音啦…';
     const activeController = new AbortController(); controller = activeController;
     const timeout = setTimeout(() => activeController.abort(), 35000);
     try {
@@ -40,9 +36,7 @@
       const blob = await response.blob();
       if (token !== generation) return;
       audioURL = URL.createObjectURL(blob); audio = new Audio(audioURL); await audio.play();
-      status.textContent = '小语正在说话 · AI 合成';
-      audio.onended = () => { if (token === generation) status.textContent = '听完啦，再点一次可以重听'; };
-    } catch { if (token === generation) status.textContent = '语音暂时不可用，先看看文字吧～'; }
+    } catch { /* Keep the guide usable when speech is unavailable. */ }
     finally { clearTimeout(timeout); }
   }
   function agePicker() {
@@ -116,13 +110,11 @@
     const step = steps[index];
     const target = visibleTarget(step);
     target?.scrollIntoView({ block: 'center', behavior: 'instant' });
-    frame(step.pose, `<span class="xy-arrow" aria-hidden="true">↗</span><h2 id="xy-title">${step.title}</h2><p class="xy-copy">${step.text}</p>${voiceControls}<div class="xy-tour-actions"><button data-action="prev" ${index === 0 ? 'disabled' : ''} aria-label="上一步">←</button><span class="xy-progress">${index + 1} / ${steps.length}</span><button data-action="skip">跳过</button><button class="xy-primary" data-action="next">${index === steps.length - 1 ? '出发！' : step.scene && document.querySelector('#digital-view').hidden ? '去选场景 →' : '下一步 →'}</button></div>`);
+    frame(step.pose, `<span class="xy-arrow" aria-hidden="true">↗</span><h2 id="xy-title">${step.title}</h2><p class="xy-copy">${step.text}</p><div class="xy-tour-actions"><button data-action="prev" ${index === 0 ? 'disabled' : ''} aria-label="上一步">←</button><span class="xy-progress">${index + 1} / ${steps.length}</span><button data-action="skip">跳过</button><button class="xy-primary" data-action="next">${index === steps.length - 1 ? '出发！' : step.scene && document.querySelector('#digital-view').hidden ? '去选场景 →' : '下一步 →'}</button></div>`);
     dialog.classList.add('xy-tour'); open();
     if (!document.querySelector('.xy-spotlight')) { const spot = document.createElement('div'); spot.className = 'xy-spotlight'; dialog.append(spot); }
     position(); dialog.querySelector('.xy-guide-art').onload = position;
-    dialog.querySelector('[data-action=voice]').textContent = voice ? '♫ 重听这一段' : '♫ 听小语说';
-    dialog.querySelector('[data-action=mute]').hidden = !voice;
-    if (voice) void speak();
+    void speak();
   }
   function complete() { store.set(`xy-tour-${online ? 'online' : 'physical'}-v1`, 'done'); close(); }
   function tutorialWelcome() {
@@ -139,9 +131,6 @@
       case 'close': close(); break;
       case 'no-age': modePicker(null); break;
       case 'age': agePicker(); break;
-      case 'voice':
-        voice = true; dialog.querySelector('[data-action=mute]').hidden = false; void speak(); break;
-      case 'mute': voice = false; stopVoice(); button.hidden = true; dialog.querySelector('.xy-voice-status').textContent = '声音已关闭'; break;
       case 'skip': complete(); break;
       case 'start-tour': index = 0; tour(); break;
       case 'prev': if (index > 0) { index--; tour(); } break;
