@@ -6,7 +6,7 @@ self.onmessage=async event=>{
   const message=event.data;
   try{
     if(message.kind==='init'){
-      const catalog=await(await fetch('toys/physical/catalog.json')).json();
+      const catalog=await(await fetch('toys/physical/catalog.json?v=3')).json();
       for(const photo of catalog.photos){
         const image=await createImageBitmap(await(await fetch(photo.reference)).blob());
         const canvas=new OffscreenCanvas(240,Math.round(240*image.height/image.width)),ctx=canvas.getContext('2d',{willReadFrequently:true});

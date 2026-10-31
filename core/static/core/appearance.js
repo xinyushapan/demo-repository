@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $=s=>document.querySelector(s),video=$('#camera'),toggle=$('#toggle-appearance'),status=$('#appearance-status'),overlay=$('#recognition-overlay');
-  const catalog=window.SANDPLAY_TOYS,workerURL=new URL('appearance-worker.js?v=19',document.currentScript.src);
+  const catalog=window.SANDPLAY_TOYS,workerURL=new URL('appearance-worker.js?v=20',document.currentScript.src);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
   let worker=null,loaded=false,loading=false,active=false,busy=false,timer=null,stream=null,frame=0,tracks=[],pendingLearn=[],sequence=0,selection=null,learning=false,drag=null;
   let physicalWorker=null,physicalLoaded=false,physicalBusy=false,physicalTimer=null,streamEpoch=0;const sourceFrames={general:0,physical:0},physicalTypes=new Set();
@@ -10,7 +10,7 @@
   function setActive(value){active=value;toggle.setAttribute('aria-pressed',String(active));toggle.textContent=active?'暂停沙具识别':'开始识别沙具';$('#appearance-indicator').textContent=active?'· 识别中':'· 已暂停';sendMode();clearTimeout(timer);clearTimeout(physicalTimer);if(active){startPhysicalWorker();startWorker();tick();physicalTick();}else{$('.camera-label').textContent='本机画面预览 · 不上传';status.textContent='识别已暂停，保留最后的数字摆放。';}}
   function startPhysicalWorker(){
     if(physicalWorker)return;
-    physicalWorker=new Worker(new URL('physical-flower-worker.js?v=2',document.currentScript?.src||workerURL));
+    physicalWorker=new Worker(new URL('physical-flower-worker.js?v=3',document.currentScript?.src||workerURL));
     const failed=()=>{physicalLoaded=false;physicalBusy=false;clearTimeout(physicalTimer);physicalWorker?.terminate();physicalWorker=null;status.textContent='实拍快速识别未就绪，正在使用完整参考匹配。';};
     physicalWorker.onerror=failed;physicalWorker.onmessage=event=>{
       const data=event.data;

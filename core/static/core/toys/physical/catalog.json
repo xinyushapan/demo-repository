@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "photos": [
     {
       "type": "flower",
@@ -24,6 +24,10 @@
     {
       "type": "tree",
       "reference": "/static/core/toys/physical/tree-side.jpg"
+    },
+    {
+      "type": "tree",
+      "reference": "/static/core/toys/physical/tree-upright.jpg"
     }
   ]
 }

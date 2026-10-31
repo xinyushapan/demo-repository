@@ -45,19 +45,21 @@ heavy occlusion and extreme lighting are not covered by these samples.
 
 ## Clay tree
 
-Three additional team photographs map to the existing `tree` toy. They show
+Four additional team photographs map to the existing `tree` toy. They show
 the same dark green and pale mint clay-ball crown, brown trunk and brown base
-from the front, back and side. The normalized source crops are:
+from the front, back, side and the newly supplied upright front angle. The
+normalized source crops are:
 
 | View | x | y | width | height |
 | --- | --- | --- | --- | --- |
 | front | .230 | .165 | .600 | .575 |
 | back | .140 | .028 | .650 | .570 |
 | side | .250 | .072 | .600 | .590 |
+| upright | .065 | .230 | .750 | .680 |
 
 `physical-tree.js` requires a connected, nonrectangular crown containing both
 green shades, with a smaller brown trunk/base below it. It compares the same
-8 × 8 colour-layout descriptor against the three real sample views, including
+8 × 8 colour-layout descriptor against the four real sample views, including
 mirrors. `physical-vision.js` contains the shared component and descriptor
 operations; the flower detector's classification and matching rules are unchanged.
 
@@ -70,7 +72,7 @@ camera images or call an external recognition API.
 
 Tree validation in Edge:
 
-- The same 81 size/angle/brightness combinations above: 81/81 tree positives,
+- Four tree views × 27 size/angle/brightness combinations: 108/108 positives,
   with no flower detections. Flower regression: 81/81 positives, with no tree
   detections.
 - Blank, plain green, two-tone crown without a trunk, rectangular green/brown
@@ -80,9 +82,14 @@ Tree validation in Edge:
 - Software-camera integration: both toys enter the digital scene, the moving
   tree keeps its identity, and removing either toy leaves the other in place.
   The full OpenCV result did not create duplicates. This cold, loaded test run
-  took 15.3 seconds to first confirmation and 60.5 seconds for one general
+  took 29.1 seconds to first confirmation and 4.0 seconds for one general
   OpenCV frame; the independent physical worker continued updating meanwhile.
   These timings are hardware/load-dependent, not a latency guarantee.
+
+The upright reference extends view coverage without lowering the detection
+threshold or removing the crown/trunk checks. Both workers fetch manifest
+version 3 (seven physical references in total); their URL versions are bumped
+so refreshing does not reuse an earlier worker initialization.
 
 These are appearance-based checks of these particular clay objects, not a
 general tree classifier. Live webcam use still needs checking under the team's

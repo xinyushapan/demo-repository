@@ -67,7 +67,7 @@ self.onmessage=async event=>{
       importScripts('vendor/opencv-4.10.0.js');await new Promise(resolve=>cv.then(()=>resolve()));engine=cv;detector=new engine.ORB();detector.setMaxFeatures(1200);detector.setFastThreshold(7);detector.setEdgeThreshold(8);detector.setPatchSize(21);matcher=new engine.BFMatcher(engine.NORM_HAMMING,false);
       const catalog=await(await fetch('toys/catalog.json')).json();
       for(let i=0;i<catalog.length;i++){await reference(catalog[i].id,await(await fetch(catalog[i].reference)).blob());if(i%12===0)postMessage({kind:'progress',count:i,total:catalog.length});}
-      const physical=await(await fetch('toys/physical/catalog.json')).json();
+      const physical=await(await fetch('toys/physical/catalog.json?v=3')).json();
       for(const photo of physical.photos)await reference(photo.type,await(await fetch(photo.reference)).blob(),false,true);
       for(const saved of message.custom||[])await reference(saved.type,await(await fetch(saved.data)).blob(),true);
       ready=true;postMessage({kind:'ready',count:references.length,physicalCount:Object.values(physicalDetectors).reduce((n,m)=>n+m.count(),0)});
