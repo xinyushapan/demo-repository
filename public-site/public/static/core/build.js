@@ -233,6 +233,7 @@
   function rounded(x,y,w,h,r,color) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();}
   function path(points,color){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=color;ctx.fill();}
   function project(p){if(state.scene==='nature'&&p.type==='turtle')return{x:W*p.x,y:H*p.y};return {x:W*(.12+p.x*.76),y:H*(.40+p.y*.49)};}
+  function pieceScale(p){return ({child:.70,teen:.86,adult:1,person:1,elder:.94}[p.type]||1);}
   function toyDraw(type,x,y,s,bob,highlight=false,pose={}) {
     if(pose.turtle)s*=.72;
     ctx.save();ctx.translate(x,y);ctx.scale(s,s);ellipse(0,5,24,8,'#39332320');
@@ -269,7 +270,28 @@
     environment.ambience(scene.id,W,H,t);
     const s=Math.min(W/700,H/410);
     environment.playGround(scene.id,W,H,t);
-    state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=project(p);const scale=s*(.9+p.y*.24);const pose=environment.pose(p,t);if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
+    state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=project(p);const scale=s*(.9+p.y*.24)*pieceScale(p);const pose=environment.pose(p,t);if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
+    // Decorative petting never changes placements or saved operation records.
+    if(!reducedMotion&&!drag){
+      const people=state.pieces.filter(p=>['child','teen','adult','elder','person'].includes(p.type));
+      const animals=state.pieces.filter(p=>['dog','cat','rabbit','turtle','bird','fish'].includes(p.type));
+      for(const human of people){
+        const h=project(human),hs=s*(.9+human.y*.24)*pieceScale(human);
+        const animal=animals.slice().sort((a,b)=>Math.hypot(project(a).x-h.x,project(a).y-h.y)-Math.hypot(project(b).x-h.x,project(b).y-h.y))[0];
+        if(!animal)continue;
+        const a=project(animal),as=s*(.9+animal.y*.24),distance=Math.hypot(a.x-h.x,a.y-h.y);
+        if(distance>145*s||distance<28*s)continue;
+        const side=a.x>=h.x?1:-1,phase=(t%8)/8;
+        if(phase>.7)continue;
+        const reach=Math.min(1,phase/.14,(.7-phase)/.14);
+        const x=h.x+side*16*hs,y=h.y-47*hs;
+        const tx=a.x,ty=a.y-73*as+Math.sin(t*5)*3*as;
+        const ex=x+(tx-x)*reach,ey=y+(ty-y)*reach;
+        ctx.save();ctx.lineCap='round';ctx.strokeStyle=human.type==='child'?'#edbd35':human.type==='elder'?'#9472b3':'#1681cb';ctx.lineWidth=16*hs;
+        ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo((x+ex)/2,y+8*hs,ex,ey);ctx.stroke();
+        ellipse(ex,ey,8*hs,7*hs,'#f5dbb5');ctx.restore();
+      }
+    }
     environment.ambience(scene.id,W,H,t,true);
     environment.reactions(scene.id,W,H,t);
     positionPlayControls(time/1000);
@@ -277,7 +299,7 @@
   canvas.onpointerdown = event => {
     if(cardMode)return;
     const r=canvas.getBoundingClientRect(), x=(event.clientX-r.left)/r.width*W, y=(event.clientY-r.top)/r.height*H;
-    const piece=state.pieces.slice().sort((a,b)=>b.y-a.y).find(p=>{const q=project(p),scale=Math.min(W/700,H/410)*(.9+p.y*.24);const sprite=sprites.get(p.type),area=sprite?.sandplayBounds,halfWidth=area?50*area.w/area.h:35;return Math.abs(q.x-x)<halfWidth*scale&&y>q.y-98*scale&&y<q.y+12*scale;});
+    const piece=state.pieces.slice().sort((a,b)=>b.y-a.y).find(p=>{const q=project(p),scale=Math.min(W/700,H/410)*(.9+p.y*.24)*pieceScale(p);const sprite=sprites.get(p.type),area=sprite?.sandplayBounds,halfWidth=area?50*area.w/area.h:35;return Math.abs(q.x-x)<halfWidth*scale&&y>q.y-98*scale&&y<q.y+12*scale;});
     if(piece){turtleMotion.cancel(piece.id);journeys.delete(piece.id);environment.cancelPiece(piece.id);}
     selected=piece?.id||null;updateSelection();draw(performance.now());
     if(piece){drag={id:piece.id,source:'canvas',initialX:piece.x,initialY:piece.y,dx:x-project(piece).x,dy:y-project(piece).y};canvas.setPointerCapture(event.pointerId);}
