@@ -255,11 +255,14 @@
     ctx.save();ctx.translate(x,y);ctx.scale(s,s);ellipse(0,5,24,8,'#39332320');
     if(highlight){ctx.beginPath();ctx.ellipse(0,5,32,12,0,0,Math.PI*2);ctx.strokeStyle='#9b74c5';ctx.lineWidth=3;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);}
     ctx.rotate(pose.tilt||0);ctx.scale(pose.flip?-1:1,pose.squash||1);ctx.translate(0,bob);
-    const sprite=sprites.get(type);if(sprite?.complete&&sprite.naturalWidth){const area=sprite.sandplayBounds||{x:0,y:0,w:sprite.naturalWidth,h:sprite.naturalHeight};const height=100,width=height*area.w/area.h;if(pose.turtle){turtleMotion.draw(ctx,sprite,area,width,height,pose.turtle);ctx.restore();return;}if(type==='dog'&&pose.wag!==undefined){
-      const cut=width*.25,top=height*.38;
-      ctx.save();ctx.beginPath();ctx.rect(-width/2+cut,-height,width-cut,height);ctx.rect(-width/2,-height+top,cut,height-top);ctx.clip();ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);ctx.restore();
-      ctx.save();ctx.translate(-width/2+cut,-height+top);ctx.rotate(pose.wag);ctx.drawImage(sprite,area.x,area.y,area.w*.25,area.h*.38,-cut,-top,cut,top);ctx.restore();
-    }else ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);ctx.restore();return;}
+    const sprite=sprites.get(type);if(sprite?.complete&&sprite.naturalWidth){const area=sprite.sandplayBounds||{x:0,y:0,w:sprite.naturalWidth,h:sprite.naturalHeight};const height=100,width=height*area.w/area.h;if(pose.turtle){turtleMotion.draw(ctx,sprite,area,width,height,pose.turtle);ctx.restore();return;}ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);
+    if(type==='dog'&&pose.wag!==undefined){
+      // Keep the original silhouette whole; a closed ball tail overlaps its base.
+      const radius=width*.115,tx=-width*.37+Math.sin(pose.wag)*width*.055,ty=-height*.66;
+      const shade=ctx.createRadialGradient(tx-radius*.3,ty-radius*.4,radius*.1,tx,ty,radius);
+      shade.addColorStop(0,'#b57b50');shade.addColorStop(.55,'#8e542e');shade.addColorStop(1,'#6d3d24');
+      ctx.beginPath();ctx.arc(tx,ty,radius,0,Math.PI*2);ctx.fillStyle=shade;ctx.fill();
+    }ctx.restore();return;}
     if(type==='tree') {rounded(-7,-48,14,50,5,'#aa7347');ellipse(2,-22,12,5,'#98633d');ellipse(-17,-55,22,26,'#3f945e');ellipse(17,-57,24,28,'#4ba56a');ellipse(0,-77,27,30,'#65b77a');ellipse(-8,-85,9,12,'#87cb8f');}
     else if(type==='house') {rounded(-28,-45,56,49,5,'#fff0cd');path([[-34,-45],[0,-77],[35,-45]],'#ed785e');path([[0,-77],[35,-45],[31,-39],[-1,-66],[-32,-39],[-34,-45]],'#cf5c48');rounded(-6,-23,15,27,7,'#a47751');rounded(-21,-34,10,13,3,'#8bcbd0');rounded(14,-34,10,13,3,'#8bcbd0');rounded(18,-76,9,20,2,'#f7e2bc');}
     else if(type==='person') {ellipse(-9,0,8,6,'#487998');ellipse(9,0,8,6,'#487998');rounded(-17,-45,34,43,10,'#65aade');ellipse(-18,-26,6,14,'#82bee8');ellipse(18,-26,6,14,'#82bee8');ellipse(0,-62,20,22,'#f3d9aa');ellipse(-7,-63,2.3,3,'#393127');ellipse(7,-63,2.3,3,'#393127');ctx.beginPath();ctx.arc(0,-57,5,0,Math.PI);ctx.strokeStyle='#997151';ctx.lineWidth=1.8;ctx.stroke();ellipse(-6,-76,7,4,'#fff1cd88');}
@@ -290,7 +293,7 @@
     environment.ambience(scene.id,W,H,t);
     const s=Math.min(W/700,H/410);
     environment.playGround(scene.id,W,H,t);
-    state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const orbit=dogOrbit(p,t);const point=orbit||project(p);const scale=s*(.9+p.y*.24)*pieceScale(p);const pose=environment.pose(p,t);if(orbit){pose.wag=orbit.wag;pose.bob=-Math.abs(Math.sin(t*10))*1.2;}if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
+    state.pieces.map(p=>({p,orbit:dogOrbit(p,t)})).sort((a,b)=>(a.orbit||project(a.p)).y-(b.orbit||project(b.p)).y).forEach(({p,orbit})=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=orbit||project(p);const scale=s*(.9+p.y*.24)*pieceScale(p);const pose=environment.pose(p,t);if(orbit){pose.wag=orbit.wag;pose.bob=-Math.abs(Math.sin(t*10))*1.2;}if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
     environment.ambience(scene.id,W,H,t,true);
     environment.reactions(scene.id,W,H,t);
     positionPlayControls(time/1000);
@@ -298,7 +301,7 @@
   canvas.onpointerdown = event => {
     if(cardMode)return;
     const r=canvas.getBoundingClientRect(), x=(event.clientX-r.left)/r.width*W, y=(event.clientY-r.top)/r.height*H;
-    const piece=state.pieces.slice().sort((a,b)=>b.y-a.y).find(p=>{const q=dogPositions.get(p.id)||project(p),scale=Math.min(W/700,H/410)*(.9+p.y*.24)*pieceScale(p);const sprite=sprites.get(p.type),area=sprite?.sandplayBounds,halfWidth=area?50*area.w/area.h:35;return Math.abs(q.x-x)<halfWidth*scale&&y>q.y-98*scale&&y<q.y+12*scale;});
+    const piece=state.pieces.slice().sort((a,b)=>(dogPositions.get(b.id)||project(b)).y-(dogPositions.get(a.id)||project(a)).y).find(p=>{const q=dogPositions.get(p.id)||project(p),scale=Math.min(W/700,H/410)*(.9+p.y*.24)*pieceScale(p);const sprite=sprites.get(p.type),area=sprite?.sandplayBounds,halfWidth=area?50*area.w/area.h:35;return Math.abs(q.x-x)<halfWidth*scale&&y>q.y-98*scale&&y<q.y+12*scale;});
     if(piece){turtleMotion.cancel(piece.id);journeys.delete(piece.id);environment.cancelPiece(piece.id);}
     selected=piece?.id||null;updateSelection();draw(performance.now());
     if(piece){drag={id:piece.id,source:'canvas',initialX:piece.x,initialY:piece.y,dx:x-project(piece).x,dy:y-project(piece).y};canvas.setPointerCapture(event.pointerId);}
