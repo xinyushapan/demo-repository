@@ -233,10 +233,10 @@
   function rounded(x,y,w,h,r,color) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();}
   function path(points,color){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=color;ctx.fill();}
   function project(p){if(state.scene==='nature'&&p.type==='turtle')return{x:W*p.x,y:H*p.y};return {x:W*(.12+p.x*.76),y:H*(.40+p.y*.49)};}
-  function pieceScale(p){return ({child:.70,teen:.86,adult:1,person:1,elder:.94,dog:.55}[p.type]||1);}
+  function pieceScale(p){return ({child:.70,teen:.86,adult:1,person:1,elder:.94,dog:.55,bird:.40}[p.type]||1);}
   const dogVisits=new Map(),dogPositions=new Map();
   function dogOrbit(p,time){
-    if(p.type!=='dog')return null;
+    if(!['dog','bird'].includes(p.type))return null;
     if(reducedMotion||drag){dogPositions.delete(p.id);return null;}
     const humans=state.pieces.filter(q=>['child','teen','adult','elder','seated','curled','companions','person'].includes(q.type));
     if(!humans.length){dogVisits.delete(p.id);dogPositions.delete(p.id);return null;}
@@ -255,7 +255,11 @@
     ctx.save();ctx.translate(x,y);ctx.scale(s,s);ellipse(0,5,24,8,'#39332320');
     if(highlight){ctx.beginPath();ctx.ellipse(0,5,32,12,0,0,Math.PI*2);ctx.strokeStyle='#9b74c5';ctx.lineWidth=3;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);}
     ctx.rotate(pose.tilt||0);ctx.scale(pose.flip?-1:1,pose.squash||1);ctx.translate(0,bob);
-    const sprite=sprites.get(type);if(sprite?.complete&&sprite.naturalWidth){const area=sprite.sandplayBounds||{x:0,y:0,w:sprite.naturalWidth,h:sprite.naturalHeight};const height=100,width=height*area.w/area.h;if(pose.turtle){turtleMotion.draw(ctx,sprite,area,width,height,pose.turtle);ctx.restore();return;}ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);
+    const sprite=sprites.get(type);if(sprite?.complete&&sprite.naturalWidth){const area=sprite.sandplayBounds||{x:0,y:0,w:sprite.naturalWidth,h:sprite.naturalHeight};const height=100,width=height*area.w/area.h;if(pose.turtle){turtleMotion.draw(ctx,sprite,area,width,height,pose.turtle);ctx.restore();return;}if(type==='flower'){
+      const split=Math.floor(area.h*.63),bottom=area.h-split;
+      ctx.drawImage(sprite,area.x,area.y+split,area.w,bottom,-width/2,-height+height*split/area.h,width,height*bottom/area.h);
+      for(let row=0;row<split;row+=2){const rows=Math.min(2,split-row),shift=Math.sin((pose.flowerTime||0)*1.8)*width*.065*Math.pow(1-row/split,1.4);ctx.drawImage(sprite,area.x,area.y+row,area.w,rows,-width/2+shift,-height+height*row/area.h,width,height*rows/area.h+.35);}
+    }else ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);
     if(type==='dog'&&pose.wag!==undefined){
       // Keep the original silhouette whole; a closed ball tail overlaps its base.
       const radius=width*.115,tx=-width*.37+Math.sin(pose.wag)*width*.055,ty=-height*.66;
@@ -293,7 +297,7 @@
     environment.ambience(scene.id,W,H,t);
     const s=Math.min(W/700,H/410);
     environment.playGround(scene.id,W,H,t);
-    state.pieces.map(p=>({p,orbit:dogOrbit(p,t)})).sort((a,b)=>(a.orbit||project(a.p)).y-(b.orbit||project(b.p)).y).forEach(({p,orbit})=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=orbit||project(p);const scale=s*(.9+p.y*.24)*pieceScale(p);const pose=environment.pose(p,t);if(orbit){pose.wag=orbit.wag;pose.bob=-Math.abs(Math.sin(t*10))*1.2;}if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
+    state.pieces.map(p=>({p,orbit:dogOrbit(p,t)})).sort((a,b)=>(a.orbit||project(a.p)).y-(b.orbit||project(b.p)).y).forEach(({p,orbit})=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=orbit||project(p);const scale=s*(.9+p.y*.24)*pieceScale(p);const pose=environment.pose(p,t);if(p.type==='flower'){pose.flowerTime=reducedMotion?0:t;pose.bob=0;pose.tilt=0;pose.squash=1;}if(orbit){pose.wag=orbit.wag;pose.bob=-Math.abs(Math.sin(t*10))*1.2;}if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
     environment.ambience(scene.id,W,H,t,true);
     environment.reactions(scene.id,W,H,t);
     positionPlayControls(time/1000);

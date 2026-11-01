@@ -57,10 +57,10 @@
     function actions(scene,type){
       if(vehicles.has(type))return [{kind:'drive',direction:-1,label:'向左开',icon:'left'},{kind:'drive',direction:1,label:'向右开',icon:'right'}];
       if(!humans.has(type))return [];
-      return {animal:[{kind:'feed-giraffe',label:'喂长颈鹿',icon:'leaf'},{kind:'feed-lion',label:'喂小狮子',icon:'food'}],ocean:[{kind:'feed-fish',label:'喂小鱼',icon:'fish'}],nature:[{kind:'feed-bird',label:'喂小鸟',icon:'bird'}],free:[{kind:'castle',label:'堆沙堡',icon:'castle'},{kind:'rings',label:'画沙纹',icon:'rings'}],space:[{kind:'star',label:'点亮星星',icon:'star'}],city:[{kind:'greet',label:'打个招呼',icon:'wave'}]}[scene]||[];
+      return {animal:[{kind:'feed-giraffe',label:'喂长颈鹿',icon:'leaf'},{kind:'feed-lion',label:'喂小狮子',icon:'food'}],ocean:[],nature:[],free:[{kind:'castle',label:'堆沙堡',icon:'castle'},{kind:'rings',label:'画沙纹',icon:'rings'}],space:[{kind:'star',label:'点亮星星',icon:'star'}],city:[{kind:'greet',label:'打个招呼',icon:'wave'}]}[scene]||[];
     }
     function respond(scene,piece,time,action){
-      if(!piece)return null;const choice=action||actions(scene,piece.type).find(a=>a.kind!=='drive');if(!choice)return null;
+      if(!piece)return null;const choice=action||actions(scene,piece.type).find(a=>a.kind!=='drive');if(!choice||['feed-bird','feed-fish'].includes(choice.kind))return null;
       if(!action&&response?.piece===piece.id&&time-response.start<.8)return choice.kind;
       const side=piece.x>.62?-1:1;
       response={scene,piece:piece.id,type:piece.type,x:.12+piece.x*.76,y:.40+piece.y*.49,start:time,duration:choice.kind==='drive'?1.8:5.8,side,...choice};
