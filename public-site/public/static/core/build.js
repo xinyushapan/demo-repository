@@ -31,6 +31,7 @@
   const tray = $('#input-tray');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const environment=window.SandplayWorld.create(ctx,{reducedMotion,onLoad:()=>draw(performance.now())});
+  const turtleMotion=window.TurtleMotion.create();
   const journeys=new Map(),interactionBar=document.createElement('div');
   interactionBar.className='scene-play-actions';interactionBar.setAttribute('role','group');interactionBar.setAttribute('aria-label','沙具互动');interactionBar.hidden=true;
   const playCaption=document.createElement('div'),playButtons=document.createElement('div');playCaption.className='scene-play-caption';playCaption.setAttribute('aria-live','polite');playButtons.className='scene-play-buttons';interactionBar.append(playCaption,playButtons);
@@ -38,7 +39,7 @@
   document.querySelector('.digital-stage').append(interactionBar);
   window.addEventListener('sandplay:operation',event=>{
     const operation=event.detail;
-    if(['切换场景','清空','移除','离开画面','忽略误认','载入示例','更正类别'].includes(operation.action)){if(operation.action==='清空')environment.clearPlay();else environment.resetResponses();journeys.clear();}
+    if(['切换场景','清空','移除','离开画面','忽略误认','载入示例','更正类别'].includes(operation.action)){if(operation.action==='清空')environment.clearPlay();else environment.resetResponses();journeys.clear();turtleMotion.clear();}
     else if(['放入','进入画面'].includes(operation.action))environment.respond(operation.scene,operation,performance.now()/1000);
   });
   function drivePiece(piece,direction){
@@ -97,7 +98,7 @@
     }
   }
   categorySelect.onchange=()=>showToys(categorySelect.value);showToys(categories[0]);
-  function addToy(type,x,y){if(cardMode||!catalog.some(t=>t.id===type))return;if(state.pieces.length>=30)return toast('最多放入30件沙具。');const n=state.pieces.length,piece={id:crypto.randomUUID(),type,x:Math.max(.07,Math.min(.93,Number.isFinite(x)?x:.2+n%4*.19)),y:Math.max(.07,Math.min(.93,Number.isFinite(y)?y:.25+Math.floor(n/4)%3*.25))};state.pieces.push(piece);selected=piece.id;record('放入',piece,onlineMode?'线上搭建':'手动搭建');persist();sync();}
+  function addToy(type,x,y){if(cardMode||!catalog.some(t=>t.id===type))return;if(state.pieces.length>=30)return toast('最多放入30件沙具。');if(type==='turtle'&&state.scene==='nature'){if(!Number.isFinite(x))x=.58;if(!Number.isFinite(y))y=.68;}const n=state.pieces.length,piece={id:crypto.randomUUID(),type,x:Math.max(.07,Math.min(.93,Number.isFinite(x)?x:.2+n%4*.19)),y:Math.max(.07,Math.min(.93,Number.isFinite(y)?y:.25+Math.floor(n/4)%3*.25))};state.pieces.push(piece);selected=piece.id;record('放入',piece,onlineMode?'线上搭建':'手动搭建');persist();sync();}
   function showDigital(focus = true) {
     $('#scene-picker').hidden = true;
     $('#digital-view').hidden = false;
@@ -169,7 +170,7 @@
   }
   function move(id,x,y,fromJourney=false) {
     const piece = state.pieces.find(p => p.id === id); if (!piece) return;
-    if(!fromJourney){journeys.delete(id);environment.cancelPiece(id);}
+    if(!fromJourney){turtleMotion.cancel(id);journeys.delete(id);environment.cancelPiece(id);}
     piece.x = Math.max(.07,Math.min(.93,x)); piece.y = Math.max(.07,Math.min(.93,y));
     const marker = [...tray.children].find(b => b.dataset.piece === id);
     if (marker) { marker.style.left = `${piece.x*100}%`; marker.style.top = `${piece.y*100}%`; marker.setAttribute('aria-label',`${toys.find(t=>t.id===piece.type).name}，横向 ${Math.round(piece.x*100)}%，纵向 ${Math.round(piece.y*100)}%`); }
@@ -231,12 +232,13 @@
   function ellipse(x,y,rx,ry,color) { ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=color;ctx.fill(); }
   function rounded(x,y,w,h,r,color) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();}
   function path(points,color){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=color;ctx.fill();}
-  function project(p){return {x:W*(.12+p.x*.76),y:H*(.40+p.y*.49)};}
+  function project(p){if(state.scene==='nature'&&p.type==='turtle')return{x:W*p.x,y:H*p.y};return {x:W*(.12+p.x*.76),y:H*(.40+p.y*.49)};}
   function toyDraw(type,x,y,s,bob,highlight=false,pose={}) {
+    if(pose.turtle)s*=.72;
     ctx.save();ctx.translate(x,y);ctx.scale(s,s);ellipse(0,5,24,8,'#39332320');
     if(highlight){ctx.beginPath();ctx.ellipse(0,5,32,12,0,0,Math.PI*2);ctx.strokeStyle='#9b74c5';ctx.lineWidth=3;ctx.setLineDash([5,4]);ctx.stroke();ctx.setLineDash([]);}
     ctx.rotate(pose.tilt||0);ctx.scale(pose.flip?-1:1,pose.squash||1);ctx.translate(0,bob);
-    const sprite=sprites.get(type);if(sprite?.complete&&sprite.naturalWidth){const area=sprite.sandplayBounds||{x:0,y:0,w:sprite.naturalWidth,h:sprite.naturalHeight};const height=100,width=height*area.w/area.h;ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);ctx.restore();return;}
+    const sprite=sprites.get(type);if(sprite?.complete&&sprite.naturalWidth){const area=sprite.sandplayBounds||{x:0,y:0,w:sprite.naturalWidth,h:sprite.naturalHeight};const height=100,width=height*area.w/area.h;if(pose.turtle){turtleMotion.draw(ctx,sprite,area,width,height,pose.turtle);ctx.restore();return;}ctx.drawImage(sprite,area.x,area.y,area.w,area.h,-width/2,-height,width,height);ctx.restore();return;}
     if(type==='tree') {rounded(-7,-48,14,50,5,'#aa7347');ellipse(2,-22,12,5,'#98633d');ellipse(-17,-55,22,26,'#3f945e');ellipse(17,-57,24,28,'#4ba56a');ellipse(0,-77,27,30,'#65b77a');ellipse(-8,-85,9,12,'#87cb8f');}
     else if(type==='house') {rounded(-28,-45,56,49,5,'#fff0cd');path([[-34,-45],[0,-77],[35,-45]],'#ed785e');path([[0,-77],[35,-45],[31,-39],[-1,-66],[-32,-39],[-34,-45]],'#cf5c48');rounded(-6,-23,15,27,7,'#a47751');rounded(-21,-34,10,13,3,'#8bcbd0');rounded(14,-34,10,13,3,'#8bcbd0');rounded(18,-76,9,20,2,'#f7e2bc');}
     else if(type==='person') {ellipse(-9,0,8,6,'#487998');ellipse(9,0,8,6,'#487998');rounded(-17,-45,34,43,10,'#65aade');ellipse(-18,-26,6,14,'#82bee8');ellipse(18,-26,6,14,'#82bee8');ellipse(0,-62,20,22,'#f3d9aa');ellipse(-7,-63,2.3,3,'#393127');ellipse(7,-63,2.3,3,'#393127');ctx.beginPath();ctx.arc(0,-57,5,0,Math.PI);ctx.strokeStyle='#997151';ctx.lineWidth=1.8;ctx.stroke();ellipse(-6,-76,7,4,'#fff1cd88');}
@@ -267,7 +269,7 @@
     environment.ambience(scene.id,W,H,t);
     const s=Math.min(W/700,H/410);
     environment.playGround(scene.id,W,H,t);
-    state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const point=project(p);const scale=s*(.9+p.y*.24);const pose=environment.pose(p,t);toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);});
+    state.pieces.slice().sort((a,b)=>a.y-b.y).forEach(p=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=project(p);const scale=s*(.9+p.y*.24);const pose=environment.pose(p,t);if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
     environment.ambience(scene.id,W,H,t,true);
     environment.reactions(scene.id,W,H,t);
     positionPlayControls(time/1000);
@@ -276,13 +278,13 @@
     if(cardMode)return;
     const r=canvas.getBoundingClientRect(), x=(event.clientX-r.left)/r.width*W, y=(event.clientY-r.top)/r.height*H;
     const piece=state.pieces.slice().sort((a,b)=>b.y-a.y).find(p=>{const q=project(p),scale=Math.min(W/700,H/410)*(.9+p.y*.24);const sprite=sprites.get(p.type),area=sprite?.sandplayBounds,halfWidth=area?50*area.w/area.h:35;return Math.abs(q.x-x)<halfWidth*scale&&y>q.y-98*scale&&y<q.y+12*scale;});
-    if(piece){journeys.delete(piece.id);environment.cancelPiece(piece.id);}
+    if(piece){turtleMotion.cancel(piece.id);journeys.delete(piece.id);environment.cancelPiece(piece.id);}
     selected=piece?.id||null;updateSelection();draw(performance.now());
     if(piece){drag={id:piece.id,source:'canvas',initialX:piece.x,initialY:piece.y,dx:x-project(piece).x,dy:y-project(piece).y};canvas.setPointerCapture(event.pointerId);}
   };
-  canvas.onpointermove = event => {if(drag?.source!=='canvas')return;const r=canvas.getBoundingClientRect();move(drag.id,(((event.clientX-r.left)/r.width*W-drag.dx)/W-.12)/.76,(((event.clientY-r.top)/r.height*H-drag.dy)/H-.40)/.49);};
+  canvas.onpointermove = event => {if(drag?.source!=='canvas')return;const r=canvas.getBoundingClientRect();const p=state.pieces.find(p=>p.id===drag.id),x=(event.clientX-r.left)/r.width-drag.dx/W,y=(event.clientY-r.top)/r.height-drag.dy/H;move(drag.id,state.scene==='nature'&&p?.type==='turtle'?x:(x-.12)/.76,state.scene==='nature'&&p?.type==='turtle'?y:(y-.40)/.49);};
   canvas.onpointerup=endDrag;canvas.onpointercancel=endDrag;
-  if(onlineMode){canvas.tabIndex=0;canvas.addEventListener('dragover',event=>{if(event.dataTransfer.types.includes('text/x-sandplay-toy')){event.preventDefault();event.dataTransfer.dropEffect='copy';}});canvas.addEventListener('drop',event=>{event.preventDefault();const r=canvas.getBoundingClientRect();addToy(event.dataTransfer.getData('text/x-sandplay-toy'),((event.clientX-r.left)/r.width-.12)/.76,((event.clientY-r.top)/r.height-.4)/.49);});canvas.addEventListener('keydown',event=>{if(event.key==='Delete'||event.key==='Backspace'){event.preventDefault();remove();}else if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){const piece=state.pieces.find(p=>p.id===selected);if(!piece)return;event.preventDefault();move(piece.id,piece.x+({'ArrowLeft':-.02,'ArrowRight':.02}[event.key]||0),piece.y+({'ArrowUp':-.02,'ArrowDown':.02}[event.key]||0));record('移动',piece,'线上搭建');persist();}});}
+  if(onlineMode){canvas.tabIndex=0;canvas.addEventListener('dragover',event=>{if(event.dataTransfer.types.includes('text/x-sandplay-toy')){event.preventDefault();event.dataTransfer.dropEffect='copy';}});canvas.addEventListener('drop',event=>{event.preventDefault();const r=canvas.getBoundingClientRect();const type=event.dataTransfer.getData('text/x-sandplay-toy'),x=(event.clientX-r.left)/r.width,y=(event.clientY-r.top)/r.height;addToy(type,state.scene==='nature'&&type==='turtle'?x:(x-.12)/.76,state.scene==='nature'&&type==='turtle'?y:(y-.4)/.49);});canvas.addEventListener('keydown',event=>{if(event.key==='Delete'||event.key==='Backspace'){event.preventDefault();remove();}else if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)){const piece=state.pieces.find(p=>p.id===selected);if(!piece)return;event.preventDefault();move(piece.id,piece.x+({'ArrowLeft':-.02,'ArrowRight':.02}[event.key]||0),piece.y+({'ArrowUp':-.02,'ArrowDown':.02}[event.key]||0));record('移动',piece,'线上搭建');persist();}});}
   new ResizeObserver(()=>{const r=canvas.getBoundingClientRect();W=r.width;H=r.height;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw(performance.now());}).observe(canvas);
   let lastPaint=0;function animate(time){if(!document.hidden&&!$('#digital-view').hidden&&time-lastPaint>32){draw(time);lastPaint=time;}requestAnimationFrame(animate);} sync();if(onlineMode||new URLSearchParams(location.search).has('record'))showDigital(false);if(!reducedMotion)requestAnimationFrame(animate);
 })();

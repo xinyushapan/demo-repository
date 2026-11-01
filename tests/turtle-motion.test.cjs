@@ -1,0 +1,5 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),{create,water}=require('../core/static/core/turtle-motion.js');
+const ctx={save(){},restore(){},beginPath(){},ellipse(){},fill(){}};
+test('river location follows the actual nature artwork, including cover cropping',()=>{assert.equal(water(.1,.49,900,506),true);assert.equal(water(.58,.68,900,506),false);});
+test('land turtle advances slowly, finishes four steps and stays stopped',()=>{const m=create(),p={id:'a',x:.58,y:.68};m.frame(ctx,p,0,900,506);m.frame(ctx,p,2.7,900,506);assert.ok(Math.abs(p.x-.56125)<1e-6);const end=m.frame(ctx,p,10.8,900,506);assert.equal(end.active,false);const x=p.x;m.frame(ctx,p,30,900,506);assert.equal(p.x,x);});
+test('river turtle swims without leaving the water, drag cancellation restarts at drop',()=>{const m=create(),p={id:'a',x:.1,y:.49};assert.equal(m.frame(ctx,p,0,900,506).swim,true);m.frame(ctx,p,20,900,506);assert.equal(water(p.x,p.y,900,506),true);m.cancel(p.id);p.x=.6;p.y=.7;assert.equal(m.frame(ctx,p,21,900,506).swim,false);});
