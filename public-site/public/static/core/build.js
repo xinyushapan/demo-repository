@@ -233,7 +233,8 @@
   function rounded(x,y,w,h,r,color) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();}
   function path(points,color){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=color;ctx.fill();}
   function project(p){if(state.scene==='nature'&&p.type==='turtle')return{x:W*p.x,y:H*p.y};return {x:W*(.12+p.x*.76),y:H*(.40+p.y*.49)};}
-  function pieceScale(p){return ({child:.70,teen:.86,adult:1,person:1,elder:.94,dog:.48,bird:.36,cat:.45,rabbit:.48,turtle:.40,fish:.36}[p.type]||1);}
+  function pieceScale(p){return ({child:.70,teen:.86,adult:1,person:1,elder:.94,dog:.48,bird:.36,cat:.45,rabbit:.48,turtle:.40,fish:.36,car:1.35,bus:1.55,bike:1.2,train:1.5,boat:1.4,plane:1.5}[p.type]||1);}
+  const effectBirths=new Map();
   const dogVisits=new Map(),dogPositions=new Map();
   function dogOrbit(p,time){
     if(!['dog','bird'].includes(p.type))return null;
@@ -266,6 +267,13 @@
       const shade=ctx.createRadialGradient(tx-radius*.3,ty-radius*.4,radius*.1,tx,ty,radius);
       shade.addColorStop(0,'#b57b50');shade.addColorStop(.55,'#8e542e');shade.addColorStop(1,'#6d3d24');
       ctx.beginPath();ctx.arc(tx,ty,radius,0,Math.PI*2);ctx.fillStyle=shade;ctx.fill();
+    }
+    if(!reducedMotion&&pose.effectAge<7){
+      if(type==='train')for(let i=0;i<5;i++){const f=(pose.effectAge*.55+i*.2)%1;ctx.save();ctx.globalAlpha=(1-f)*.38;ellipse(-width*.22+Math.sin(f*5+i)*5,-height*.83-f*45,5+f*12,5+f*9,'#eee7d9');ctx.restore();}
+      if(type==='dragon'){
+        const pulse=Math.max(0,Math.sin(pose.effectAge*2));
+        if(pulse>.15){const mx=width*.21,my=-height*.67;ellipse(mx,my,6,4+pulse*3,'#6f251c');const fire=ctx.createLinearGradient(mx,my,mx+58*pulse,my);fire.addColorStop(0,'#fff2a1');fire.addColorStop(.4,'#ffbd36');fire.addColorStop(1,'#ef622000');ctx.fillStyle=fire;ctx.beginPath();ctx.moveTo(mx,my-3);ctx.quadraticCurveTo(mx+35*pulse,my-17*pulse,mx+65*pulse,my+Math.sin(pose.effectAge*14)*4);ctx.quadraticCurveTo(mx+30*pulse,my+15*pulse,mx,my+4);ctx.fill();}
+      }
     }ctx.restore();return;}
     if(type==='tree') {rounded(-7,-48,14,50,5,'#aa7347');ellipse(2,-22,12,5,'#98633d');ellipse(-17,-55,22,26,'#3f945e');ellipse(17,-57,24,28,'#4ba56a');ellipse(0,-77,27,30,'#65b77a');ellipse(-8,-85,9,12,'#87cb8f');}
     else if(type==='house') {rounded(-28,-45,56,49,5,'#fff0cd');path([[-34,-45],[0,-77],[35,-45]],'#ed785e');path([[0,-77],[35,-45],[31,-39],[-1,-66],[-32,-39],[-34,-45]],'#cf5c48');rounded(-6,-23,15,27,7,'#a47751');rounded(-21,-34,10,13,3,'#8bcbd0');rounded(14,-34,10,13,3,'#8bcbd0');rounded(18,-76,9,20,2,'#f7e2bc');}
@@ -297,7 +305,7 @@
     environment.ambience(scene.id,W,H,t);
     const s=Math.min(W/700,H/410);
     environment.playGround(scene.id,W,H,t);
-    state.pieces.map(p=>({p,orbit:dogOrbit(p,t)})).sort((a,b)=>(a.orbit||project(a.p)).y-(b.orbit||project(b.p)).y).forEach(({p,orbit})=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=orbit||project(p);const scale=s*(.9+p.y*.24)*pieceScale(p);const pose=environment.pose(p,t);if(p.type==='flower'){pose.flowerTime=reducedMotion?0:t;pose.bob=0;pose.tilt=0;pose.squash=1;}if(orbit){pose.wag=orbit.wag;pose.bob=-Math.abs(Math.sin(t*10))*1.2;}if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
+    state.pieces.map(p=>({p,orbit:dogOrbit(p,t)})).sort((a,b)=>(a.orbit||project(a.p)).y-(b.orbit||project(b.p)).y).forEach(({p,orbit})=>{const turtle=state.scene==='nature'&&p.type==='turtle'?turtleMotion.frame(ctx,p,t,W,H,reducedMotion||drag?.id===p.id):null;const point=orbit||project(p);const scale=s*(.9+p.y*.24)*pieceScale(p);const pose=environment.pose(p,t);if(!effectBirths.has(p.id))effectBirths.set(p.id,t);pose.effectAge=t-effectBirths.get(p.id);if(p.type==='flower'){pose.flowerTime=reducedMotion?0:t;pose.bob=0;pose.tilt=0;pose.squash=1;}if(orbit){pose.wag=orbit.wag;pose.bob=-Math.abs(Math.sin(t*10))*1.2;}if(turtle){pose.turtle=turtle;pose.bob=0;pose.tilt=0;pose.flip=false;}toyDraw(p.type,point.x,point.y,scale,pose.bob,p.id===selected,pose);turtleMotion.waterline(ctx,point.x,point.y,scale*.72,turtle,t);if(turtle?.settled)persist();});
     environment.ambience(scene.id,W,H,t,true);
     environment.reactions(scene.id,W,H,t);
     positionPlayControls(time/1000);
