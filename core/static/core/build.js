@@ -233,7 +233,7 @@
   function rounded(x,y,w,h,r,color) {ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=color;ctx.fill();}
   function path(points,color){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle=color;ctx.fill();}
   function project(p){if(state.scene==='nature'&&p.type==='turtle')return{x:W*p.x,y:H*p.y};return {x:W*(.12+p.x*.76),y:H*(.40+p.y*.49)};}
-  function pieceScale(p){return ({child:.70,teen:.86,adult:1,person:1,elder:.94,dog:.55,bird:.40}[p.type]||1);}
+  function pieceScale(p){return ({child:.70,teen:.86,adult:1,person:1,elder:.94,dog:.48,bird:.36,cat:.45,rabbit:.48,turtle:.40,fish:.36}[p.type]||1);}
   const dogVisits=new Map(),dogPositions=new Map();
   function dogOrbit(p,time){
     if(!['dog','bird'].includes(p.type))return null;
