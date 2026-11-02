@@ -85,7 +85,7 @@
     setMascotMood('happy');
     speak(`${line.textContent} ${question.textContent}`);
   }
-  function consume(results) {
+  function consume(results,source='camera') {
     if(!cameraRunning||!corpus||document.hidden)return;
     state.textContent=results.length?'摄像头匹配 · 语料已连接':'语料已连接 · 等待匹配';state.classList.remove('error');
     const heard=new Set();
@@ -93,10 +93,10 @@
       if(!findItem(detection.label_id)||!Number.isFinite(detection.confidence))continue;
       const key=String(detection.track_id),previous=stable.get(key);heard.add(key);
       const count=previous?.label_id===detection.label_id?previous.count+1:1;
-      stable.set(key,{label_id:detection.label_id,count,detection});
+      stable.set(key,{label_id:detection.label_id,count,detection,source});
       if(count>=(corpus.recognition_policy?.temporal_stability_frames??3))accept(detection);
     }
-    for(const key of stable.keys())if(!heard.has(key))stable.delete(key);
+    for(const [key,item] of stable)if(item.source===source&&!heard.has(key))stable.delete(key);
   }
   async function start(video) {
     if(cameraRunning&&activeStream===video.srcObject)return;
@@ -119,7 +119,7 @@
 
   window.addEventListener('sandplay:voice-input-state',event=>{isListening=event.detail.active;setMascotMood(isListening?'listening':'idle');if(isListening){showBubble();clearTimeout(bubbleTimer);}});
 
-  voiceButton.addEventListener('click', () => {
+  voiceButton.addEventListener('click', async () => {
     if (!window.Audio) {
       line.textContent = '这台设备暂不支持网页语音，我们可以继续用文字慢慢聊。'; return;
     }
@@ -133,12 +133,12 @@
   window.addEventListener('sandplay:appearance-mode',event=>{if(event.detail.active)void start($('#camera'));else if(!$('#camera').srcObject?.active)stop();});
   window.addEventListener('sandplay:objects',event=>{
     const seen=new Set(event.detail.observedIds||[]);
-    consume(event.detail.items.filter(item=>seen.has(item.id)).map(item=>({label_id:map[item.type],track_id:item.id,confidence:item.score})));
+    consume(event.detail.items.filter(item=>seen.has(item.id)).map(item=>({label_id:map[item.type],track_id:item.id,confidence:item.score})),event.detail.source||'camera');
   });
   window.addEventListener('sandplay:correct-object',event=>confirm({label_id:map[event.detail.type],track_id:event.detail.id}));
   $('#camera').addEventListener('playing',()=>{if($('#toggle-appearance').getAttribute('aria-pressed')==='true')void start($('#camera'));});
   window.addEventListener('pagehide',stop);
-  mascot.onclick=()=>{
+  mascot.onclick=async()=>{
     if(!cameraRunning){line.textContent=document.body.classList.contains('online-mode')?'我是小语，陪你一起搭个小世界。':'我是小语。连接摄像头后，我会陪你一起搭建。';question.textContent='';}
     showBubble();
     if(!voiceEnabled)voiceButton.click();else speak(`${line.textContent} ${question.textContent}`);

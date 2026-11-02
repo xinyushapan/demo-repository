@@ -2,7 +2,9 @@
  * Nothing here creates interactive pieces or changes recognition/records. */
 (() => {
   function create(ctx,{reducedMotion=false,onLoad=()=>{}}={}){
-    const sprites=new Map(),windCache=new WeakMap();let giraffe=null,cleanAnimal=null,originalAnimal=null;
+    const sprites=new Map(),windCache=new WeakMap();let giraffe=null,cleanAnimal=null,originalAnimal=null,interaction=null;
+    const ease=v=>{const p=Math.max(0,Math.min(1,v));return p*p*(3-2*p);};
+    const engagement=t=>interaction?ease((t-interaction.start-.3)/1.5)*(1-ease((t-interaction.start-4.1)/1.6)):0;
     const load=(url,ready)=>{const image=new Image();image.decoding='async';image.onload=()=>{ready(image);onLoad();};image.src=url;return image;};
     const trim=image=>{const c=document.createElement('canvas');c.width=image.naturalWidth;c.height=image.naturalHeight;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(image,0,0);const data=g.getImageData(0,0,c.width,c.height).data;let l=c.width,r=0,t=c.height,b=0;for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++)if(data[(y*c.width+x)*4+3]>24){l=Math.min(l,x);r=Math.max(r,x);t=Math.min(t,y);b=Math.max(b,y);}const out=document.createElement('canvas');out.width=r-l+1;out.height=b-t+1;out.getContext('2d').drawImage(c,l,t,out.width,out.height,0,0,out.width,out.height);return out;};
     for(const name of ['fish','car','bird'])load(`/static/core/toys/${name}.png`,im=>sprites.set(name,trim(im)));
@@ -39,7 +41,11 @@
       const step=t*2.25,walk=Math.sin(t*.15)*27,bob=Math.sin(step*2)*1.2;
       ctx.save();ctx.translate(walk,bob);
       ctx.fillStyle='#6c4a2820';ctx.beginPath();ctx.ellipse(548,414,79,5,0,0,Math.PI*2);ctx.fill();
-      ctx.drawImage(giraffe,450,85,250,235,450,85,250,235);
+      const eating=interaction?.kind==='feed-giraffe'?engagement(t):0;
+      if(eating){
+        ctx.drawImage(giraffe,450,175,250,145,450,175,250,145);
+        ctx.save();ctx.translate(642,174);ctx.rotate(eating*(.07+Math.sin(t*5)*.035));ctx.drawImage(giraffe,600,85,100,90,-42,-89,100,90);ctx.restore();
+      }else ctx.drawImage(giraffe,450,85,250,235,450,85,250,235);
       for(const [x,width,phase]of [[469,40,0],[517,40,Math.PI],[579,42,.5]])for(let y=320;y<419;y+=4){const h=Math.min(4,419-y),shift=Math.sin(step+phase)*4*(y-320)/99;ctx.drawImage(giraffe,x,y,width,h,x+shift,y,width,h);}
       ctx.restore();ctx.restore();
     }
@@ -54,12 +60,23 @@
         for(let i=0;i<6;i++){const x=W*(id==='nature'?.035:.055)+i*W*.017+Math.sin(t*.8+i)*W*.006,y=H*(id==='nature'?.37:.51)+i*H*.018;ctx.beginPath();ctx.ellipse(x,y,W*(.012+i*.001),H*.0018,0,Math.PI*.1,Math.PI*.85);ctx.stroke();}ctx.restore();
       }
       if(id==='ocean'){
-        const fish=sprites.get('fish');for(let i=0;i<3;i++){const cycle=(t*(.025+i*.004)+i*.36)%1,reverse=i%2===1,x=W*(reverse?1.12-cycle*1.24:cycle*1.24-.12),y=H*(.17+i*.09)+Math.sin(t*.8+i*2)*H*.018;actor(fish,x,y,W*(.045+i*.008),!reverse,Math.sin(t*1.8+i)*.045);}
+        const fish=sprites.get('fish'),amount=interaction?.kind==='feed-fish'?engagement(t):0;
+        for(let i=0;i<3;i++){
+          const cycle=(t*(.025+i*.004)+i*.36)%1,reverse=i%2===1;
+          let x=W*(reverse?1.12-cycle*1.24:cycle*1.24-.12),y=H*(.17+i*.09)+Math.sin(t*.8+i*2)*H*.018,flip=!reverse;
+          if(amount){const target=interaction.point,tx=target.x+(i-1)*W*.042,ty=target.y+(i%2?-.02:.04)*H;x+=(tx-x)*amount;y+=(ty-y)*amount;flip=x<target.x;}
+          actor(fish,x,y,W*(.045+i*.008),flip,Math.sin(t*1.8+i)*.045);
+        }
       }
       if(id==='city'){
         const progress=(t*.025)%1;actor(sprites.get('car'),W*(1.1-progress*1.2),H*.34,W*.055,true);
       }
-      if(id==='nature')actor(sprites.get('bird'),W*((t*.015+.65)%1.2-.1),H*.13+Math.sin(t*1.5)*H*.012,W*.023,true,Math.sin(t*2)*.06);
+      if(id==='nature'){
+        const amount=interaction?.kind==='feed-bird'?engagement(t):0;
+        let x=W*((t*.015+.65)%1.2-.1),y=H*.13+Math.sin(t*1.5)*H*.012;
+        if(amount){x+=(interaction.point.x-x)*amount;y+=(interaction.point.y-y)*amount;}
+        actor(sprites.get('bird'),x,y,W*.032,amount?false:true,Math.sin(t*2)*.06);
+      }
       if(id==='space'){
         const phase=(t*.08)%1;if(phase<.3){ctx.save();ctx.globalAlpha=Math.sin(phase/.3*Math.PI)*.55;const x=W*(.1+phase*1.8),y=H*(.05+phase*.3),trail=ctx.createLinearGradient(x-W*.08,y-H*.025,x,y);trail.addColorStop(0,'#fff0');trail.addColorStop(1,'#fff6d9');ctx.strokeStyle=trail;ctx.lineWidth=W*.0016;ctx.beginPath();ctx.moveTo(x-W*.08,y-H*.025);ctx.lineTo(x,y);ctx.stroke();ctx.restore();}
       }
@@ -67,7 +84,7 @@
         ctx.save();ctx.globalAlpha=.12+Math.sin(t*.7)*.04;const glow=ctx.createRadialGradient(W*(.45+Math.sin(t*.15)*.15),H*.18,0,W*.5,H*.18,W*.33);glow.addColorStop(0,'#fff2b2');glow.addColorStop(1,'#fff0');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);ctx.restore();
       }
     }
-    return{background};
+    return{background,setInteraction:value=>{interaction=value;}};
   }
   window.SandplayLife={create};
 })();

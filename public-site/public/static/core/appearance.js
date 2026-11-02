@@ -1,12 +1,39 @@
 (() => {
   'use strict';
   const $=s=>document.querySelector(s),video=$('#camera'),toggle=$('#toggle-appearance'),status=$('#appearance-status'),overlay=$('#recognition-overlay');
-  const catalog=window.SANDPLAY_TOYS,workerURL=new URL('appearance-worker.js?v=16',document.currentScript.src);
+  const fusion=window.AppearanceFusion;
+  const catalog=window.SANDPLAY_TOYS,workerURL=new URL('appearance-worker.js?v=21',document.currentScript.src);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
   let worker=null,loaded=false,loading=false,active=false,busy=false,timer=null,stream=null,frame=0,tracks=[],pendingLearn=[],sequence=0,selection=null,learning=false,drag=null;
+  let physicalWorker=null,physicalLoaded=false,physicalBusy=false,physicalTimer=null,streamEpoch=0;const sourceFrames={general:0,physical:0};
+  let generalPhysicalSnapshot=[];
+  const physicalObservations=()=>tracks.filter(t=>t.source==='physical'&&t.confirmed&&!t.ignored&&performance.now()-t.lastSeen<650).map(t=>({type:t.rawType,box:{...t.box}}));
   let custom=[];try{custom=JSON.parse(localStorage.getItem('xinyu-appearance-references')||'[]').filter(item=>catalog.some(toy=>toy.id===item.type)&&/^data:image\/jpeg;base64,/.test(item.data)).slice(-25);}catch{}
   const sendMode=()=>window.dispatchEvent(new CustomEvent('sandplay:appearance-mode',{detail:{active}}));
-  function setActive(value){active=value;toggle.setAttribute('aria-pressed',String(active));toggle.textContent=active?'暂停沙具识别':'开始识别沙具';$('#appearance-indicator').textContent=active?'· 识别中':'· 已暂停';sendMode();clearTimeout(timer);if(active){startWorker();tick();}else{$('.camera-label').textContent='本机画面预览 · 不上传';status.textContent='识别已暂停，保留最后的数字摆放。';}}
+  function setActive(value){active=value;toggle.setAttribute('aria-pressed',String(active));toggle.textContent=active?'暂停沙具识别':'开始识别沙具';$('#appearance-indicator').textContent=active?'· 识别中':'· 已暂停';sendMode();clearTimeout(timer);clearTimeout(physicalTimer);if(active){startPhysicalWorker();startWorker();tick();physicalTick();}else{$('.camera-label').textContent='本机画面预览 · 不上传';status.textContent='识别已暂停，保留最后的数字摆放。';}}
+  function startPhysicalWorker(){
+    if(physicalWorker)return;
+    physicalWorker=new Worker(new URL('physical-flower-worker.js?v=4',document.currentScript?.src||workerURL));
+    const failed=()=>{physicalLoaded=false;physicalBusy=false;clearTimeout(physicalTimer);physicalWorker?.terminate();physicalWorker=null;status.textContent='实拍快速识别未就绪，正在使用完整参考匹配。';};
+    physicalWorker.onerror=failed;physicalWorker.onmessage=event=>{
+      const data=event.data;
+      if(data.kind==='ready'){physicalLoaded=true;status.textContent='已加载花朵、树木和火山的实拍参考，把沙具放到镜头前试试。';physicalTick();}
+      if(data.kind==='error')failed();
+      if(data.kind==='result'){physicalBusy=false;if(active){if(!learning&&data.epoch===streamEpoch)update(data.items,'physical');physicalTimer=setTimeout(physicalTick,180);}}
+    };
+    physicalWorker.postMessage({kind:'init'});
+  }
+  function capture(){
+    if(!video.srcObject||video.readyState<2||!video.videoWidth||document.hidden||video.srcObject.getVideoTracks()[0]?.muted)return null;
+    if(stream!==video.srcObject){stream=video.srcObject;streamEpoch++;tracks=[];sourceFrames.general=sourceFrames.physical=0;overlay.replaceChildren();}
+    positionOverlay();const scale=Math.min(480/video.videoWidth,360/video.videoHeight,1);canvas.width=Math.round(video.videoWidth*scale);canvas.height=Math.round(video.videoHeight*scale);ctx.drawImage(video,0,0,canvas.width,canvas.height);
+    return ctx.getImageData(0,0,canvas.width,canvas.height);
+  }
+  function physicalTick(){
+    clearTimeout(physicalTimer);if(!active||!physicalLoaded||physicalBusy||learning)return;
+    const image=capture();if(!image){physicalTimer=setTimeout(physicalTick,300);return;}
+    physicalBusy=true;physicalWorker.postMessage({kind:'frame',image,epoch:streamEpoch},[image.data.buffer]);
+  }
   function startWorker(){
     if(worker)return;
     loading=true;status.textContent='正在加载本地识别引擎和 63 种沙具参考，首次稍等片刻…';worker=new Worker(workerURL);
@@ -14,36 +41,35 @@
     worker.onmessage=event=>{
       const data=event.data;
       if(data.kind==='progress'){status.textContent=`正在准备沙具参考 ${data.count}/${data.total}…`;}
-      if(data.kind==='ready'){loaded=true;loading=false;$('#camera-message').textContent='外观匹配已就绪 · 点击识别框可纠正，设置中可补充实拍参考。';for(const item of pendingLearn)worker.postMessage(item);pendingLearn=[];status.textContent='外观识别已就绪。让沙具正面对准镜头，保持间距；点击识别框可以纠正。';tick();}
-      if(data.kind==='result'){busy=false;if(active){update(data.items);status.textContent=`${data.items.length?'本帧匹配 '+data.items.length+' 件沙具':'暂未匹配到沙具'} · ${Math.round(data.elapsed)} ms/帧。未识别可框选补充实拍参考。`;timer=setTimeout(tick,350);}}
+      if(data.kind==='ready'){loaded=true;loading=false;$('#camera-message').textContent='外观匹配已就绪 · 点击识别框可纠正，设置中可补充实拍参考。';for(const item of pendingLearn)worker.postMessage(item);pendingLearn=[];status.textContent=data.physicalCount?'实物花朵、树木和火山识别已就绪。把沙具放到镜头前，保持沙具轮廓和底部可见。':'外观识别已就绪。让沙具正面对准镜头，保持间距；点击识别框可以纠正。';tick();}
+      if(data.kind==='result'){busy=false;if(active){if(data.epoch===streamEpoch)update(fusion.generalItems(data.items,[...generalPhysicalSnapshot,...physicalObservations()]),'general');status.textContent=`${data.items.length?'本帧匹配 '+data.items.length+' 件沙具':'暂未匹配到沙具'} · ${Math.round(data.elapsed)} ms/帧。未识别可框选补充实拍参考。`;timer=setTimeout(tick,350);}}
       if(data.kind==='learned'){status.textContent='已补充这件沙具的实拍参考，正在继续识别。';if(active)tick();}
       if(data.kind==='error')fail('识别暂不可用，请重试；摄像头仍可正常预览。');
     };
     worker.postMessage({kind:'init',custom});
   }
-  function fail(message){busy=false;loading=false;loaded=false;worker?.terminate();worker=null;setActive(false);status.textContent=message;}
+  function fail(message){busy=false;loading=false;loaded=false;worker?.terminate();worker=null;if(!physicalLoaded)setActive(false);status.textContent=physicalLoaded?'实物花朵、树木和火山识别仍在运行，其他沙具参考暂未就绪。':message;}
   function positionOverlay(){const bounds=$('.camera-window').getBoundingClientRect(),ratio=video.videoWidth/video.videoHeight||4/3;let width=bounds.width,height=width/ratio;if(height>bounds.height){height=bounds.height;width=height*ratio;}Object.assign(overlay.style,{width:`${width}px`,height:`${height}px`,left:`${(bounds.width-width)/2}px`,top:`${(bounds.height-height)/2}px`});}
   function tick(){
     clearTimeout(timer);if(!active||!loaded||busy||learning)return;
-    if(!video.srcObject||video.readyState<2||!video.videoWidth||document.hidden||video.srcObject.getVideoTracks()[0]?.muted){timer=setTimeout(tick,500);return;}
-    if(stream!==video.srcObject){stream=video.srcObject;tracks=[];overlay.replaceChildren();}
-    positionOverlay();const scale=Math.min(480/video.videoWidth,360/video.videoHeight,1);canvas.width=Math.round(video.videoWidth*scale);canvas.height=Math.round(video.videoHeight*scale);ctx.drawImage(video,0,0,canvas.width,canvas.height);
-    const image=ctx.getImageData(0,0,canvas.width,canvas.height);busy=true;worker.postMessage({kind:'frame',image},[image.data.buffer]);
+    const image=capture();if(!image){timer=setTimeout(tick,500);return;}
+    generalPhysicalSnapshot=physicalObservations();busy=true;worker.postMessage({kind:'frame',image,epoch:streamEpoch},[image.data.buffer]);
   }
-  function update(items){
-    frame++;const now=performance.now(),claimed=new Set();
+  function update(items,source='general'){
+    frame++;const sourceFrame=++sourceFrames[source];const now=performance.now(),claimed=new Set();
     for(const item of items){
       if(!catalog.some(toy=>toy.id===item.type)||!Number.isFinite(item.x+item.y)||!item.box||item.score<.86)continue;
-      let track=tracks.filter(t=>(t.rawType===item.type||t.type===item.type)&&!claimed.has(t.id)).sort((a,b)=>Math.hypot(a.x-item.x,a.y-item.y)-Math.hypot(b.x-item.x,b.y-item.y))[0];
+      let track=tracks.filter(t=>t.source===source&&(t.rawType===item.type||t.type===item.type)&&!claimed.has(t.id)).sort((a,b)=>Math.hypot(a.x-item.x,a.y-item.y)-Math.hypot(b.x-item.x,b.y-item.y))[0];
       if(track&&Math.hypot(track.x-item.x,track.y-item.y)>.3)track=null;
-      if(!track){track={id:`vision-${Date.now()}-${++sequence}`,rawType:item.type,type:item.type,x:item.x,y:item.y,confirmations:0,lastFrame:frame-1};tracks.push(track);}
-      track.confirmations=track.lastFrame===frame-1?track.confirmations+1:1;track.confirmed=track.confirmed||track.confirmations>=2;track.lastFrame=frame;track.lastSeen=now;track.x=item.x;track.y=item.y;track.box=item.box;track.score=item.score;claimed.add(track.id);
+      if(!track&&source==='physical'){track=tracks.find(t=>t.source==='general'&&!claimed.has(t.id)&&fusion.sameObject({type:t.rawType,box:t.box},item));if(track){track.source='physical';track.lastSourceFrame=sourceFrame-1;}}
+      if(!track){track={id:`vision-${Date.now()}-${++sequence}`,rawType:item.type,type:item.type,x:item.x,y:item.y,confirmations:0,lastFrame:frame-1,lastSourceFrame:sourceFrame-1,source};tracks.push(track);}
+      track.confirmations=track.lastSourceFrame===sourceFrame-1?track.confirmations+1:1;track.confirmed=track.confirmed||track.confirmations>=2;track.lastFrame=frame;track.lastSourceFrame=sourceFrame;track.lastSeen=now;track.x=item.x;track.y=item.y;track.box=item.box;track.score=item.score;claimed.add(track.id);
     }
-    tracks=tracks.filter(track=>now-track.lastSeen<Math.max(9000,2500+(items.length||1)*100));
+    tracks=tracks.filter(track=>now-track.lastSeen<(track.source==='physical'?1800:Math.max(9000,2500+(items.length||1)*100)));
     const confirmed=tracks.filter(track=>track.confirmed&&!track.ignored);
-    window.dispatchEvent(new CustomEvent('sandplay:objects',{detail:{items:confirmed.map(t=>({id:t.id,type:t.type,x:t.x,y:t.y,score:t.score})),observedIds:[...claimed],at:now}}));
+    window.dispatchEvent(new CustomEvent('sandplay:objects',{detail:{items:confirmed.map(t=>({id:t.id,type:t.type,x:t.x,y:t.y,score:t.score})),observedIds:[...claimed],source,at:now}}));
     overlay.replaceChildren();
-    for(const track of tracks.filter(t=>t.lastFrame===frame&&!t.ignored)){
+    for(const track of tracks.filter(t=>now-t.lastSeen<(t.source==='physical'?650:7000)&&!t.ignored)){
       const button=document.createElement('button'),name=catalog.find(toy=>toy.id===track.type).name;button.className='recognition-box';button.type='button';button.style.cssText=`left:${track.box.x*100}%;top:${track.box.y*100}%;width:${track.box.w*100}%;height:${track.box.h*100}%`;
       const label=document.createElement('span');label.textContent=`${name}${track.confirmations<2?' · 待确认':''}`;button.append(label);button.setAttribute('aria-label',`纠正识别：${name}`);button.onclick=()=>openCorrection(track);overlay.append(button);
     }
@@ -55,7 +81,7 @@
   toggle.onclick=()=>setActive(!active);
   $('#learn-appearance').onclick=()=>{if(!video.srcObject||video.readyState<2){status.textContent='请先连接摄像头，再框选沙具。';return;}learning=true;positionOverlay();overlay.classList.add('selecting-reference');overlay.replaceChildren();status.textContent='在摄像头画面中拖出一个框，只包含一件沙具；尽量贴近物件边缘。';$('#cancel-learning').hidden=false;};
   $('#cancel-learning').onclick=()=>endLearning();
-  function endLearning(){learning=false;drag=null;overlay.classList.remove('selecting-reference');$('#cancel-learning').hidden=true;if(active)tick();}
+  function endLearning(){learning=false;drag=null;overlay.classList.remove('selecting-reference');$('#cancel-learning').hidden=true;if(active){tick();physicalTick();}}
   const point=event=>{const r=overlay.getBoundingClientRect();return {x:Math.max(0,Math.min(1,(event.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(event.clientY-r.top)/r.height))};};
   overlay.onpointerdown=event=>{if(!learning)return;drag=point(event);overlay.setPointerCapture(event.pointerId);};
   overlay.onpointermove=event=>{if(!drag)return;const p=point(event);let rect=overlay.querySelector('.reference-selection');if(!rect){rect=document.createElement('div');rect.className='reference-selection';overlay.append(rect);}rect.style.cssText=`left:${Math.min(p.x,drag.x)*100}%;top:${Math.min(p.y,drag.y)*100}%;width:${Math.abs(p.x-drag.x)*100}%;height:${Math.abs(p.y-drag.y)*100}%`;};
@@ -70,11 +96,11 @@
     selection=null;$('#recognition-dialog').close();setActive(true);
   };
   $('#ignore-recognition').onclick=()=>{if(selection?.track){selection.track.ignored=true;window.dispatchEvent(new CustomEvent('sandplay:ignore-object',{detail:{id:selection.track.id}}));}selection=null;$('#recognition-dialog').close();};
-  $('#forget-references').onclick=()=>{custom=[];localStorage.removeItem('xinyu-appearance-references');worker?.terminate();worker=null;loaded=false;busy=false;tracks=[];overlay.replaceChildren();status.textContent='已清除本机补充的实拍参考，保留设计图参考。';if(active){startWorker();}};
+  $('#forget-references').onclick=()=>{custom=[];localStorage.removeItem('xinyu-appearance-references');worker?.terminate();worker=null;loaded=false;busy=false;tracks=[];overlay.replaceChildren();status.textContent='已清除本机补充的参考，保留内置设计图与实拍参考。';if(active){startWorker();}};
   // Connection starts appearance matching; stopping the camera preserves the last layout.
   video.addEventListener('playing',()=>{if(!active&&(!worker||video.srcObject!==stream))setActive(true);});
   $('#stop-camera').addEventListener('click',()=>{setActive(false);overlay.replaceChildren();});
   new ResizeObserver(positionOverlay).observe($('.camera-window'));populateSelect();
-  window.addEventListener('pagehide',()=>{clearTimeout(timer);worker?.terminate();worker=null;loaded=false;busy=false;active=false;});
+  window.addEventListener('pagehide',()=>{clearTimeout(timer);clearTimeout(physicalTimer);worker?.terminate();physicalWorker?.terminate();physicalWorker=null;worker=null;physicalLoaded=false;loaded=false;busy=false;active=false;});
   window.addEventListener('pageshow',event=>{if(event.persisted)setActive(false);});
 })();
